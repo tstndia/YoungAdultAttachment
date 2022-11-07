@@ -21,7 +21,7 @@ def convert_csv_to_ann(csv_path):
         class_emotions = []
 
     csv_path = Path(csv_path)
-    with open(os.path.join(csv_path.parent, csv_path.stem, ".txt"), 'w') as f:
+    with open(os.path.join(csv_path.parent, f"{csv_path.stem}.txt"), 'w') as f:
         for row in rows:
             f.write(f"{row}\n")
 
