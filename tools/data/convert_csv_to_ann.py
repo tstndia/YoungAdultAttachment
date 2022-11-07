@@ -16,7 +16,8 @@ def convert_csv_to_ann(csv_path):
             if int(row[emotion]) == 1:
                 class_emotions.append(idx + 1)
 
-        rows.append(f"{row['video_name']}" + " ".join(class_emotions))
+        items = " ".join(class_emotions)
+        rows.append(f"{row['video_name']} {items}")
         class_emotions = []
 
     csv_path = Path(csv_path)
