@@ -27,7 +27,7 @@ def convert_csv_to_ann(csv_path):
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Convert csv to annotation file')
-    parser.add_argument('csv_path', type=str, help='source video directory')
+    parser.add_argument('--csv_path', type=str, help='source video directory')
     args = parser.parse_args()
 
     return args
