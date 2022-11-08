@@ -17,9 +17,6 @@ def convert_csv_to_ann(csv_path):
         test_size = 0.2
     )
 
-    print(data_train.shape)
-    print(label_train.shape)
-
     emotions = ['neutral', 'happy', 'sad', 'contempt', 'anger', 'disgust', 'surprised', 'fear']
     class_emotions = []
     train_rows = []
@@ -27,20 +24,20 @@ def convert_csv_to_ann(csv_path):
 
     for index, video in enumerate(data_train):
         for idx, emotion in enumerate(emotions):
-            if int(label_train[emotion]) == 1:
+            if int(label_train[index][idx]) == 1:
                 class_emotions.append(idx + 1)
 
         items = " ".join(map(str, class_emotions))
-        train_rows.append(f"{video['video_name']} {items}")
+        train_rows.append(f"{video[index]} {items}")
         class_emotions = []
 
     for index, video in enumerate(data_test):
         for idx, emotion in enumerate(emotions):
-            if int(label_test[emotion]) == 1:
+            if int(label_test[index][idx]) == 1:
                 class_emotions.append(idx + 1)
 
         items = " ".join(map(str, class_emotions))
-        val_rows.append(f"{video['video_name']} {items}")
+        val_rows.append(f"{video[index]} {items}")
         class_emotions = []
 
     csv_path = Path(csv_path)
