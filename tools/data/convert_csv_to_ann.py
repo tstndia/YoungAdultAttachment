@@ -17,6 +17,9 @@ def convert_csv_to_ann(csv_path):
         test_size = 0.2
     )
 
+    print(data_train)
+    print(label_train)
+
     emotions = ['neutral', 'happy', 'sad', 'contempt', 'anger', 'disgust', 'surprised', 'fear']
     class_emotions = []
     train_rows = []
