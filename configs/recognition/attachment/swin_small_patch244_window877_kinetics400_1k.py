@@ -5,11 +5,11 @@ model=dict(backbone=dict(patch_size=(2,4,4), drop_path_rate=0.1), test_cfg=dict(
 
 # dataset settings
 dataset_type = 'VideoDataset'
-data_root = 'data/exposure/train'
-data_root_val = 'data/exposure/val'
-ann_file_train = 'data/exposure/exposure_train.txt'
-ann_file_val = 'data/exposure/exposure_test.txt'
-ann_file_test = 'data/exposure/exposure_test.txt'
+data_root = 'data/exposure/'
+data_root_val = 'data/exposure/'
+ann_file_train = 'data/exposure/video_exposure_nonetral_train.txt'
+ann_file_val = 'data/exposure/video_exposure_nonetral_val.txt'
+ann_file_test = 'data/exposure/video_exposure_nonetral_val.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [

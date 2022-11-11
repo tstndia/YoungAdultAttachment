@@ -479,7 +479,7 @@ class SwinTransformer3D(nn.Module):
         frozen_stages (int): Stages to be frozen (stop grad and set eval mode).
             -1 means not freezing any parameters.
     """
-
+    
     def __init__(self,
                  pretrained=None,
                  pretrained2d=True,
