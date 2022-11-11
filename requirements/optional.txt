@@ -8,3 +8,5 @@ onnx
 onnxruntime
 PyTurboJPEG
 timm
+gdown
+scikit-multilearn
