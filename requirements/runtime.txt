@@ -1,6 +1,6 @@
 matplotlib
 numpy
-opencv-contrib-python
 Pillow
 einops
 decord
+opencv-python==4.5.5.64
