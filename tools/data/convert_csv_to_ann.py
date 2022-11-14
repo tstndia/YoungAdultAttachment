@@ -6,8 +6,21 @@ import pandas as pd
 from pathlib import Path
 from skmultilearn.model_selection import iterative_train_test_split
 
+def clean_df(df, dir):
+    index_to_removed = []
+
+    for idx, row in df.iterrows():
+        if not os.path.isfile(os.path.join(dir, row['video_name'])):
+            index_to_removed.append(idx)
+
+    return df.drop(index_to_removed)
+
 def convert_csv_to_ann(csv_path):
     df = pd.read_csv(csv_path)
+    csv_path = Path(csv_path)
+
+    df = clean_df(df, csv_path.parent)
+
     data_df = df[["video_name"]]
     label_df = df[["neutral", "happy", "sad", "contempt", "anger", "disgust", "surprised", "fear"]]
 
@@ -39,8 +52,6 @@ def convert_csv_to_ann(csv_path):
         items = " ".join(map(str, class_emotions))
         val_rows.append(f"{video[0]} {items}")
         class_emotions = []
-
-    csv_path = Path(csv_path)
 
     with open(os.path.join(csv_path.parent, f"{csv_path.stem}_train.txt"), 'w') as f:
         for row in train_rows:
