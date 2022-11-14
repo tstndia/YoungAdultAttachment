@@ -1,7 +1,7 @@
 _base_ = [
     '../../_base_/models/swin/swin_small.py', '../../_base_/default_runtime.py'
 ]
-model=dict(backbone=dict(patch_size=(2,4,4), drop_path_rate=0.1), test_cfg=dict(max_testing_views=4))
+model=dict(backbone=dict(patch_size=(2,4,4), drop_path_rate=0.1), cls_head=dict(num_classes=8), test_cfg=dict(max_testing_views=4))
 
 # dataset settings
 dataset_type = 'VideoDataset'
@@ -112,7 +112,7 @@ total_epochs = 30
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/k400_swin_small_patch244_window877.py'
+work_dir = './work_dirs/swin_small_patch244_window877_kinetics400_1k.py'
 find_unused_parameters = False
 
 
