@@ -6,6 +6,7 @@ import torch
 import cv2
 import logging
 import numpy as np
+import imutils
 from pathlib import Path
 from deepface import DeepFace
 from glob import glob
@@ -134,7 +135,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
 
         for i in range(frames.shape[0]):
             try:
-                face = DeepFace.detectFace(img_path = image_resize(frames[i,:,:,:].squeeze(), height=256), 
+                face = DeepFace.detectFace(img_path = imutils.resize(frames[i,:,:,:].squeeze(), height=256), 
                     target_size = dim,
                     detector_backend = detector,
                     align = False
