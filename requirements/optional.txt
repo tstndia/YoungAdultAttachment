@@ -10,5 +10,4 @@ PyTurboJPEG
 timm
 gdown
 scikit-multilearn
-imutils
 deepface

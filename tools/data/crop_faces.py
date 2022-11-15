@@ -30,6 +30,37 @@ def convert_and_trim_bb(image, rect):
 	# return our bounding box coordinates
 	return (startX, startY, w, h)
 
+def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
+    # initialize the dimensions of the image to be resized and
+    # grab the image size
+    dim = None
+    (h, w) = image.shape[:2]
+
+    # if both the width and height are None, then return the
+    # original image
+    if width is None and height is None:
+        return image
+
+    # check to see if the width is None
+    if width is None:
+        # calculate the ratio of the height and construct the
+        # dimensions
+        r = height / float(h)
+        dim = (int(w * r), height)
+
+    # otherwise, the height is None
+    else:
+        # calculate the ratio of the width and construct the
+        # dimensions
+        r = width / float(w)
+        dim = (width, int(h * r))
+
+    # resize the image
+    resized = cv2.resize(image, dim, interpolation = inter)
+
+    # return the resized image
+    return resized
+
 def load_video(filename: str):
     """Loads a video from a file.
 
@@ -104,7 +135,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
 
         for i in range(frames.shape[0]):
             try:
-                face = DeepFace.detectFace(img_path = imutils.resize(frames[i,:,:,:].squeeze(), height=256), 
+                face = DeepFace.detectFace(img_path = image_resize(frames[i,:,:,:].squeeze(), height=256), 
                     target_size = dim,
                     detector_backend = detector,
                     align = False
