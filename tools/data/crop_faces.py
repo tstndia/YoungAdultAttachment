@@ -6,7 +6,6 @@ import torch
 import cv2
 import logging
 import numpy as np
-import imutils
 from pathlib import Path
 from deepface import DeepFace
 from glob import glob
@@ -30,7 +29,7 @@ def convert_and_trim_bb(image, rect):
 	# return our bounding box coordinates
 	return (startX, startY, w, h)
 
-def image_resize(image, width = None, height = None):
+def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
     # initialize the dimensions of the image to be resized and
     # grab the image size
     dim = None
@@ -56,7 +55,7 @@ def image_resize(image, width = None, height = None):
         dim = (width, int(h * r))
 
     # resize the image
-    resized = cv2.resize(image, dim)
+    resized = cv2.resize(image, dim, interpolation = inter)
 
     # return the resized image
     return resized
