@@ -93,7 +93,7 @@ def load_video(filename: str):
         if not ret:
             raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
 
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         v[count] = frame
 
         count += 1
