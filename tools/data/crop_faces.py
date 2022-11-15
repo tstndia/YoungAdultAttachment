@@ -93,7 +93,7 @@ def load_video(filename: str):
         if not ret:
             raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
 
-        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         v[count] = frame
 
         count += 1
@@ -137,12 +137,12 @@ def crop_faces(input_dir, output_dir, detector, dim):
                 face = DeepFace.detectFace(img_path = imutils.resize(frames[i,:,:,:].squeeze(), height=256), 
                     target_size = dim,
                     detector_backend = detector,
-                    align = True
+                    align = False
                 )
 
                 faces.append((face * 255).astype(np.uint8))
-            except:
-                logging.info(f"No face detected on frame: {i}. Skipping")
+            except Exception as e:
+                logging.info(f"No face detected on frame: {i}. Skipping ==> {e}")
                 # pass
 
         if len(faces) > 0:
