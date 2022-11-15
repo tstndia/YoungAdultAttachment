@@ -3,6 +3,7 @@ import glob
 import os
 import os.path as osp
 import pandas as pd
+import torch
 import cv2
 import logging
 import numpy as np
