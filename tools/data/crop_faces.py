@@ -134,17 +134,15 @@ def crop_faces(input_dir, output_dir, detector, dim):
         faces = []
 
         for i in range(frames.shape[0]):
-            try:
-                face = DeepFace.detectFace(img_path = imutils.resize(frames[i,:,:,:].squeeze(), height=256), 
-                    target_size = dim,
-                    detector_backend = detector,
-                    align = False
-                )
+            frame = imutils.resize(frames[i,:,:,:].squeeze(), height=256)
+                
+            face = DeepFace.detectFace(img_path = frame, 
+                target_size = dim,
+                detector_backend = detector,
+                align = False
+            )
 
-                faces.append((face * 255).astype(np.uint8))
-            except Exception as e:
-                logging.info(f"No face detected on frame: {i}. Skipping ==> {e}")
-                # pass
+            faces.append((face * 255).astype(np.uint8))
 
         if len(faces) > 0:
             cropped = np.stack(faces, axis=0)
