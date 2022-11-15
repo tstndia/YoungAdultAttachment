@@ -145,10 +145,11 @@ def crop_faces(input_dir, output_dir, detector, dim):
                 logging.info(f"No face detected on frame: {i}. Skipping")
                 # pass
 
-        cropped = np.stack(faces, axis=0)
-        logging.info(f"Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
-        save_video(out_filename, np.stack(faces, axis=0), fps)
-        logging.info(f"Saved into: {out_filename}")
+        if len(faces) > 0:
+            cropped = np.stack(faces, axis=0)
+            logging.info(f"Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
+            save_video(out_filename, np.stack(faces, axis=0), fps)
+            logging.info(f"Saved into: {out_filename}")
 
 def parse_args():
     parser = argparse.ArgumentParser(
