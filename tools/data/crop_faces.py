@@ -5,6 +5,7 @@ import pandas as pd
 import torch
 import cv2
 import logging
+import imutils
 import numpy as np
 from pathlib import Path
 from deepface import DeepFace
