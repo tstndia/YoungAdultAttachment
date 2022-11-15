@@ -123,7 +123,7 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='Crop face from videos')
     parser.add_argument("--input_dir", type=str, default="/workspace/AttachmentDewasa/data/exposure_full/", help="Input directory")
-    parser.add_argument("--output_dir", type=str, default="/workspace/AttachmentDewasa/data/exposure", help="Output directory")
+    parser.add_argument("--output_dir", type=str, default="/workspace/AttachmentDewasa/data/exposure/", help="Output directory")
     parser.add_argument("--detector", type=str, default='dlib', help="Detector backend")
     parser.add_argument("--dim", type=int, default=128, help="Output dimension")
     args = parser.parse_args()
