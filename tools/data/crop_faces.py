@@ -30,7 +30,7 @@ def convert_and_trim_bb(image, rect):
 	# return our bounding box coordinates
 	return (startX, startY, w, h)
 
-def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
+def image_resize(image, width = None, height = None):
     # initialize the dimensions of the image to be resized and
     # grab the image size
     dim = None
@@ -56,7 +56,7 @@ def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
         dim = (width, int(h * r))
 
     # resize the image
-    resized = cv2.resize(image, dim, interpolation = inter)
+    resized = cv2.resize(image, dim)
 
     # return the resized image
     return resized
