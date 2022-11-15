@@ -137,7 +137,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
                 face = DeepFace.detectFace(img_path = imutils.resize(frames[i,:,:,:].squeeze(), height=256), 
                     target_size = dim,
                     detector_backend = detector,
-                    align = False
+                    align = True
                 )
 
                 faces.append((face * 255).astype(np.uint8))
