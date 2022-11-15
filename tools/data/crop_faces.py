@@ -1,5 +1,4 @@
 import argparse
-import glob
 import os
 import os.path as osp
 import pandas as pd
@@ -9,6 +8,7 @@ import logging
 import numpy as np
 from pathlib import Path
 from deepface import DeepFace
+from glob import glob
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
