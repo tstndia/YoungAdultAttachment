@@ -7,7 +7,6 @@ import torch
 import cv2
 import logging
 import numpy as np
-import imutils
 from pathlib import Path
 from deepface import DeepFace
 
