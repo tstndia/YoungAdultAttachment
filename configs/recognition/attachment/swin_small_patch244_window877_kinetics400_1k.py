@@ -111,8 +111,13 @@ lr_config = dict(
 total_epochs = 100
 
 # runtime settings
+<<<<<<< HEAD
 checkpoint_config = dict(interval=1)
 work_dir = './work_dirs/attachment_exposure_small_cl256_fi10_b8_ep100'
+=======
+checkpoint_config = dict(interval=10)
+work_dir = './work_dirs/swin_small_patch244_window877_kinetics400_1k.py'
+>>>>>>> 603ebd23a5425008c1b776350a49460938a97d57
 find_unused_parameters = False
 
 
