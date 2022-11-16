@@ -111,7 +111,6 @@ lr_config = dict(
 total_epochs = 100
 
 # runtime settings
-<<<<<<< HEAD
 checkpoint_config = dict(interval=1)
 work_dir = './work_dirs/attachment_exposure_small_cl256_fi10_b8_ep100'
 find_unused_parameters = False
