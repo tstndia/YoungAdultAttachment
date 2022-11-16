@@ -14,7 +14,7 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
     dict(type='DecordInit'),
-    dict(type='SampleFrames', clip_len=256, frame_interval=10, num_clips=1),
+    dict(type='SampleFrames', clip_len=512, frame_interval=2, num_clips=1),
     dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
@@ -29,8 +29,8 @@ val_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=256,
-        frame_interval=10,
+        clip_len=512,
+        frame_interval=2,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -46,8 +46,8 @@ test_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=256,
-        frame_interval=10,
+        clip_len=512,
+        frame_interval=2,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -112,7 +112,7 @@ total_epochs = 100
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_exposure_small_cl256_fi10_b8_ep100'
+work_dir = './work_dirs/attachment_exposure_small_cl512_fi2_b8_ep100'
 find_unused_parameters = False
 
 
