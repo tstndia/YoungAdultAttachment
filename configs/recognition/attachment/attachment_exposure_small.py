@@ -139,4 +139,4 @@ optimizer_config = dict(
     use_fp16=True,
 )
 
-workflow = [('train', 1),  ('val', 1)]
+#workflow = [('train', 1),  ('val', 1)]
