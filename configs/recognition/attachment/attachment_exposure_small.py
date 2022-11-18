@@ -1,7 +1,18 @@
 _base_ = [
     '../../_base_/models/swin/swin_small.py', '../../_base_/default_runtime.py'
 ]
-model=dict(backbone=dict(patch_size=(2,4,4), drop_path_rate=0.1), cls_head=dict(num_classes=8), test_cfg=dict(max_testing_views=4))
+model=dict(
+    backbone=dict(
+        patch_size=(2,4,4), 
+        drop_path_rate=0.1
+    ), 
+    cls_head=dict(
+        num_classes=8
+    ), 
+    test_cfg=dict(
+        max_testing_views=4
+    )
+)
 
 # dataset settings
 dataset_type = 'VideoDataset'
@@ -92,7 +103,8 @@ data = dict(
         data_prefix=data_root_val,
         pipeline=test_pipeline))
 evaluation = dict(
-    interval=1, metrics=['top_k_accuracy', 'mean_class_accuracy'])
+    interval=1, metrics=['confusion_matrix', 'mean_class_accuracy']
+)
 
 # optimizer
 optimizer = dict(type='AdamW', lr=1e-3, betas=(0.9, 0.999), weight_decay=0.02,
@@ -126,3 +138,5 @@ optimizer_config = dict(
     bucket_size_mb=-1,
     use_fp16=True,
 )
+
+#workflow = [('train', 1),  ('val', 1)]
