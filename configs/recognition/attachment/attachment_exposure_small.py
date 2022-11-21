@@ -7,9 +7,6 @@ model=dict(
         drop_path_rate=0.1
     ), 
     cls_head=dict(
-        num_classes=8
-    ), 
-    cls_head=dict(
         type='TSNHead',
         num_classes=8,
         in_channels=768,
