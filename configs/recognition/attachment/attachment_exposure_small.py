@@ -103,7 +103,7 @@ data = dict(
         data_prefix=data_root_val,
         pipeline=test_pipeline))
 evaluation = dict(
-    interval=1, metrics=['confusion_matrix', 'mean_class_accuracy']
+    interval=1, metrics=['confusion_matrix']
 )
 
 # optimizer
