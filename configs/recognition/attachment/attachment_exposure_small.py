@@ -7,16 +7,9 @@ model=dict(
         drop_path_rate=0.1
     ), 
     cls_head=dict(
-        type='TSNHead',
         num_classes=8,
-        in_channels=768,
-        spatial_type='avg',
-        consensus=dict(type='AvgConsensus', dim=1),
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
-        dropout_ratio=0.5,
-        init_std=0.01,
-        multi_class=True,
-        label_smooth_eps=0),
+        multi_class=True),
     test_cfg=dict(
         max_testing_views=4
     )
