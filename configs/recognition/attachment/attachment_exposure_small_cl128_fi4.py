@@ -3,9 +3,9 @@ _base_ = [
 ]
 model=dict(
     backbone=dict(
-        patch_size=(2,4,4), 
+        patch_size=(2,4,4),
         drop_path_rate=0.1
-    ), 
+    ),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
@@ -125,7 +125,7 @@ total_epochs = 50
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_exposure_small_cl128_fi8_b8_ep50'
+work_dir = './work_dirs/attachment_exposure_small_cl128_fi4_b8_ep100'
 find_unused_parameters = False
 
 
