@@ -7,9 +7,8 @@ model=dict(
         drop_path_rate=0.1
     ), 
     cls_head=dict(
-        num_classes=8,
-        loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
-        multi_class=True),
+        num_classes=8
+    ), 
     test_cfg=dict(
         max_testing_views=4
     )
@@ -17,16 +16,16 @@ model=dict(
 
 # dataset settings
 dataset_type = 'VideoDataset'
-data_root = 'data/exposure/'
-data_root_val = 'data/exposure/'
-ann_file_train = 'data/exposure/video_exposure_nonetral_train.txt'
-ann_file_val = 'data/exposure/video_exposure_nonetral_val.txt'
-ann_file_test = 'data/exposure/video_exposure_nonetral_val.txt'
+data_root = 'data/response-video/'
+data_root_val = 'data/response-video/'
+ann_file_train = 'data/response-video/video_exposure_nonetral_train.txt'
+ann_file_val = 'data/response-video/video_exposure_nonetral_val.txt'
+ann_file_test = 'data/response-video/video_exposure_nonetral_val.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
     dict(type='DecordInit'),
-    dict(type='SampleFrames', clip_len=512, frame_interval=8, num_clips=1),
+    dict(type='SampleFrames', clip_len=256, frame_interval=10, num_clips=1),
     dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
@@ -41,8 +40,8 @@ val_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=512,
-        frame_interval=8,
+        clip_len=256,
+        frame_interval=10,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -58,8 +57,8 @@ test_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=512,
-        frame_interval=8,
+        clip_len=256,
+        frame_interval=10,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -104,7 +103,7 @@ data = dict(
         data_prefix=data_root_val,
         pipeline=test_pipeline))
 evaluation = dict(
-    interval=1, metrics=['mean_average_precision']
+    interval=1, metrics=['confusion_matrix', 'mean_class_accuracy']
 )
 
 # optimizer
@@ -124,8 +123,8 @@ lr_config = dict(
 total_epochs = 100
 
 # runtime settings
-checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_exposure_small_cl512_fi8_b8_ep100'
+checkpoint_config = dict(interval=1)
+work_dir = './work_dirs/attachment_exposure_small_cl256_fi10_b8_ep100v2'
 find_unused_parameters = False
 
 
