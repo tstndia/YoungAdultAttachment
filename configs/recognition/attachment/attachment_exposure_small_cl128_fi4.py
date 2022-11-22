@@ -3,9 +3,9 @@ _base_ = [
 ]
 model=dict(
     backbone=dict(
-        patch_size=(2,4,4), 
+        patch_size=(2,4,4),
         drop_path_rate=0.1
-    ), 
+    ),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
@@ -26,7 +26,7 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
     dict(type='DecordInit'),
-    dict(type='SampleFrames', clip_len=128, frame_interval=8, num_clips=1),
+    dict(type='SampleFrames', clip_len=128, frame_interval=4, num_clips=1),
     dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
@@ -42,7 +42,7 @@ val_pipeline = [
     dict(
         type='SampleFrames',
         clip_len=128,
-        frame_interval=8,
+        frame_interval=4,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -59,7 +59,7 @@ test_pipeline = [
     dict(
         type='SampleFrames',
         clip_len=128,
-        frame_interval=8,
+        frame_interval=4,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -125,7 +125,7 @@ total_epochs = 50
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_exposure_small_cl128_fi8_b8_ep50'
+work_dir = './work_dirs/attachment_exposure_small_cl128_fi4_b8_ep50'
 find_unused_parameters = False
 
 
