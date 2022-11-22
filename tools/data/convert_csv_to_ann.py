@@ -37,7 +37,7 @@ def convert_csv_to_ann(csv_path):
 
     for index, video in enumerate(data_train):
         for idx, emotion in enumerate(emotions):
-            class_emotions.append(label_test[index][idx])
+            class_emotions.append(label_train[index][idx])
             #if int(label_train[index][idx]) == 1:
             #    class_emotions.append(idx)
 
