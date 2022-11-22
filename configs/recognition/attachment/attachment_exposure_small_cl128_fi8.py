@@ -121,11 +121,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 100
+total_epochs = 50
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_exposure_small_cl512_fi8_b8_ep100'
+work_dir = './work_dirs/attachment_exposure_small_cl128_fi8_b8_ep100'
 find_unused_parameters = False
 
 
