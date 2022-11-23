@@ -70,4 +70,5 @@ class I3DHead(BaseHead):
         # [N, in_channels]
         cls_score = self.fc_cls(x)
         # [N, num_classes]
+        print(f"1. cls_score: {cls_score}")
         return cls_score
