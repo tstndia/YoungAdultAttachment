@@ -77,8 +77,8 @@ class BaseHead(nn.Module, metaclass=ABCMeta):
             and 'top1_acc', 'top5_acc'(optional).
         """
 
-        print(f"predictions: {cls_score}")
-        print(f"labels: {labels}")
+        #print(f"predictions: {cls_score}")
+        #print(f"labels: {labels}")
         losses = dict()
         if labels.shape == torch.Size([]):
             labels = labels.unsqueeze(0)
@@ -103,7 +103,7 @@ class BaseHead(nn.Module, metaclass=ABCMeta):
 
         loss_cls = self.loss_cls(cls_score, labels, **kwargs)
 
-        print(f"2. loss_cls: {loss_cls}")
+        #print(f"2. loss_cls: {loss_cls}")
         # loss_cls may be dictionary or single tensor
         if isinstance(loss_cls, dict):
             losses.update(loss_cls)

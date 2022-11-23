@@ -114,6 +114,9 @@ class BCELossWithLogits(BaseWeightedLoss):
         if self.class_weight is not None:
             assert 'weight' not in kwargs, "The key 'weight' already exists."
             kwargs['weight'] = self.class_weight.to(cls_score.device)
+
+        print(f"cls_score: {cls_score}")
+        print(f"label: {label}")
         loss_cls = F.binary_cross_entropy_with_logits(cls_score, label,
                                                       **kwargs)
         return loss_cls
