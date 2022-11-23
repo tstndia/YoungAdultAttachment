@@ -114,7 +114,7 @@ class MultilabelVideoDataset(BaseDataset):
 
         results_sigmoid = results.sigmoid()
 
-        loss = self.loss_fn(results, gt_labels)
+        loss = self.loss_fn(results, gt_labels.float())
         cm = self.confusion_matrix(results_sigmoid, gt_labels)
         accuracy = self.accuracy(results_sigmoid, gt_labels)
         f1_score = self.f1_score(results_sigmoid, gt_labels)
