@@ -129,8 +129,9 @@ def crop_faces(input_dir, output_dir, detector, dim):
             logging.info(f"File {filename} already cropped. Skipping")
             continue
 
+        logging.info(f"Processing {idx + 1} of {len(videos)}: {filename}")
         fps, frames = load_video(video)
-        logging.info(f"Processing {idx + 1} of {len(videos)}: {filename}, shape: {frames.shape}")
+        logging.info(f"Video shape: {frames.shape}, fps: {fps}")
 
         faces = []
 
