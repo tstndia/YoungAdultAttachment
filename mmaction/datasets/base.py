@@ -188,6 +188,9 @@ class BaseDataset(Dataset, metaclass=ABCMeta):
         eval_results = OrderedDict()
         gt_labels = [ann['label'] for ann in self.video_infos]
 
+        print_log(f"gt_labels: {gt_labels}", logger=logger)
+        print_log(f"results: {results}", logger=logger)
+
         for metric in metrics:
             msg = f'Evaluating {metric} ...'
             if logger is None:

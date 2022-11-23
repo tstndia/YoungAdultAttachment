@@ -57,4 +57,5 @@ class VideoDataset(BaseDataset):
                 if self.data_prefix is not None:
                     filename = osp.join(self.data_prefix, filename)
                 video_infos.append(dict(filename=filename, label=label))
+                
         return video_infos
