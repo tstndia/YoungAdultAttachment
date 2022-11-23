@@ -19,12 +19,12 @@ from torch.utils.data import Dataset
 from ..core import (mean_average_precision, mean_class_accuracy,
                     mmit_mean_average_precision, top_k_accuracy)
 from .pipelines import Compose
-from .video_dataset import VideoDataset
+from .base import BaseDataset
 from .builder import DATASETS
 
 
 @DATASETS.register_module()
-class MultilabelVideoDataset(VideoDataset):
+class MultilabelVideoDataset(BaseDataset):
     """Video dataset for action recognition.
 
     The dataset loads raw videos and apply specified transforms to return a
@@ -63,6 +63,28 @@ class MultilabelVideoDataset(VideoDataset):
         self.recall = MultilabelRecall(num_labels=8)
         self.f1_score = MultilabelF1Score(num_labels=8)
         self.accuracy = MultilabelAccuracy(num_labels=8)
+    
+    def load_annotations(self):
+        """Load annotation file to get video information."""
+        if self.ann_file.endswith('.json'):
+            return self.load_json_annotations()
+
+        video_infos = []
+        with open(self.ann_file, 'r') as fin:
+            for line in fin:
+                line_split = line.strip().split()
+                if self.multi_class:
+                    assert self.num_classes is not None
+                    filename, label = line_split[0], line_split[1:]
+                    label = list(map(int, label))
+                else:
+                    filename, label = line_split
+                    label = int(label)
+                if self.data_prefix is not None:
+                    filename = osp.join(self.data_prefix, filename)
+                video_infos.append(dict(filename=filename, label=label))
+                
+        return video_infos
 
     def evaluate(self,
                  results,
