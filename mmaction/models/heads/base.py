@@ -76,6 +76,9 @@ class BaseHead(nn.Module, metaclass=ABCMeta):
             dict: A dict containing field 'loss_cls'(mandatory)
             and 'top1_acc', 'top5_acc'(optional).
         """
+
+        print(f"predictions: {cls_score}")
+        print(f"labels: {labels}")
         losses = dict()
         if labels.shape == torch.Size([]):
             labels = labels.unsqueeze(0)
