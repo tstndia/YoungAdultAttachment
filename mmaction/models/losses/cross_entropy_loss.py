@@ -119,4 +119,6 @@ class BCELossWithLogits(BaseWeightedLoss):
         print(f"label: {label}")
         loss_cls = F.binary_cross_entropy_with_logits(cls_score, label,
                                                       **kwargs)
+        print(f"loss: {loss_cls}")
+        
         return loss_cls
