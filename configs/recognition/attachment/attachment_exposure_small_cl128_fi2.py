@@ -16,7 +16,7 @@ model=dict(
 )
 
 # dataset settings
-dataset_type = 'VideoDataset'
+dataset_type = 'MultilabelVideoDataset'
 data_root = 'data/exposure/'
 data_root_val = 'data/exposure/'
 ann_file_train = 'data/exposure/video_exposure_nonetral_train.txt'
