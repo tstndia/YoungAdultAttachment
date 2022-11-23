@@ -112,12 +112,14 @@ class MultilabelVideoDataset(BaseDataset):
         results = torch.as_tensor(np.array(results))
         gt_labels = torch.as_tensor(np.array([ann['label'] for ann in self.video_infos]))
 
+        results_sigmoid = results.sigmoid()
+
         loss = self.loss_fn(results, gt_labels)
-        cm = self.confusion_matrix(results, gt_labels)
-        accuracy = self.accuracy(results, gt_labels)
-        f1_score = self.f1_score(results, gt_labels)
-        precision = self.prec(results, gt_labels)
-        recall = self.recall(results, gt_labels)
+        cm = self.confusion_matrix(results_sigmoid, gt_labels.long())
+        accuracy = self.accuracy(results_sigmoid, gt_labels)
+        f1_score = self.f1_score(results_sigmoid, gt_labels)
+        precision = self.prec(results_sigmoid, gt_labels)
+        recall = self.recall(results_sigmoid, gt_labels)
 
         cm_mean = cm.float().mean(0)
 
