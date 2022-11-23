@@ -119,6 +119,7 @@ def save_video(name, video, fps, convert_to_bgr = True):
 
 def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
+    videos.sort()
 
     for idx, video in enumerate(videos):
         filename = Path(video).name
