@@ -109,7 +109,8 @@ class MultilabelVideoDataset(BaseDataset):
         Returns:
             dict: Evaluation results dict.
         """
-        gt_labels = [ann['label'] for ann in self.video_infos]
+        results = torch.as_tensor(results)
+        gt_labels = torch.as_tensor([ann['label'] for ann in self.video_infos])
 
         loss = self.loss_fn(results, gt_labels)
         cm = self.confusion_matrix(results, gt_labels)
@@ -120,7 +121,7 @@ class MultilabelVideoDataset(BaseDataset):
 
         cm_mean = cm.float().mean(0)
 
-        eval_results = []
+        eval_results = OrderedDict()
         eval_results['test_loss'] = loss
         eval_results['accuracy'] = accuracy
 
