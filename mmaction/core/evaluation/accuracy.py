@@ -37,8 +37,8 @@ def confusion_matrix(y_pred, y_real, normalize=None):
         raise TypeError(
             f'y_real dtype must be np.int64, but got {y_real.dtype}')
 
-    print(f"y_pred: {y_pred}")
-    print(f"y_real: {y_real}")
+    print(f"y_pred: {y_pred.shape}")
+    print(f"y_real: {y_real.shape}")
 
     label_set = np.unique(np.concatenate((y_pred, y_real)))
     num_labels = len(label_set)
