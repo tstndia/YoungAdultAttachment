@@ -109,8 +109,8 @@ class MultilabelVideoDataset(BaseDataset):
         Returns:
             dict: Evaluation results dict.
         """
-        results = torch.as_tensor(np.array(results))
-        gt_labels = torch.as_tensor(np.array([ann['label'] for ann in self.video_infos]))
+        results = torch.as_tensor(np.array(results), dtype=torch.float)
+        gt_labels = torch.as_tensor(np.array([ann['label'] for ann in self.video_infos]), dtype=torch.float)
 
         results_sigmoid = results.sigmoid()
 
