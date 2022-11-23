@@ -118,7 +118,7 @@ class MultilabelVideoDataset(BaseDataset):
         results_sigmoid = results.sigmoid()
 
         print(f"preds: {results_sigmoid}")
-        print(f"labels: {labels}")
+        print(f"labels: {gt_labels}")
 
         loss = self.loss_fn(results, gt_labels.float())
         cm = self.confusion_matrix(results_sigmoid, gt_labels)
