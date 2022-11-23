@@ -102,6 +102,8 @@ class BaseHead(nn.Module, metaclass=ABCMeta):
                       self.label_smooth_eps / self.num_classes)
 
         loss_cls = self.loss_cls(cls_score, labels, **kwargs)
+
+        print(f"loss_cls: {loss_cls}")
         # loss_cls may be dictionary or single tensor
         if isinstance(loss_cls, dict):
             losses.update(loss_cls)
