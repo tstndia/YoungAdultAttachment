@@ -137,12 +137,11 @@ def analyze_face(task):
         try:
             result = DeepFace.analyze(
                 img_path = frame.squeeze(), actions = ['emotion'],
-                detector_backend = 'dlib',
-                align = True
+                detector_backend = 'dlib'
             )
-            
-            emotions.append((f"Frame-{fidx}"), result['emotion'])
-            all_emotions[emotion_to_index(result['emotion'])] = 1
+
+            emotions.append((f"Frame-{fidx}"), result['dominant_emotion'])
+            all_emotions[emotion_to_index(result['dominant_emotion'])] = 1
         except Exception as e:
             logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
 
