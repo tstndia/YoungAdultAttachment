@@ -10,6 +10,7 @@ import numpy as np
 from pathlib import Path
 from deepface import DeepFace
 from glob import glob
+import multiprocessing
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
@@ -119,42 +120,46 @@ def save_video(name, video, fps, convert_to_bgr = True):
 
 def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
-    videos.sort()
+    
+    with multiprocessing.Pool() as pool:
+        items = [(video, output_dir, detector, dim, idx, len(videos)) for idx, video in enumerate(videos)]
+        pool.starmap(crop_face, items)
 
-    for idx, video in enumerate(videos):
-        filename = Path(video).name
-        out_filename = os.path.join(output_dir, filename)
+def crop_face(video, output_dir, detector, dim, idx, total_video):
+    p_name = multiprocessing.current_process().name
+    filename = Path(video).name
+    out_filename = os.path.join(output_dir, filename)
 
-        if os.path.exists(out_filename):
-            logging.info(f"File {filename} already cropped. Skipping")
-            continue
+    if os.path.exists(out_filename):
+        logging.info(f"[{p_name}] File {filename} already cropped. Skipping")
+        return
 
-        logging.info(f"Processing {idx + 1} of {len(videos)}: {filename}")
-        fps, frames = load_video(video)
-        logging.info(f"Video shape: {frames.shape}, fps: {fps}")
+    logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
+    fps, frames = load_video(video)
+    logging.info(f"[{p_name}] Video shape: {frames.shape}, fps: {fps}")
 
-        faces = []
+    faces = []
 
-        for i in range(frames.shape[0]):
-            try:
-                frame = imutils.resize(frames[i,:,:,:].squeeze(), height=256)
-                
-                face = DeepFace.detectFace(img_path = frame, 
-                    target_size = (dim, dim),
-                    detector_backend = detector,
-                    align = False
-                )
+    for i in range(frames.shape[0]):
+        try:
+            frame = imutils.resize(frames[i,:,:,:].squeeze(), height=256)
+            
+            face = DeepFace.detectFace(img_path = frame, 
+                target_size = (dim, dim),
+                detector_backend = detector,
+                align = False
+            )
 
-                faces.append((face * 255).astype(np.uint8))
-            except Exception as e:
-                logging.info(f"No face detected on frame: {i}. Skipping ==> {e}")
-                # pass
+            faces.append((face * 255).astype(np.uint8))
+        except Exception as e:
+            logging.info(f"[{p_name}] No face detected on frame: {i}. Skipping ==> {e}")
+            # pass
 
-        if len(faces) > 0:
-            cropped = np.stack(faces, axis=0)
-            logging.info(f"Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
-            save_video(out_filename, np.stack(faces, axis=0), fps)
-            logging.info(f"Saved into: {out_filename}")
+    if len(faces) > 0:
+        cropped = np.stack(faces, axis=0)
+        logging.info(f"[{p_name}] Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
+        save_video(out_filename, np.stack(faces, axis=0), fps)
+        logging.info(f"[{p_name}] Saved into: {out_filename}")
 
 def parse_args():
     parser = argparse.ArgumentParser(
