@@ -80,31 +80,34 @@ def load_video(filename: str):
     if not os.path.exists(filename):
         raise FileNotFoundError(filename)
 
-    capture = cv2.VideoCapture(filename)
+    try:
+        capture = cv2.VideoCapture(filename)
 
-    frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-    frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
-    frame_height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = int(capture.get(cv2.CAP_PROP_FPS))
+        frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = int(capture.get(cv2.CAP_PROP_FPS))
 
-    v = np.zeros((frame_count, frame_height, frame_width, 3), np.uint8) # (F, H, W, C)
+        v = np.zeros((frame_count, frame_height, frame_width, 3), np.uint8) # (F, H, W, C)
 
-    for count in range(frame_count):
-        ret, frame = capture.read()
-        
-        if not ret:
-            raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
+        for count in range(frame_count):
+            ret, frame = capture.read()
+            
+            if not ret:
+                raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
 
-        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        v[count] = frame
+            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            v[count] = frame
 
-        count += 1
+            count += 1
 
-    capture.release()
+        capture.release()
 
-    assert v.size > 0
+        assert v.size > 0
 
-    return fps, v
+        return fps, v
+    except Exception as e:
+        raise e
 
 def save_video(name, video, fps, convert_to_bgr = True):
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
