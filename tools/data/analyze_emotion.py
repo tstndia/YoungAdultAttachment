@@ -83,6 +83,7 @@ def analyze_faces(input_dir, output_dir):
     videos = glob(os.path.join(input_dir, '*.mp4'))
     videos.sort()
     unanalyzed_videos = []
+    all_emotions = []
 
     for video in videos:
         filename = Path(video).stem
@@ -90,6 +91,9 @@ def analyze_faces(input_dir, output_dir):
 
         if os.path.exists(out_filename):
             logging.info(f"File {filename} already analyzed. Skipping")
+            
+            with open(filename, 'r') as fp:
+                all_emotions.append(fp.readline())
         else:
             unanalyzed_videos.append(video)
 
@@ -109,9 +113,7 @@ def analyze_faces(input_dir, output_dir):
     '''
     items = [(video, output_dir, idx, len(videos)) 
             for idx, video in enumerate(videos)]
-    
-    all_emotions = []
-    
+
     for item in items:
         filename, emotions = analyze_face(item)
         all_emotions.append(filename + ", " + ", ".join([str(1 if emot > 0 else 0) for emot in emotions]))
@@ -148,7 +150,7 @@ def analyze_face(task):
             logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
 
     if len(emotions) > 0:
-        emotions.insert(0, "Total: " + ", ".join([index_to_emotion(idx) + ": " + emot for idx, emot in enumerate(all_emotions)]))
+        emotions.insert(0, "Total: " + ", ".join([index_to_emotion(idx) + ": " + str(emot) for idx, emot in enumerate(all_emotions)]))
         list_to_file(emotions, out_filename)
 
     return filename, all_emotions
