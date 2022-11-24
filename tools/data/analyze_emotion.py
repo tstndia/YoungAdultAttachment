@@ -83,7 +83,7 @@ def analyze_faces(input_dir, output_dir):
 
     for video in videos:
         filename = Path(video).stem
-        out_filename = os.path.join(output_dir, filename, '.txt')
+        out_filename = os.path.join(output_dir, filename + '.txt')
 
         if os.path.exists(out_filename):
             logging.info(f"File {filename} already analyzed. Skipping")
@@ -111,14 +111,14 @@ def analyze_faces(input_dir, output_dir):
         all_emotions = []
         filename, emotions = analyze_face(item)
         all_emotions.append(filename + ", " + ", ".join(map(str, emotions)))
-        list_to_file(all_emotions, os.path.join(output_dir, 'all_emotion.txt'))
+        list_to_file(all_emotions, os.path.join(output_dir, filename + '.txt'))
 
 def analyze_face(task):
     video, output_dir, idx, total_video = task
     p_name = multiprocessing.current_process().name
     video_path = Path(video)
     filename = video_path.name
-    out_filename = os.path.join(output_dir, video_path.stem + '.txt')
+    out_filename = os.path.join(output_dir, video_path.stem + '_frames.txt')
     frames = None
 
     try:
