@@ -127,16 +127,17 @@ def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
     videos.sort()
 
-    pool = ProcessPoolExecutor()
-    pool.submit(lambda: None)
+    #pool = ProcessPoolExecutor()
+    #pool.submit(lambda: None)
     
-    #with multiprocessing.Pool() as pool:
-    items = ((video, output_dir, detector, dim, idx, len(videos)) 
-        for idx, video in enumerate(videos))
-    #pool.map(crop_face, items)
-    futures = [pool.submit(crop_face, item) for item in items]
-    wait(futures, return_when=ALL_COMPLETED)
-    pool.shutdown()
+    with multiprocessing.Pool() as pool:
+        items = [(video, output_dir, detector, dim, idx, len(videos)) 
+            for idx, video in enumerate(videos)]
+        pool.map(crop_face, items)
+    #futures = [pool.submit(crop_face, item) for item in items]
+    #wait(futures, return_when=ALL_COMPLETED)
+    #pool.shutdown()
+        pool.close
 
 def crop_face(task):
     video, output_dir, detector, dim, idx, total_video = task
