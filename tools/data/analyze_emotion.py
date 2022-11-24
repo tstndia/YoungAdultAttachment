@@ -10,6 +10,7 @@ import numpy as np
 from pathlib import Path
 from deepface import DeepFace
 from glob import glob
+import tensorflow as tf
 import multiprocessing
 from concurrent.futures import wait, ALL_COMPLETED
 from concurrent.futures.process import ProcessPoolExecutor
@@ -150,9 +151,25 @@ def parse_args():
 
     return args
 
+def init_tf():
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+    
+    if gpus:
+        try:
+            # Currently, memory growth needs to be the same across GPUs
+            for gpu in gpus:
+                tf.config.experimental.set_memory_growth(gpu, True)
+        
+            logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+            print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+        except RuntimeError as e:
+            # Memory growth must be set before GPUs have been initialized
+            print(e)
+
 if __name__ == '__main__':
     args = parse_args()
-
+    init_tf()
+    
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.INFO,
