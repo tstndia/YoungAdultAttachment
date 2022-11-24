@@ -110,8 +110,8 @@ def analyze_faces(input_dir, output_dir):
             for idx, video in enumerate(videos)]
     
     for item in items:
-        emotion = analyze_face(item)
-        all_emotions.append(",".join(emotion))
+        filename, emotions = analyze_face(item)
+        all_emotions.append(filename + ", " + ", ".join(map(str, emotions)))
     
     list_to_file(all_emotions, os.path.join(output_dir, 'all_emotion.txt'))
 
@@ -147,9 +147,7 @@ def analyze_face(task):
     if len(emotions) > 0:
         list_to_file(emotions, out_filename)
 
-    all_emotions.insert(0, filename)
-    
-    return all_emotions
+    return filename, all_emotions
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Analyze emotion face from videos')
