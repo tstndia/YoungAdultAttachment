@@ -151,7 +151,7 @@ def analyze_face(task):
             logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
 
     if len(emotions) > 0:
-        emotions.insert(0, "Total: " + ", ".join([index_to_emotion(idx) + ": " + str(emot) for idx, emot in enumerate(all_emotions)]))
+        emotions.insert(0, f"Total: {len(emotions)} ==>" + ", ".join([index_to_emotion(idx) + ": " + str(emot) for idx, emot in enumerate(all_emotions)]))
         emotions.insert(0, filename + ", " + ", ".join([str(1 if emot > 0 else 0) for emot in all_emotions]))
         list_to_file(emotions, out_filename)
 
