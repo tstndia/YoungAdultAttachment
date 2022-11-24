@@ -127,12 +127,25 @@ def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
     videos.sort()
 
+    uncropped_videos = []
+
+    for video in videos:
+        filename = Path(video).name
+        out_filename = os.path.join(output_dir, filename)
+
+        if os.path.exists(out_filename):
+            logging.info(f"File {filename} already cropped. Skipping")
+        else:
+            uncropped_videos.append(video)
+
+    print(f"Cropped video: {len(videos) - len(uncropped_videos)}")
+    print(f"Uncropped video: {len(uncropped_videos)}")
     #pool = ProcessPoolExecutor()
     #pool.submit(lambda: None)
     
     with multiprocessing.Pool() as pool:
-        items = [(video, output_dir, detector, dim, idx, len(videos)) 
-            for idx, video in enumerate(videos)]
+        items = [(video, output_dir, detector, dim, idx, len(uncropped_videos)) 
+            for idx, video in enumerate(uncropped_videos)]
         pool.map(crop_face, items)
     #futures = [pool.submit(crop_face, item) for item in items]
     #wait(futures, return_when=ALL_COMPLETED)
@@ -144,10 +157,6 @@ def crop_face(task):
     p_name = multiprocessing.current_process().name
     filename = Path(video).name
     out_filename = os.path.join(output_dir, filename)
-
-    if os.path.exists(out_filename):
-        logging.info(f"[{p_name}] File {filename} already cropped. Skipping")
-        return
 
     frames = None
 
