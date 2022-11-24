@@ -138,8 +138,9 @@ def crop_faces(input_dir, output_dir, detector, dim):
         else:
             uncropped_videos.append(video)
 
-    print(f"Cropped video: {len(videos) - len(uncropped_videos)}")
-    print(f"Uncropped video: {len(uncropped_videos)}")
+    print(f"\nCropped video: {len(videos) - len(uncropped_videos)}")
+    print(f"Uncropped video: {len(uncropped_videos)}\n")
+    print("Start cropping ...")
     #pool = ProcessPoolExecutor()
     #pool.submit(lambda: None)
     
@@ -203,7 +204,6 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.INFO,
