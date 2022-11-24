@@ -141,7 +141,8 @@ def analyze_face(task):
     for fidx, frame in enumerate(frames):
         try:
             result = DeepFace.analyze(
-                img_path = frame.squeeze(), actions = ['emotion']
+                img_path = frame.squeeze(), actions = ['emotion'],
+                prog_bar = False
             )
 
             emotions.append(f"Frame-{fidx} : {result['dominant_emotion']}")
