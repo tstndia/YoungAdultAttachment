@@ -110,8 +110,9 @@ def analyze_faces(input_dir, output_dir):
     items = [(video, output_dir, idx, len(videos)) 
             for idx, video in enumerate(videos)]
     
+    all_emotions = []
+    
     for item in items:
-        all_emotions = []
         filename, emotions = analyze_face(item)
         all_emotions.append(filename + ", " + ", ".join([str(1 if emot > 0 else 0) for emot in emotions]))
     
