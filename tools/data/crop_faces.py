@@ -11,6 +11,7 @@ from pathlib import Path
 from deepface import DeepFace
 from glob import glob
 import multiprocessing
+from concurrent.futures import wait, ALL_COMPLETED
 from concurrent.futures.process import ProcessPoolExecutor
 
 def convert_and_trim_bb(image, rect):
@@ -132,7 +133,9 @@ def crop_faces(input_dir, output_dir, detector, dim):
     #with multiprocessing.Pool() as pool:
     items = ((video, output_dir, detector, dim, idx, len(videos)) 
         for idx, video in enumerate(videos))
-    pool.map(crop_face, items)
+    #pool.map(crop_face, items)
+    futures = [pool.submit(crop_face, item) for item in items]
+    wait(futures, return_when=ALL_COMPLETED)
     pool.shutdown()
 
 def crop_face(task):
