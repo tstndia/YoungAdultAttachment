@@ -120,7 +120,7 @@ def analyze_face(task):
     p_name = multiprocessing.current_process().name
     video_path = Path(video)
     filename = video_path.name
-    out_filename = os.path.join(output_dir, video_path.stem, '.txt')
+    out_filename = os.path.join(output_dir, video_path.stem + '.txt')
     frames = None
 
     try:
@@ -141,7 +141,8 @@ def analyze_face(task):
         except Exception as e:
             logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
 
-    list_to_file(emotions, out_filename)
+    if len(emotions) > 0:
+        list_to_file(emotions, out_filename)
 
     return [filename] + all_emotions
 
