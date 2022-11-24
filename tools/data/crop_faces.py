@@ -122,7 +122,8 @@ def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
     
     with multiprocessing.Pool() as pool:
-        items = [(video, output_dir, detector, dim, idx, len(videos)) for idx, video in enumerate(videos)]
+        items = [(video, output_dir, detector, dim, idx, len(videos)) 
+            for idx, video in enumerate(videos)]
         pool.starmap(crop_face, items)
 
 def crop_face(video, output_dir, detector, dim, idx, total_video):
@@ -134,9 +135,14 @@ def crop_face(video, output_dir, detector, dim, idx, total_video):
         logging.info(f"[{p_name}] File {filename} already cropped. Skipping")
         return
 
-    logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
-    fps, frames = load_video(video)
-    logging.info(f"[{p_name}] Video shape: {frames.shape}, fps: {fps}")
+    frames = None
+
+    try:
+        logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
+        fps, frames = load_video(video)
+        logging.info(f"[{p_name}] Video shape: {frames.shape}, fps: {fps}")
+    except Exception as e:
+        logging.info(f"[{p_name}] Error load {filename} : {e}")
 
     faces = []
 
