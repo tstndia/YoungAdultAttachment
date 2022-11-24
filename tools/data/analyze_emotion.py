@@ -139,7 +139,7 @@ def analyze_face(task):
                 img_path = frame.squeeze(), actions = ['emotion']
             )
 
-            emotions.append((f"Frame-{fidx}"), result['dominant_emotion'])
+            emotions.append((f"Frame-{fidx}", result['dominant_emotion']))
             all_emotions[emotion_to_index(result['dominant_emotion'])] = 1
         except Exception as e:
             logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
