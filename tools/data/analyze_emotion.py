@@ -94,8 +94,6 @@ def analyze_faces(input_dir, output_dir):
     print(f"Unanalyzed video: {len(unanalyzed_videos)}\n")
     print("Start analyzing ...")
 
-    all_emotions = []
-
     '''
     with multiprocessing.Pool() as pool:
         items = [(video, output_dir, idx, len(videos)) 
@@ -110,10 +108,10 @@ def analyze_faces(input_dir, output_dir):
             for idx, video in enumerate(videos)]
     
     for item in items:
+        all_emotions = []
         filename, emotions = analyze_face(item)
         all_emotions.append(filename + ", " + ", ".join(map(str, emotions)))
-    
-    list_to_file(all_emotions, os.path.join(output_dir, 'all_emotion.txt'))
+        list_to_file(all_emotions, os.path.join(output_dir, 'all_emotion.txt'))
 
 def analyze_face(task):
     video, output_dir, idx, total_video = task
