@@ -11,6 +11,7 @@ from pathlib import Path
 from deepface import DeepFace
 from glob import glob
 import multiprocessing
+from concurrent.futures.process import ProcessPoolExecutor
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
@@ -123,11 +124,15 @@ def save_video(name, video, fps, convert_to_bgr = True):
 
 def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
+    videos.sort()
+
+    pool = ProcessPoolExecutor()
+    pool.submit(lambda: None)
     
-    with multiprocessing.Pool() as pool:
-        items = [(video, output_dir, detector, dim, idx, len(videos)) 
-            for idx, video in enumerate(videos)]
-        pool.starmap(crop_face, items)
+    #with multiprocessing.Pool() as pool:
+    items = [(video, output_dir, detector, dim, idx, len(videos)) 
+        for idx, video in enumerate(videos)]
+    pool.map(crop_face, items)
 
 def crop_face(video, output_dir, detector, dim, idx, total_video):
     p_name = multiprocessing.current_process().name
