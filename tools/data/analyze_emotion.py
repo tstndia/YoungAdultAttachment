@@ -135,7 +135,12 @@ def analyze_face(task):
 
     for fidx, frame in enumerate(frames):
         try:
-            result = DeepFace.analyze(img_path = frame.squeeze(), actions = ['emotion'])
+            result = DeepFace.analyze(
+                img_path = frame.squeeze(), actions = ['emotion'],
+                detector_backend = 'dlib',
+                align = True
+            )
+            
             emotions.append((f"Frame-{fidx}"), result['emotion'])
             all_emotions[emotion_to_index(result['emotion'])] = 1
         except Exception as e:
