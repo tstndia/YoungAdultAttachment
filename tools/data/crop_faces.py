@@ -141,7 +141,7 @@ def crop_face(video, output_dir, detector, dim, idx, total_video):
         logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
         fps, frames = load_video(video)
         logging.info(f"[{p_name}] Video shape: {frames.shape}, fps: {fps}")
-    except Exception as e:
+    except OSError as e:
         logging.info(f"[{p_name}] Error load {filename} : {e}")
 
     faces = []
