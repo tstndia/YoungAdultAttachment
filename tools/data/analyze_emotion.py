@@ -78,6 +78,21 @@ def analyze_faces(input_dir, output_dir):
 
     videos = glob(os.path.join(input_dir, '*.mp4'))
     videos.sort()
+    unanalyzed_videos = []
+
+    for video in videos:
+        filename = Path(video).stem
+        out_filename = os.path.join(output_dir, filename, '.txt')
+
+        if os.path.exists(out_filename):
+            logging.info(f"File {filename} already analyzed. Skipping")
+        else:
+            unanalyzed_videos.append(video)
+
+    print(f"\Analyzed video: {len(videos) - len(unanalyzed_videos)}")
+    print(f"Unanalyzed video: {len(unanalyzed_videos)}\n")
+    print("Start analyzing ...")
+
     all_emotions = []
 
     with multiprocessing.Pool() as pool:
