@@ -147,7 +147,9 @@ def analyze_face(task):
     if len(emotions) > 0:
         list_to_file(emotions, out_filename)
 
-    return [filename] + all_emotions
+    all_emotions.insert(0, filename)
+    
+    return all_emotions
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Analyze emotion face from videos')
