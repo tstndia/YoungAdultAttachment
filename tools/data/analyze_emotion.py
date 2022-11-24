@@ -19,6 +19,9 @@ EMOTIONS = ['neutral', 'happy', 'sad', 'contempt', 'angry', 'disgust', 'surprise
 
 def emotion_to_index(emotion):
     return EMOTIONS.index(emotion)
+
+def index_to_emotion(index):
+    return EMOTIONS[index]
     
 def list_to_file(lst, filename):
     with open(filename, 'w') as fp:
@@ -110,15 +113,16 @@ def analyze_faces(input_dir, output_dir):
     for item in items:
         all_emotions = []
         filename, emotions = analyze_face(item)
-        all_emotions.append(filename + ", " + ", ".join(map(str, emotions)))
-        list_to_file(all_emotions, os.path.join(output_dir, filename + '.txt'))
+        all_emotions.append(filename + ", " + ", ".join([str(1 if emot > 0 else 0) for emot in emotions]))
+    
+    list_to_file(all_emotions, os.path.join(output_dir, 'all_emotion.txt'))
 
 def analyze_face(task):
     video, output_dir, idx, total_video = task
     p_name = multiprocessing.current_process().name
     video_path = Path(video)
     filename = video_path.name
-    out_filename = os.path.join(output_dir, video_path.stem + '_frames.txt')
+    out_filename = os.path.join(output_dir, video_path.stem + '.txt')
     frames = None
 
     try:
@@ -138,11 +142,12 @@ def analyze_face(task):
             )
 
             emotions.append(f"Frame-{fidx} : {result['dominant_emotion']}")
-            all_emotions[emotion_to_index(result['dominant_emotion'])] = 1
+            all_emotions[emotion_to_index(result['dominant_emotion'])] += 1
         except Exception as e:
             logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
 
     if len(emotions) > 0:
+        emotions.insert(0, "Total: " + ", ".join([index_to_emotion(idx) + ": " + emot for idx, emot in enumerate(all_emotions)]))
         list_to_file(emotions, out_filename)
 
     return filename, all_emotions
