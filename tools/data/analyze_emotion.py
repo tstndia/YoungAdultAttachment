@@ -134,17 +134,19 @@ def analyze_face(task):
     emotions = []
 
     for fidx, frame in enumerate(frames):
-        result = DeepFace.analyze(img_path = frame.squeeze(), actions = ['emotion'])
-        emotions.append((f"Frame-{fidx}"), result['emotion'])
-        all_emotions[emotion_to_index(result['emotion'])] = 1
+        try:
+            result = DeepFace.analyze(img_path = frame.squeeze(), actions = ['emotion'])
+            emotions.append((f"Frame-{fidx}"), result['emotion'])
+            all_emotions[emotion_to_index(result['emotion'])] = 1
+        except Exception as e:
+            logging.info(f"[{p_name}] No face detected on frame: {fidx}. Skipping ==> {e}")
 
     list_to_file(emotions, out_filename)
 
     return [filename] + all_emotions
 
 def parse_args():
-    parser = argparse.ArgumentParser(
-        description='Analyze emotion face from videos')
+    parser = argparse.ArgumentParser(description='Analyze emotion face from videos')
     parser.add_argument("--input_dir", type=str, default="/workspace/AttachmentDewasa/data/exposure/", help="Input directory")
     parser.add_argument("--output_dir", type=str, default="/workspace/AttachmentDewasa/data/exposure_emotions/", help="Output directory")
     args = parser.parse_args()
@@ -169,7 +171,7 @@ def init_tf():
 if __name__ == '__main__':
     args = parse_args()
     init_tf()
-    
+
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.INFO,
