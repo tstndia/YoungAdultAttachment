@@ -3,12 +3,12 @@ _base_ = [
 ]
 model=dict(
     backbone=dict(
-        patch_size=(2,4,4), 
+        patch_size=(2,4,4),
         drop_path_rate=0.1
-    ), 
+    ),
     cls_head=dict(
         num_classes=8
-    ), 
+    ),
     test_cfg=dict(
         max_testing_views=4
     )
@@ -18,14 +18,14 @@ model=dict(
 dataset_type = 'VideoDataset'
 data_root = 'data/response-video/'
 data_root_val = 'data/response-video/'
-ann_file_train = 'data/response-video/video_exposure_nonetral_train.txt'
-ann_file_val = 'data/response-video/video_exposure_nonetral_val.txt'
-ann_file_test = 'data/response-video/video_exposure_nonetral_val.txt'
+ann_file_train = 'data/response-video/video_response_nonetral_train.txt'
+ann_file_val = 'data/response-video/video_response_nonetral_val.txt'
+ann_file_test = 'data/response-video/video_response_nonetral_val.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
     dict(type='DecordInit'),
-    dict(type='SampleFrames', clip_len=, frame_interval=10, num_clips=1),
+    dict(type='SampleFrames', clip_len=1024, frame_interval=2, num_clips=1),
     dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
@@ -40,8 +40,8 @@ val_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=256,
-        frame_interval=10,
+        clip_len=1024,
+        frame_interval=2,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -57,8 +57,8 @@ test_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=256,
-        frame_interval=10,
+        clip_len=1024,
+        frame_interval=2,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -120,11 +120,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 100
+total_epochs = 20
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_exposure_small_cl256_fi10_b8_ep100v2'
+work_dir = './work_dirs/attachment_exposure_small_cl1024_fi2_b8_ep20'
 find_unused_parameters = False
 
 
