@@ -5,6 +5,7 @@ import mmcv
 import numpy as np
 import torch
 import torchmetrics
+import sys
 
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict, defaultdict
@@ -117,6 +118,7 @@ class MultilabelVideoDataset(BaseDataset):
 
         results_sigmoid = results.sigmoid()
 
+        np.set_printoptions(threshold=sys.maxsize)
         print(f"preds: {results_sigmoid.numpy()}")
         print(f"labels: {gt_labels.numpy()}")
 
