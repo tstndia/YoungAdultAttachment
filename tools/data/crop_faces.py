@@ -10,6 +10,9 @@ import numpy as np
 from pathlib import Path
 from deepface import DeepFace
 from glob import glob
+import multiprocessing
+from concurrent.futures import wait, ALL_COMPLETED
+from concurrent.futures.process import ProcessPoolExecutor
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
@@ -79,31 +82,34 @@ def load_video(filename: str):
     if not os.path.exists(filename):
         raise FileNotFoundError(filename)
 
-    capture = cv2.VideoCapture(filename)
+    try:
+        capture = cv2.VideoCapture(filename)
 
-    frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-    frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
-    frame_height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = int(capture.get(cv2.CAP_PROP_FPS))
+        frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = int(capture.get(cv2.CAP_PROP_FPS))
 
-    v = np.zeros((frame_count, frame_height, frame_width, 3), np.uint8) # (F, H, W, C)
+        v = np.zeros((frame_count, frame_height, frame_width, 3), np.uint8) # (F, H, W, C)
 
-    for count in range(frame_count):
-        ret, frame = capture.read()
-        
-        if not ret:
-            raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
+        for count in range(frame_count):
+            ret, frame = capture.read()
+            
+            if not ret:
+                raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
 
-        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        v[count] = frame
+            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            v[count] = frame
 
-        count += 1
+            count += 1
 
-    capture.release()
+        capture.release()
 
-    assert v.size > 0
+        assert v.size > 0
 
-    return fps, v
+        return fps, v
+    except Exception as e:
+        raise e
 
 def save_video(name, video, fps, convert_to_bgr = True):
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -121,40 +127,69 @@ def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
     videos.sort()
 
-    for idx, video in enumerate(videos):
+    uncropped_videos = []
+
+    for video in videos:
         filename = Path(video).name
         out_filename = os.path.join(output_dir, filename)
 
         if os.path.exists(out_filename):
             logging.info(f"File {filename} already cropped. Skipping")
-            continue
+        else:
+            uncropped_videos.append(video)
 
-        logging.info(f"Processing {idx + 1} of {len(videos)}: {filename}")
+    print(f"\nCropped video: {len(videos) - len(uncropped_videos)}")
+    print(f"Uncropped video: {len(uncropped_videos)}\n")
+    print("Start cropping ...")
+    #pool = ProcessPoolExecutor()
+    #pool.submit(lambda: None)
+    
+    with multiprocessing.Pool() as pool:
+        items = [(video, output_dir, detector, dim, idx, len(uncropped_videos)) 
+            for idx, video in enumerate(uncropped_videos)]
+        pool.map(crop_face, items)
+    #futures = [pool.submit(crop_face, item) for item in items]
+    #wait(futures, return_when=ALL_COMPLETED)
+    #pool.shutdown()
+        pool.close
+
+def crop_face(task):
+    video, output_dir, detector, dim, idx, total_video = task
+    p_name = multiprocessing.current_process().name
+    filename = Path(video).name
+    out_filename = os.path.join(output_dir, filename)
+
+    frames = None
+
+    try:
+        logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
         fps, frames = load_video(video)
-        logging.info(f"Video shape: {frames.shape}, fps: {fps}")
+        logging.info(f"[{p_name}] Video shape: {frames.shape}, fps: {fps}")
+    except Exception as e:
+        logging.info(f"[{p_name}] Error load {filename} : {e}")
 
-        faces = []
+    faces = []
 
-        for i in range(frames.shape[0]):
-            try:
-                frame = imutils.resize(frames[i,:,:,:].squeeze(), height=256)
-                
-                face = DeepFace.detectFace(img_path = frame, 
-                    target_size = (dim, dim),
-                    detector_backend = detector,
-                    align = False
-                )
+    for i in range(frames.shape[0]):
+        try:
+            frame = imutils.resize(frames[i,:,:,:].squeeze(), height=256)
+            
+            face = DeepFace.detectFace(img_path = frame, 
+                target_size = (dim, dim),
+                detector_backend = detector,
+                align = False
+            )
 
-                faces.append((face * 255).astype(np.uint8))
-            except Exception as e:
-                logging.info(f"No face detected on frame: {i}. Skipping ==> {e}")
-                # pass
+            faces.append((face * 255).astype(np.uint8))
+        except Exception as e:
+            logging.info(f"[{p_name}] No face detected on frame: {i}. Skipping ==> {e}")
+            # pass
 
-        if len(faces) > 0:
-            cropped = np.stack(faces, axis=0)
-            logging.info(f"Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
-            save_video(out_filename, np.stack(faces, axis=0), fps)
-            logging.info(f"Saved into: {out_filename}")
+    if len(faces) > 0:
+        cropped = np.stack(faces, axis=0)
+        logging.info(f"[{p_name}] Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
+        save_video(out_filename, np.stack(faces, axis=0), fps)
+        logging.info(f"[{p_name}] Saved into: {out_filename}")
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -169,7 +204,6 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.INFO,
