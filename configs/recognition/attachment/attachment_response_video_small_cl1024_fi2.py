@@ -3,30 +3,29 @@ _base_ = [
 ]
 model=dict(
     backbone=dict(
-        patch_size=(2,4,4), 
+        patch_size=(2,4,4),
         drop_path_rate=0.1
-    ), 
+    ),
     cls_head=dict(
-        num_classes=8,
-        loss_cls=dict(type='BCELossWithLogits'),
-        multi_class=True),
+        num_classes=8
+    ),
     test_cfg=dict(
         max_testing_views=4
     )
 )
 
 # dataset settings
-dataset_type = 'MultilabelVideoDataset'
-data_root = 'data/response_video/'
-data_root_val = 'data/response_video/'
-ann_file_train = 'data/response_video/video_response_train.txt'
-ann_file_val = 'data/response_video/video_response_val.txt'
-ann_file_test = 'data/response_video/video_response_val.txt'
+dataset_type = 'VideoDataset'
+data_root = 'data/response-video/'
+data_root_val = 'data/response-video/'
+ann_file_train = 'data/response-video/video_response_nonetral_train.txt'
+ann_file_val = 'data/response-video/video_response_nonetral_val.txt'
+ann_file_test = 'data/response-video/video_response_nonetral_val.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
     dict(type='DecordInit'),
-    dict(type='SampleFrames', clip_len=128, frame_interval=8, num_clips=1),
+    dict(type='SampleFrames', clip_len=1024, frame_interval=2, num_clips=1),
     dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
@@ -41,8 +40,8 @@ val_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=128,
-        frame_interval=8,
+        clip_len=1024,
+        frame_interval=2,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -58,8 +57,8 @@ test_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=128,
-        frame_interval=8,
+        clip_len=1024,
+        frame_interval=2,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
@@ -104,7 +103,7 @@ data = dict(
         data_prefix=data_root_val,
         pipeline=test_pipeline))
 evaluation = dict(
-    interval=1, metrics=['mean_average_precision']
+    interval=1, metrics=['confusion_matrix', 'mean_class_accuracy']
 )
 
 # optimizer
@@ -121,11 +120,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 10
+total_epochs = 20
 
 # runtime settings
-checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_video_cl128_fi8_b8_ep10'
+checkpoint_config = dict(interval=1)
+work_dir = './work_dirs/attachment_exposure_small_cl1024_fi2_b8_ep20'
 find_unused_parameters = False
 
 
