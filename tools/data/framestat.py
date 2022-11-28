@@ -37,6 +37,7 @@ def get_frame_count(filename: str):
     return frame_count
 
 def calc_frame_stat(dir):
+    logging.info(f"Calculate frame number ...")
     videos = glob(os.path.join(dir, '*.mp4'))
     number_of_frames = []
 
