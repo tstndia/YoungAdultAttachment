@@ -16,8 +16,8 @@ model=dict(
 
 # dataset settings
 dataset_type = 'MultilabelVideoDataset'
-data_root = 'data/response-video/'
-data_root_val = 'data/response-video/'
+data_root = 'data/response_video/'
+data_root_val = 'data/response_video/'
 ann_file_train = 'data/response_video/video_response_train.txt'
 ann_file_val = 'data/response_video/video_response_val.txt'
 ann_file_test = 'data/response_video/video_response_val.txt'
