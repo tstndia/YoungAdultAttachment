@@ -18,9 +18,9 @@ model=dict(
 dataset_type = 'MultilabelVideoDataset'
 data_root = 'data/response-video/'
 data_root_val = 'data/response-video/'
-ann_file_train = 'data/response_video/video_response_nonetral_train.txt'
-ann_file_val = 'data/response_video/video_response_nonetral_val.txt'
-ann_file_test = 'data/response_video/video_response_nonetral_val.txt'
+ann_file_train = 'data/response_video/video_response_train.txt'
+ann_file_val = 'data/response_video/video_response_val.txt'
+ann_file_test = 'data/response_video/video_response_val.txt'
 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
