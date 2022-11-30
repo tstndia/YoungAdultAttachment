@@ -28,7 +28,7 @@ train_pipeline = [
     dict(type='DecordInit'),
     dict(type='SampleFrames', clip_len=128, frame_interval=8, num_clips=1),
     dict(type='DecordDecode'),
-    dict(type='Resize', scale=(-1, 64)),
+    #dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
     #dict(type='Resize', scale=(64, 64), keep_ratio=False),
     dict(type='Flip', flip_ratio=0.5),
@@ -72,7 +72,7 @@ test_pipeline = [
     dict(type='ToTensor', keys=['imgs'])
 ]
 data = dict(
-    videos_per_gpu=8,
+    videos_per_gpu=4,
     workers_per_gpu=4,
     val_dataloader=dict(
         videos_per_gpu=1,
@@ -133,7 +133,7 @@ find_unused_parameters = False
 fp16 = None
 optimizer_config = dict(
     type="DistOptimizerHook",
-    update_interval=8,
+    update_interval=2,
     grad_clip=None,
     coalesce=True,
     bucket_size_mb=-1,
