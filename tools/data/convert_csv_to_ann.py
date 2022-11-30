@@ -15,17 +15,18 @@ def clean_df(df, dir):
 
     return df.drop(index_to_removed)
 
-def convert_csv_to_ann(csv_path):
+def convert_csv_to_ann(csv_path, modality):
+    modality_field = f"{modality}_name"
     df = pd.read_csv(csv_path)
     csv_path = Path(csv_path)
 
     df = clean_df(df, csv_path.parent)
 
-    data_df = df[["video_name"]]
+    data_df = df[[modality_field]]
     label_df = df[["neutral", "happy", "sad", "contempt", "anger", "disgust", "surprised", "fear"]]
 
     data_train, label_train, data_test, label_test = iterative_train_test_split(
-        data_df[["video_name"]].values,
+        data_df[[modality_field]].values,
         label_df[["neutral", "happy", "sad", "contempt", "anger", "disgust", "surprised", "fear"]].values,
         test_size = 0.2
     )
@@ -69,6 +70,7 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='Convert csv to annotation file')
     parser.add_argument('--csv_path', type=str, help='source video directory')
+    parser.add_argument('--modality', type=str, default='video', help='Modality')
     args = parser.parse_args()
 
     return args
@@ -81,4 +83,4 @@ if __name__ == '__main__':
         print(f"File {args.csv_path} not exist")
         exit()
     
-    convert_csv_to_ann(args.csv_path)
+    convert_csv_to_ann(args.csv_path, args.modality)
