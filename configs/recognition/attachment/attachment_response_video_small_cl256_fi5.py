@@ -1,7 +1,7 @@
 _base_ = [
     '../../_base_/models/swin/swin_small.py', '../../_base_/default_runtime.py'
 ]
-mmodel=dict(
+model=dict(
     backbone=dict(
         patch_size=(2,4,4),
         drop_path_rate=0.1
