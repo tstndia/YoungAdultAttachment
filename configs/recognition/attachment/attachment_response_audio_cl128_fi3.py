@@ -25,7 +25,7 @@ train_pipeline = [
     dict(type='SampleFrames', clip_len=clip_len, frame_interval=frame_interval, num_clips=1),
     dict(type='AudioDecode'),
     dict(type='AudioAmplify', ratio=1.5),
-    dict(type='MelLogSpectrogram'),
+    dict(type='MelSpectrogram'),
     dict(type='FormatAudioShape', input_format='NCTF'),
     dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['audios'])
