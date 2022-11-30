@@ -6,11 +6,12 @@ import pandas as pd
 from pathlib import Path
 from skmultilearn.model_selection import iterative_train_test_split
 
-def clean_df(df, dir):
+def clean_df(df, dir, modality):
+    modality_field = f"{modality}_name"
     index_to_removed = []
 
     for idx, row in df.iterrows():
-        if not os.path.isfile(os.path.join(dir, row['video_name'])):
+        if not os.path.isfile(os.path.join(dir, row[modality_field])):
             index_to_removed.append(idx)
 
     return df.drop(index_to_removed)
@@ -20,7 +21,7 @@ def convert_csv_to_ann(csv_path, modality):
     df = pd.read_csv(csv_path)
     csv_path = Path(csv_path)
 
-    df = clean_df(df, csv_path.parent)
+    df = clean_df(df, csv_path.parent, modality)
 
     data_df = df[[modality_field]]
     label_df = df[["neutral", "happy", "sad", "contempt", "anger", "disgust", "surprised", "fear"]]
