@@ -7,7 +7,9 @@ model=dict(
         drop_path_rate=0.1
     ),
     cls_head=dict(
-        num_classes=8
+        num_classes=8,
+        loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
+        multi_class=True
     ),
     test_cfg=dict(
         max_testing_views=4
@@ -121,11 +123,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 20
+total_epochs = 10
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_exposure_small_cl128_fi4_b8_ep20'
+work_dir = './work_dirs/attachment_exposure_small_cl128_fi4_b8_ep10'
 find_unused_parameters = False
 
 
