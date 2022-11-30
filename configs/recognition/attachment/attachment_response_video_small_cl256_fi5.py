@@ -1,13 +1,15 @@
 _base_ = [
     '../../_base_/models/swin/swin_small.py', '../../_base_/default_runtime.py'
 ]
-model=dict(
+mmodel=dict(
     backbone=dict(
         patch_size=(2,4,4),
         drop_path_rate=0.1
     ),
     cls_head=dict(
-        num_classes=8
+        num_classes=8,
+        loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
+        multi_class=True
     ),
     test_cfg=dict(
         max_testing_views=4
