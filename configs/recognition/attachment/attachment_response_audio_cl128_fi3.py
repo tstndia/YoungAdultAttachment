@@ -16,9 +16,9 @@ frame_interval = 3
 dataset_type = 'AudioDataset'
 data_root = 'data/response_audio/'
 data_root_val = 'data/response_audio/'
-ann_file_train = 'data/response_audio/audio_response_train.txt'
-ann_file_val = 'data/response_audio/audio_response_val.txt'
-ann_file_test = 'data/response_audio/audio_response_val.txt'
+ann_file_train = 'data/response_audio/response_audio_train.txt'
+ann_file_val = 'data/response_audio/response_audio_val.txt'
+ann_file_test = 'data/response_audio/response_audio_val.txt'
 
 train_pipeline = [
     dict(type='AudioDecodeInit'),
