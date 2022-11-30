@@ -14,6 +14,9 @@ def clean_df(df, dir, modality):
         if not os.path.isfile(os.path.join(dir, row[modality_field])):
             index_to_removed.append(idx)
 
+        if row[modality_field].startswith('_'):
+            index_to_removed.append(idx)
+
     return df.drop(index_to_removed)
 
 def convert_csv_to_ann(csv_path, modality):
