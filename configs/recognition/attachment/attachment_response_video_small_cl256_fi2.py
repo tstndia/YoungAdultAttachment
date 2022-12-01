@@ -127,7 +127,7 @@ total_epochs = 10
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_exposure_small_cl256_fi2_b8_ep10'
+work_dir = './work_dirs/attachment_response_small_cl256_fi2_b8_ep10'
 find_unused_parameters = False
 
 
