@@ -32,7 +32,7 @@ train_pipeline = [
     dict(type='DecordDecode'),
     #dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
-    #dict(type='Resize', scale=(64, 64), keep_ratio=False),
+    dict(type='Resize', scale=(64, 64), keep_ratio=False),
     dict(type='Flip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
