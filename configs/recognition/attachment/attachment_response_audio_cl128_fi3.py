@@ -16,16 +16,16 @@ frame_interval = 3
 dataset_type = 'AudioDataset'
 data_root = 'data/response_audio/'
 data_root_val = 'data/response_audio/'
-ann_file_train = 'data/response_audio/audio_response_train.txt'
-ann_file_val = 'data/response_audio/audio_response_val.txt'
-ann_file_test = 'data/response_audio/audio_response_val.txt'
+ann_file_train = 'data/response_audio/response_audio_train.txt'
+ann_file_val = 'data/response_audio/response_audio_val.txt'
+ann_file_test = 'data/response_audio/response_audio_val.txt'
 
 train_pipeline = [
     dict(type='AudioDecodeInit'),
     dict(type='SampleFrames', clip_len=clip_len, frame_interval=frame_interval, num_clips=1),
     dict(type='AudioDecode'),
     dict(type='AudioAmplify', ratio=1.5),
-    dict(type='MelLogSpectrogram'),
+    dict(type='MelSpectrogram'),
     dict(type='FormatAudioShape', input_format='NCTF'),
     dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['audios'])
