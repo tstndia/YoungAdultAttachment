@@ -144,10 +144,10 @@ def crop_faces(input_dir, output_dir, detector, dim):
     #pool = ProcessPoolExecutor()
     #pool.submit(lambda: None)
     
-    with multiprocessing.Pool(processes=60) as pool:
+    with multiprocessing.Pool(processes=30) as pool:
         items = [(video, output_dir, detector, dim, idx, len(uncropped_videos)) 
             for idx, video in enumerate(uncropped_videos)]
-        pool.imap(crop_face, items, chunksize = 20)
+        pool.imap(crop_face, items, chunksize = 5)
     #futures = [pool.submit(crop_face, item) for item in items]
     #wait(futures, return_when=ALL_COMPLETED)
     #pool.shutdown()
