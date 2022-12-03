@@ -151,7 +151,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
     #futures = [pool.submit(crop_face, item) for item in items]
     #wait(futures, return_when=ALL_COMPLETED)
     #pool.shutdown()
-        pool.close
+        #pool.close
 
 def crop_face(task):
     video, output_dir, detector, dim, idx, total_video = task
