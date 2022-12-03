@@ -32,7 +32,7 @@ train_pipeline = [
     dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
-    #dict(type='Resize', scale=(64, 64), keep_ratio=False),
+    dict(type='Resize', scale=(64, 64), keep_ratio=False),
     dict(type='Flip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
@@ -123,11 +123,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 20
+total_epochs = 10
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_exposure_small_cl256_fi2_b8_ep20'
+work_dir = './work_dirs/attachment_response_small_cl256_fi2_b8_ep10'
 find_unused_parameters = False
 
 
