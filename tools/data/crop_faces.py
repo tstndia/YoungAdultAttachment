@@ -14,9 +14,7 @@ import multiprocessing
 from concurrent.futures import wait, ALL_COMPLETED
 from concurrent.futures.process import ProcessPoolExecutor
 from multiprocessing import get_context
-from threading import Thread
-from queue import Queue
-from logging.handlers import QueueListener, QueueHandler
+from multiprocessing import set_start_method
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
@@ -157,7 +155,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
     #wait(futures, return_when=ALL_COMPLETED)
     #pool.shutdown()
         # shutdown the process pool
-        pool.close()
+        #pool.close()
         # wait for all issued task to complete
         #pool.join()
 
@@ -212,6 +210,8 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
+
+    #set_start_method("spawn")
     # setup_logging()
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
