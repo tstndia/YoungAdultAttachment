@@ -169,6 +169,10 @@ def crop_face(task):
     filename = Path(video).name
     out_filename = os.path.join(output_dir, filename)
 
+    if os.path.exists(out_filename):
+        logging.info(f"File {filename} already cropped. Skipping")
+        return
+
     frames = None
 
     try:
