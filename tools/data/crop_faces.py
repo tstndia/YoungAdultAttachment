@@ -202,7 +202,7 @@ def crop_facev2(task):
     out_filename = os.path.join(output_dir, filename)
 
     logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
-    capture = cv2.VideoCapture(filename)
+    capture = cv2.VideoCapture(video)
 
     frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
     frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
