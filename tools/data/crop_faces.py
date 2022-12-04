@@ -14,7 +14,30 @@ import multiprocessing
 from concurrent.futures import wait, ALL_COMPLETED
 from concurrent.futures.process import ProcessPoolExecutor
 from multiprocessing import get_context
+from threading import Thread
+from queue import Queue
+from logging.handlers import QueueListener, QueueHandler
 
+def setup_logging():
+    # Logs get written to a queue, and then a thread reads
+    # from that queue and writes messages to a file:
+    _log_queue = Queue()
+    QueueListener(
+        _log_queue, logging.FileHandler("log_crop_faces.log")).start()
+    logging.getLogger().addHandler(QueueHandler(_log_queue))
+
+    logging.basicConfig(
+        format='%(asctime)s %(levelname)-8s %(message)s',
+        level=logging.INFO,
+        datefmt='%Y-%m-%d %H:%M:%S')
+
+    # Our parent process is running a thread that
+    # logs messages:
+    def write_logs():
+        while True:
+            logging.error("hello, I just did something")
+
+    Thread(target=write_logs).start()
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
@@ -210,9 +233,10 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
-        datefmt='%Y-%m-%d %H:%M:%S')
+    setup_logging()
+    #logging.basicConfig(
+    #    format='%(asctime)s %(levelname)-8s %(message)s',
+    #    level=logging.INFO,
+    #    datefmt='%Y-%m-%d %H:%M:%S')
 
     crop_faces(args.input_dir, args.output_dir, args.detector, args.dim)
