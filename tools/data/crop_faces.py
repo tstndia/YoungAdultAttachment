@@ -146,8 +146,8 @@ def crop_faces(input_dir, output_dir, detector, dim):
     #pool = ProcessPoolExecutor()
     #pool.submit(lambda: None)
     
-    # with multiprocessing.Pool(processes=50) as pool:
-    with get_context("spawn").Pool(processes=40) as pool:
+    with multiprocessing.Pool(processes=50) as pool:
+    #with get_context("spawn").Pool(processes=40) as pool:
         items = [(video, output_dir, detector, dim, idx, len(uncropped_videos)) 
             for idx, video in enumerate(uncropped_videos)]
         pool.map(crop_face, items)
@@ -211,7 +211,7 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    set_start_method("spawn")
+    # set_start_method("spawn")
     # setup_logging()
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
