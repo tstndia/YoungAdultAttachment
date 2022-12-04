@@ -157,7 +157,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
         # shutdown the process pool
         #pool.close()
         # wait for all issued task to complete
-        #pool.join()
+        pool.join()
 
 def crop_face(task):
     video, output_dir, detector, dim, idx, total_video = task
