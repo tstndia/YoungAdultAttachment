@@ -15,6 +15,7 @@ from concurrent.futures import wait, ALL_COMPLETED
 from concurrent.futures.process import ProcessPoolExecutor
 from multiprocessing import get_context
 from multiprocessing import set_start_method
+import random
 
 def convert_and_trim_bb(image, rect):
 	# extract the starting and ending (x, y)-coordinates of the
@@ -127,7 +128,8 @@ def save_video(name, video, fps, convert_to_bgr = True):
 
 def crop_faces(input_dir, output_dir, detector, dim):
     videos = glob(os.path.join(input_dir, '*.mp4'))
-    videos.sort()
+    #videos.sort()
+    random.shuffle(videos)
 
     uncropped_videos = []
 
