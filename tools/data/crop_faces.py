@@ -205,7 +205,11 @@ def crop_facev2(task):
     capture = cv2.VideoCapture(filename)
 
     frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = int(capture.get(cv2.CAP_PROP_FPS))
+
+    logging.info(f"[{p_name}] Video shape: ({frame_count}, {frame_height}, {frame_width}), fps: {fps}")
 
     faces = []
     count = 0
