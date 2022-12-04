@@ -145,26 +145,14 @@ def crop_faces(input_dir, output_dir, detector, dim):
     print(f"\nCropped video: {len(videos) - len(uncropped_videos)}")
     print(f"Uncropped video: {len(uncropped_videos)}\n")
     print("Start cropping ...")
-    #pool = ProcessPoolExecutor()
-    #pool.submit(lambda: None)
-    
-    #with multiprocessing.Pool(processes=30) as pool:
-    #with get_context("spawn").Pool(processes=5) as pool:
 
     items = [(video, output_dir, detector, dim, idx, len(uncropped_videos)) 
             for idx, video in enumerate(uncropped_videos)]
 
-    for item in items:
-       crop_face(item)
-
-    #futures = [pool.submit(crop_face, item) for item in items]
-    #wait(futures, return_when=ALL_COMPLETED)
-    #pool.shutdown()
-        # shutdown the process pool
-        #pool.close()
-        # wait for all issued task to complete
-        #pool.join()
-
+    with multiprocessing.Pool(processes=50) as pool:
+    #with get_context("spawn").Pool(processes=5) as pool:
+        pool.map(crop_facev2, items)
+        
 def crop_face(task):
     video, output_dir, detector, dim, idx, total_video = task
     p_name = multiprocessing.current_process().name
@@ -204,6 +192,50 @@ def crop_face(task):
     if len(faces) > 0:
         cropped = np.stack(faces, axis=0)
         logging.info(f"[{p_name}] Finished. Cropped shape: {cropped.shape}. Total removed frames: {len(frames) - len(faces)}")
+        save_video(out_filename, np.stack(faces, axis=0), fps)
+        logging.info(f"[{p_name}] Saved into: {out_filename}")
+
+def crop_facev2(task):
+    video, output_dir, detector, dim, idx, total_video = task
+    p_name = multiprocessing.current_process().name
+    filename = Path(video).name
+    out_filename = os.path.join(output_dir, filename)
+
+    logging.info(f"[{p_name}] Processing {idx + 1} of {total_video}: {filename}")
+    capture = cv2.VideoCapture(filename)
+
+    frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = int(capture.get(cv2.CAP_PROP_FPS))
+
+    faces = []
+    count = 0
+
+    for count in range(frame_count):
+        ret, frame = capture.read()
+        
+        if not ret:
+            raise ValueError("Failed to load frame #{} of {}.".format(count, filename))
+
+        try:
+            frame = imutils.resize(frame, height=256)
+            
+            face = DeepFace.detectFace(img_path = frame, 
+                target_size = (dim, dim),
+                detector_backend = detector,
+                align = False
+            )
+
+            faces.append((face * 255).astype(np.uint8))
+        except Exception as e:
+            logging.info(f"[{p_name}] No face detected on frame: {count}. Skipping ==> {e}")
+
+        count += 1
+
+    capture.release()
+
+    if len(faces) > 0:
+        cropped = np.stack(faces, axis=0)
+        logging.info(f"[{p_name}] Finished. Cropped shape: {cropped.shape}. Total removed frames: {frame_count - len(faces)}")
         save_video(out_filename, np.stack(faces, axis=0), fps)
         logging.info(f"[{p_name}] Saved into: {out_filename}")
 
