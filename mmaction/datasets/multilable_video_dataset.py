@@ -119,6 +119,9 @@ class MultilabelVideoDataset(BaseDataset):
             onehot[ann['label']] = 1.
             labels.append(onehot)
 
+        print(results)
+        print(labels)
+
         results = torch.as_tensor(np.array(results), dtype=torch.float)
         gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
 
