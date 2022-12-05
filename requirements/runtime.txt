@@ -1,6 +1,7 @@
 matplotlib
 numpy
-opencv-contrib-python-4.5.5.64
+opencv-contrib-python==4.5.5.64
 Pillow
 einops
 decord
+torchmetrics==0.10.3
