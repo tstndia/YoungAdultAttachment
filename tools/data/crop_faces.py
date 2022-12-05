@@ -149,7 +149,7 @@ def crop_faces(input_dir, output_dir, detector, dim):
     items = [(video, output_dir, detector, dim, idx, len(uncropped_videos)) 
             for idx, video in enumerate(uncropped_videos)]
 
-    with multiprocessing.Pool(processes=50) as pool:
+    with multiprocessing.Pool(processes=120) as pool:
     #with get_context("spawn").Pool(processes=5) as pool:
         pool.map(crop_facev2, items)
         pool.join()
