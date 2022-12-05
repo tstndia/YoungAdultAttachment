@@ -115,7 +115,7 @@ class MultilabelVideoDataset(BaseDataset):
         labels = []
 
         for ann in self.video_infos:
-            onehot = torch.zeros(self.num_classes)
+            onehot = np.zeros(self.num_classes)
             onehot[ann['label']] = 1.
             labels.append(onehot)
 
@@ -123,7 +123,7 @@ class MultilabelVideoDataset(BaseDataset):
         #print(labels)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
-        gt_labels = torch.as_tensor(labels, dtype=torch.long)
+        gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
 
         results_sigmoid = results.sigmoid()
 
