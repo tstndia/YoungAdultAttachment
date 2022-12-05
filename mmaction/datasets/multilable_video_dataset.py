@@ -111,8 +111,13 @@ class MultilabelVideoDataset(BaseDataset):
             dict: Evaluation results dict.
         """
 
-        labels = [ann['label'] for ann in self.video_infos]
-        print(labels)
+        #labels = [ann['label'] for ann in self.video_infos]
+        labels = []
+
+        for ann in self.video_infos:
+            onehot = torch.zeros(self.num_classes)
+            onehot[ann['label']] = 1.
+            labels.append(onehot)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
         gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
