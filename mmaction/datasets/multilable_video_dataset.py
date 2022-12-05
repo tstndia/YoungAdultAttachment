@@ -122,7 +122,7 @@ class MultilabelVideoDataset(BaseDataset):
         #print(results)
         #print(labels)
 
-        #results = torch.as_tensor(np.array(results), dtype=torch.float)
+        results = torch.as_tensor(np.array(results), dtype=torch.float)
         gt_labels = torch.as_tensor(labels, dtype=torch.long)
 
         results_sigmoid = results.sigmoid()
