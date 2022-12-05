@@ -55,7 +55,7 @@ test_pipeline = [
         test_mode=True),
     dict(type='AudioDecodeInit'),
     dict(type='AudioAmplify', ratio=1.5),
-    dict(type='MelLogSpectrogram'),
+    dict(type='MelSpectrogram'),
     dict(type='FormatAudioShape', input_format='NCTF'),
     dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['audios'])
@@ -66,16 +66,22 @@ data = dict(
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,
+        multi_class=True,
+        num_classes=8,
         data_prefix=data_root,
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         ann_file=ann_file_val,
+        multi_class=True,
+        num_classes=8,
         data_prefix=data_root_val,
         pipeline=val_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=ann_file_test,
+        multi_class=True,
+        num_classes=8,
         data_prefix=data_root_val,
         pipeline=test_pipeline))
 evaluation = dict(
