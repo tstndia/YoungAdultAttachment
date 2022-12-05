@@ -424,7 +424,7 @@ class Imgaug:
 
         return results
 
-@PIPELINES.register_module()
+@S.register_module()
 class RandomErasing(tdata.random_erasing.RandomErasing):
     def __init__(self, device='cpu', **args):
         super().__init__(device=device, **args)
