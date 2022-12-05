@@ -58,7 +58,7 @@ class MultilabelVideoDataset(BaseDataset):
     def __init__(self, ann_file, pipeline, start_index=0, **kwargs):
         super().__init__(ann_file, pipeline, start_index=start_index, **kwargs)
 
-        self.loss_fn = nn.BCEWithLogitsLoss()
+        self.loss_fn = nn.BCELoss()
         self.confusion_matrix = torchmetrics.ConfusionMatrix(8, multilabel=True)
         self.prec = MultilabelPrecision(num_labels=8)
         self.recall = MultilabelRecall(num_labels=8)
@@ -125,18 +125,18 @@ class MultilabelVideoDataset(BaseDataset):
         results = torch.as_tensor(np.array(results), dtype=torch.float)
         gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
 
-        results_sigmoid = results.sigmoid()
+        #results_sigmoid = results.sigmoid()
 
         np.set_printoptions(threshold=sys.maxsize)
         #print(f"preds: {results_sigmoid.numpy()}")
         #print(f"labels: {gt_labels.numpy()}")
 
         loss = self.loss_fn(results, gt_labels.float())
-        cm = self.confusion_matrix(results_sigmoid, gt_labels)
-        accuracy = self.accuracy(results_sigmoid, gt_labels)
-        f1_score = self.f1_score(results_sigmoid, gt_labels)
-        precision = self.prec(results_sigmoid, gt_labels)
-        recall = self.recall(results_sigmoid, gt_labels)
+        cm = self.confusion_matrix(results, gt_labels)
+        accuracy = self.accuracy(results, gt_labels)
+        f1_score = self.f1_score(results, gt_labels)
+        precision = self.prec(results, gt_labels)
+        recall = self.recall(results, gt_labels)
 
         cm_mean = cm.float().mean(0)
 
