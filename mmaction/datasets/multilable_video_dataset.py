@@ -119,7 +119,7 @@ class MultilabelVideoDataset(BaseDataset):
             onehot[ann['label']] = 1.
             labels.append(onehot)
 
-        print(results)
+        #print(results)
         #print(labels)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
@@ -128,8 +128,8 @@ class MultilabelVideoDataset(BaseDataset):
         results_sigmoid = results.sigmoid()
 
         np.set_printoptions(threshold=sys.maxsize)
-        print(f"preds: {results_sigmoid.numpy()}")
-        print(f"labels: {gt_labels.numpy()}")
+        #print(f"preds: {results_sigmoid.numpy()}")
+        #print(f"labels: {gt_labels.numpy()}")
 
         loss = self.loss_fn(results, gt_labels.float())
         cm = self.confusion_matrix(results_sigmoid, gt_labels)
