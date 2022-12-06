@@ -3,8 +3,16 @@ import glob
 import os
 import os.path as osp
 import pandas as pd
+import cv2
 from pathlib import Path
 from skmultilearn.model_selection import iterative_train_test_split
+
+def get_frame_number(video):
+    capture = cv2.VideoCapture(video)
+
+    frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    capture.release()
+    return frame_count
 
 def clean_df(df, dir, modality):
     modality_field = f"{modality}_name"
@@ -44,9 +52,15 @@ def convert_csv_to_ann(csv_path, modality):
         for idx, emotion in enumerate(emotions):
             if int(label_train[index][idx]) == 1:
                 class_emotions.append(idx)
-
+    
         items = " ".join(map(str, class_emotions))
-        train_rows.append(f"{video[0]} {items}")
+
+        if modality == 'audio':
+            frame_number = get_frame_number(video[0].replace("wav", "mp4"))
+            train_rows.append(f"{video[0]} {frame_number} {items}")
+        else:
+            train_rows.append(f"{video[0]} {items}")
+
         class_emotions = []
 
     for index, video in enumerate(data_test):
@@ -55,7 +69,14 @@ def convert_csv_to_ann(csv_path, modality):
                 class_emotions.append(idx)
 
         items = " ".join(map(str, class_emotions))
-        val_rows.append(f"{video[0]} {items}")
+
+        if modality == 'audio':
+            vid_fname = os.path.join('data', 'response_vide', video[0].replace('stimuli', 'response').replace("wav", "mp4"))
+            frame_number = get_frame_number(vid_fname)
+            val_rows.append(f"{video[0]} {frame_number} {items}")
+        else:
+            val_rows.append(f"{video[0]} {items}")
+
         class_emotions = []
 
     with open(os.path.join(csv_path.parent, f"{csv_path.stem}_train.txt"), 'w') as f:
@@ -93,6 +114,7 @@ def convert_csv_to_ann2(csv_path, modality):
             #if int(label_train[index][idx]) == 1:
             #    class_emotions.append(idx)
 
+        
         items = " ".join(map(str, class_emotions))
         train_rows.append(f"{video[0]} {items}")
         class_emotions = []
