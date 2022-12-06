@@ -30,7 +30,7 @@ train_pipeline = [
     dict(type='DecordInit'),
     dict(type='SampleFrames', clip_len=256, frame_interval=3, num_clips=1),
     dict(type='DecordDecode'),
-    #dict(type='Resize', scale=(-1, 64)),
+    dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
     dict(type='Resize', scale=(64, 64), keep_ratio=False),
     dict(type='Flip', flip_ratio=0.5),
