@@ -33,14 +33,11 @@ train_pipeline = [
 val_pipeline = [
     dict(type='AudioDecodeInit'),
     dict(
-        type='SampleFrames',
-        clip_len=clip_len,
-        frame_interval=frame_interval,
-        num_clips=1,
+        type='SampleFrames', clip_len=clip_len, frame_interval=frame_interval, num_clips=1, 
         test_mode=True),
     dict(type='AudioDecode'),
     dict(type='AudioAmplify', ratio=1.5),
-    dict(type='MelLogSpectrogram'),
+    dict(type='MelSpectrogram'),
     dict(type='FormatAudioShape', input_format='NCTF'),
     dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['audios'])
@@ -48,10 +45,7 @@ val_pipeline = [
 test_pipeline = [
     dict(type='AudioDecodeInit'),
     dict(
-        type='SampleFrames',
-        clip_len=clip_len,
-        frame_interval=frame_interval,
-        num_clips=1,
+        type='SampleFrames', clip_len=clip_len, frame_interval=frame_interval, num_clips=1,
         test_mode=True),
     dict(type='AudioDecodeInit'),
     dict(type='AudioAmplify', ratio=1.5),
