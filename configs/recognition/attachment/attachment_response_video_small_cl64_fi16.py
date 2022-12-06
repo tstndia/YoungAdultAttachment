@@ -123,11 +123,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 20
+total_epochs = 30
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_response_small_cl64_fi16'
+work_dir = './work_dirs/attachment_response_small_cl64_fi16_ep30'
 find_unused_parameters = False
 
 
