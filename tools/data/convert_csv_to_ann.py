@@ -57,7 +57,7 @@ def convert_csv_to_ann(csv_path, modality):
 
         if modality == 'audio':
             vid_fname = os.path.join('data', 'response_video', video[0].replace('stimuli', 'response').replace("wav", "mp4"))
-            print(vid_fname)
+            # print(vid_fname)
             frame_number = get_frame_number(vid_fname)
             train_rows.append(f"{video[0]} {frame_number} {items}")
         else:
