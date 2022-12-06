@@ -65,7 +65,7 @@ test_pipeline = [
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
-    #dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     #dict(type='ThreeCrop', crop_size=64),
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
