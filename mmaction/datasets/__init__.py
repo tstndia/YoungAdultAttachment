@@ -17,11 +17,12 @@ from .rawvideo_dataset import RawVideoDataset
 from .ssn_dataset import SSNDataset
 from .video_dataset import VideoDataset
 from .multilable_video_dataset import MultilabelVideoDataset
+from .multilabel_audio_feature_dataset import MultilabelAudioFeatureDataset
 
 __all__ = [
     'MultilabelVideoDataset', 'VideoDataset', 'build_dataloader', 'build_dataset', 'RepeatDataset',
     'RawframeDataset', 'BaseDataset', 'ActivityNetDataset', 'SSNDataset',
-    'HVUDataset', 'AudioDataset', 'AudioFeatureDataset', 'ImageDataset',
+    'HVUDataset', 'AudioDataset', 'AudioFeatureDataset', 'ImageDataset', 'MultilabelAudioFeatureDataset',
     'RawVideoDataset', 'AVADataset', 'AudioVisualDataset',
     'BaseMiniBatchBlending', 'CutmixBlending', 'MixupBlending', 'LabelSmoothing', 'DATASETS',
     'PIPELINES', 'BLENDINGS', 'PoseDataset'
