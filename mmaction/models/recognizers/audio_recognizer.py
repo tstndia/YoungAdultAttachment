@@ -22,8 +22,8 @@ class AudioRecognizer(BaseRecognizer):
         cls_score = self.cls_head(x)
         gt_labels = labels.squeeze()
 
-        print(f"cls_score: {cls_score}")
-        print(f"gt_labels: {gt_labels}")
+        #print(f"cls_score: {cls_score}")
+        #print(f"gt_labels: {gt_labels}")
         
         loss = self.cls_head.loss(cls_score, gt_labels)
 
