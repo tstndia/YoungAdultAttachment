@@ -2,8 +2,6 @@ _base_ = [
     '../../_base_/models/tsn_r50_audio.py', '../../_base_/default_runtime.py'
 ]
 model=dict(
-    backbone=dict(
-        pretrained='torchvision://resnet50'),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
@@ -11,8 +9,8 @@ model=dict(
     )
 )
 
-clip_len = 512
-frame_interval = 1
+clip_len = 128
+frame_interval = 8
 
 # dataset settings
 dataset_type = 'MultilabelAudioFeatureDataset'
@@ -81,10 +79,11 @@ evaluation = dict(
 #    weight_decay=0.0001)  # this lr is used for 8 gpus
 #optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 
+# optimizer
 optimizer = dict(
-    type='Adam', lr=0.01, weight_decay=0.00001)  # this lr is used for 1 gpus
-optimizer_config = dict(grad_clip=None)
-
+    type='SGD', lr=0.01, momentum=0.9,
+    weight_decay=0.0001)  # this lr is used for 8 gpus
+optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
 lr_config = dict(policy='CosineAnnealing', min_lr=0)
 total_epochs = 100
