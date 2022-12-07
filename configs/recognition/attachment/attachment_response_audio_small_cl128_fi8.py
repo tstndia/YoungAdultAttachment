@@ -7,7 +7,7 @@ model=dict(
     ),
     cls_head=dict(
         num_classes=8,
-        loss_cls=dict(type='BCELossWithLogits'),
+        loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
         multi_class=False
     )
 )
