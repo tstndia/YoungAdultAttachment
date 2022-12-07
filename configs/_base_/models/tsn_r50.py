@@ -15,5 +15,6 @@ model = dict(
         dropout_ratio=0.4,
         init_std=0.01),
     # model training and testing settings
+    
     train_cfg=None,
     test_cfg=dict(average_clips=None))
