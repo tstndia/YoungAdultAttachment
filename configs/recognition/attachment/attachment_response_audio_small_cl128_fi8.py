@@ -2,10 +2,12 @@ _base_ = [
     '../../_base_/models/tsn_r50_audio.py', '../../_base_/default_runtime.py'
 ]
 model=dict(
+    backbone=dict(pretrained='torchvision://resnet50'),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
-        multi_class=False
+        multi_class=False,
+        in_channels=512,
     )
 )
 
@@ -47,7 +49,7 @@ test_pipeline = [
     dict(type='ToTensor', keys=['audios'])
 ]
 data = dict(
-    videos_per_gpu=8,
+    videos_per_gpu=32,
     workers_per_gpu=4,
     train=dict(
         type=dataset_type,
