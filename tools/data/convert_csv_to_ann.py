@@ -59,7 +59,7 @@ def convert_csv_to_ann(csv_path, modality):
             audio_name = video[0].replace('wav', 'npy')
             vid_fname = os.path.join('data', 'response_video', video[0].replace('stimuli', 'response').replace("wav", "mp4"))
             # print(vid_fname)
-            frame_number = get_frame_number(vid_fname)
+            frame_number = get_frame_number(vid_fname) // 128
 
             if frame_number > 0:
                 train_rows.append(f"{audio_name} {frame_number} {items}")
@@ -78,7 +78,7 @@ def convert_csv_to_ann(csv_path, modality):
         if modality == 'audio':
             audio_name = video[0].replace('wav', 'npy')
             vid_fname = os.path.join('data', 'response_video', video[0].replace('stimuli', 'response').replace("wav", "mp4"))
-            frame_number = get_frame_number(vid_fname)
+            frame_number = get_frame_number(vid_fname) // 128
 
             if frame_number > 0:
                 val_rows.append(f"{audio_name} {frame_number} {items}")
