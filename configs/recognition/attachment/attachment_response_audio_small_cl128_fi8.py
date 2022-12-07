@@ -1,5 +1,5 @@
 _base_ = [
-    '../../_base_/models/tsn_r50_audio.py', '../../_base_/default_runtime.py'
+    '../../_base_/models/audioonly_r50.py', '../../_base_/default_runtime.py'
 ]
 model=dict(
     backbone=dict(
