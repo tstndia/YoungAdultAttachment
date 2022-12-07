@@ -107,7 +107,7 @@ class MultilabelAudioFeatureDataset(BaseDataset):
             dict: Evaluation results dict.
         """
 
-        labels = [ann['label'] for ann in self.video_infos]
+        labels = [ann['label'].numpy() for ann in self.video_infos]
         #labels = []
 
         #for ann in self.video_infos:
@@ -119,8 +119,8 @@ class MultilabelAudioFeatureDataset(BaseDataset):
         #print(labels)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
-        #gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
-        gt_labels = labels.long()
+        gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
+        #gt_labels = labels.long()
         #results_sigmoid = results.sigmoid()
 
         np.set_printoptions(threshold=sys.maxsize)
