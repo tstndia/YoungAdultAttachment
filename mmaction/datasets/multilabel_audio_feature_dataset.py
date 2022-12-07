@@ -115,12 +115,12 @@ class MultilabelAudioFeatureDataset(BaseDataset):
         #    onehot[ann['label']] = 1.
         #    labels.append(onehot)
 
-        print(results)
-        print(labels)
+        #print(results)
+        #print(labels)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
-        gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
-
+        #gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
+        gt_labels = labels.long()
         #results_sigmoid = results.sigmoid()
 
         np.set_printoptions(threshold=sys.maxsize)
