@@ -76,12 +76,18 @@ evaluation = dict(
     interval=5, metrics=['top_k_accuracy', 'mean_class_accuracy'])
 
 # optimizer
+#optimizer = dict(
+#    type='SGD', lr=0.1, momentum=0.9,
+#    weight_decay=0.0001)  # this lr is used for 8 gpus
+#optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
+
 optimizer = dict(
     type='Adam', lr=0.01, weight_decay=0.00001)  # this lr is used for 1 gpus
 optimizer_config = dict(grad_clip=None)
+
 # learning policy
-lr_config = dict(policy='step', step=10)
-total_epochs = 20
+lr_config = dict(policy='CosineAnnealing', min_lr=0)
+total_epochs = 100
 
 # runtime settings
 checkpoint_config = dict(interval=5)
