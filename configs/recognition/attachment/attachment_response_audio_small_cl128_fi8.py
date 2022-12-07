@@ -1,10 +1,9 @@
 _base_ = [
-    '../../_base_/models/audioonly_r50.py', '../../_base_/default_runtime.py'
+    '../../_base_/models/tsn_r50_audio.py', '../../_base_/default_runtime.py'
 ]
 model=dict(
     backbone=dict(
-        pretrained='torchvision://resnet50',
-    ),
+        pretrained='torchvision://resnet50'),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
@@ -12,8 +11,8 @@ model=dict(
     )
 )
 
-clip_len = 128
-frame_interval = 8
+clip_len = 512
+frame_interval = 1
 
 # dataset settings
 dataset_type = 'MultilabelAudioFeatureDataset'
