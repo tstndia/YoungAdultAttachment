@@ -11,7 +11,7 @@ model=dict(
 )
 
 clip_len = 128
-frame_interval = 1
+frame_interval = 8
 
 # dataset settings
 dataset_type = 'MultilabelAudioFeatureDataset'
@@ -87,7 +87,7 @@ optimizer = dict(
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
 lr_config = dict(policy='CosineAnnealing', min_lr=0)
-total_epochs = 100
+total_epochs = 50
 
 # runtime settings
 checkpoint_config = dict(interval=5)
