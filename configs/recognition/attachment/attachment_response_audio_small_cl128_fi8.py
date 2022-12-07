@@ -7,7 +7,7 @@ model=dict(
     ),
     cls_head=dict(
         num_classes=8,
-        loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
+        loss_cls=dict(type='BCELossWithLogits'),
         multi_class=False
     )
 )
@@ -50,8 +50,8 @@ test_pipeline = [
     dict(type='ToTensor', keys=['audios'])
 ]
 data = dict(
-    videos_per_gpu=4,
-    workers_per_gpu=2,
+    videos_per_gpu=8,
+    workers_per_gpu=4,
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,
