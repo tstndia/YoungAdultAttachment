@@ -11,8 +11,8 @@ model=dict(
     )
 )
 
-clip_len = 128
-frame_interval = 8
+clip_len = 512
+frame_interval = 1
 
 # dataset settings
 dataset_type = 'MultilabelAudioFeatureDataset'
