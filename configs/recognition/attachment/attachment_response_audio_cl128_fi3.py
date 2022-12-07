@@ -80,8 +80,8 @@ optimizer = dict(
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
 lr_config = dict(policy='CosineAnnealing', min_lr=0)
-total_epochs = 30
+total_epochs = 100
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_response_audio_cl64_fi16/'
+work_dir = './work_dirs/attachment_response_audio_small_cl128_fi3_ep100/'
