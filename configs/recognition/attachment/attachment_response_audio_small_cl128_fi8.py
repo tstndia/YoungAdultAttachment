@@ -2,6 +2,9 @@ _base_ = [
     '../../_base_/models/tsn_r50_audio.py', '../../_base_/default_runtime.py'
 ]
 model=dict(
+    backbone=dict(
+        pretrained='torchvision://resnet50',
+    ),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
@@ -13,7 +16,7 @@ clip_len = 128
 frame_interval = 8
 
 # dataset settings
-dataset_type = 'AudioFeatureDataset'
+dataset_type = 'MultilabelAudioFeatureDataset'
 data_root = 'data/mels/'
 data_root_val = 'data/mels/'
 ann_file_train = 'data/mels/response_audio_train.txt'
