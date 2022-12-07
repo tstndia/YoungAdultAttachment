@@ -2,6 +2,7 @@ _base_ = [
     '../../_base_/models/tsn_r50_audio.py', '../../_base_/default_runtime.py'
 ]
 model=dict(
+    backbone=dict(pretrained='torchvision://resnet50'),
     cls_head=dict(
         num_classes=8,
         loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
@@ -13,7 +14,7 @@ clip_len = 512
 frame_interval = 3
 
 # dataset settings
-dataset_type = 'AudioFeatureDataset'
+dataset_type = 'MultilabelAudioFeatureDataset'
 data_root = 'data/mels/'
 data_root_val = 'data/mels/'
 ann_file_train = 'data/mels/response_audio_train.txt'
@@ -80,8 +81,8 @@ optimizer = dict(
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
 lr_config = dict(policy='CosineAnnealing', min_lr=0)
-total_epochs = 100
+total_epochs = 50
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_response_audio_small_cl512_fi3_ep100/'
+work_dir = './work_dirs/attachment_response_audio_small_cl512_fi3_ep50/'
