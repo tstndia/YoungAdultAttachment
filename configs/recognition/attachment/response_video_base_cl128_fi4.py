@@ -7,8 +7,9 @@ model=dict(
         drop_path_rate=0.1
     ),
     cls_head=dict(
-        num_classes=8
-    ),
+        num_classes=8,
+        loss_cls=dict(type='BCELossWithLogits', loss_weight=160.0),
+        multi_class=False),
     test_cfg=dict(
         max_testing_views=4
     )
@@ -26,9 +27,9 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
     dict(type='DecordInit'),
-    dict(type='SampleFrames', clip_len=64, frame_interval=16, num_clips=1),
+    dict(type='SampleFrames', clip_len=128, frame_interval=4, num_clips=1),
     dict(type='DecordDecode'),
-    #dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
     #dict(type='Resize', scale=(64, 64), keep_ratio=False),
     dict(type='Flip', flip_ratio=0.5),
@@ -41,12 +42,12 @@ val_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=64,
-        frame_interval=16,
+        clip_len=128,
+        frame_interval=4,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
-    #dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     #dict(type='CenterCrop', crop_size=64),
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
@@ -58,12 +59,12 @@ test_pipeline = [
     dict(type='DecordInit'),
     dict(
         type='SampleFrames',
-        clip_len=64,
-        frame_interval=16,
+        clip_len=128,
+        frame_interval=4,
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
-    #dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     #dict(type='ThreeCrop', crop_size=64),
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
@@ -72,7 +73,7 @@ test_pipeline = [
     dict(type='ToTensor', keys=['imgs'])
 ]
 data = dict(
-    videos_per_gpu=2,
+    videos_per_gpu=8,
     workers_per_gpu=4,
     val_dataloader=dict(
         videos_per_gpu=1,
@@ -121,11 +122,11 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=2.5
 )
-total_epochs = 20
+total_epochs = 30
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/attachment_exposure_base_cl64_fi8_b8_ep20'
+work_dir = './work_dirs/attachment_response_video_small_cl128_fi4_b8_ep30'
 find_unused_parameters = False
 
 
@@ -133,7 +134,7 @@ find_unused_parameters = False
 fp16 = None
 optimizer_config = dict(
     type="DistOptimizerHook",
-    update_interval=1,
+    update_interval=8,
     grad_clip=None,
     coalesce=True,
     bucket_size_mb=-1,
