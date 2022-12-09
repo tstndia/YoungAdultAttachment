@@ -10,7 +10,7 @@ model=dict(
     )
 )
 
-clip_len = 128
+clip_len = 32
 frame_interval = 2
 
 # dataset settings
@@ -85,4 +85,4 @@ total_epochs = 100
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_response_audio_small_cl128_fi2_ep100/'
+work_dir = './work_dirs/attachment_response_audio_small_cl32_fi2_ep100/'

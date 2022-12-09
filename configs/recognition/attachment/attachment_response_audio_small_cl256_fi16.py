@@ -10,8 +10,8 @@ model=dict(
     )
 )
 
-clip_len = 128
-frame_interval = 2
+clip_len = 256
+frame_interval = 16
 
 # dataset settings
 dataset_type = 'MultilabelAudioFeatureDataset'
@@ -85,4 +85,4 @@ total_epochs = 100
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_response_audio_small_cl128_fi2_ep100/'
+work_dir = './work_dirs/attachment_response_audio_small_cl256_fi16_ep100/'

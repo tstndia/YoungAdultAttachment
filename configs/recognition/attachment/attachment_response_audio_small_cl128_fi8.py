@@ -48,8 +48,8 @@ test_pipeline = [
     dict(type='ToTensor', keys=['audios'])
 ]
 data = dict(
-    videos_per_gpu=32,
-    workers_per_gpu=4,
+    videos_per_gpu=4,
+    workers_per_gpu=2,
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,
@@ -76,12 +76,12 @@ evaluation = dict(
 
 # optimizer
 optimizer = dict(
-    type='SGD', lr=0.01, momentum=0.9,
+    type='SGD', lr=0.001, momentum=0.9,
     weight_decay=0.0001)  # this lr is used for 8 gpus
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
 lr_config = dict(policy='CosineAnnealing', min_lr=0)
-total_epochs = 50
+total_epochs = 100
 
 # runtime settings
 checkpoint_config = dict(interval=5)
