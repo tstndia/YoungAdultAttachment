@@ -268,7 +268,7 @@ def infer(cfg, dataset, distributed, args):
     dataset = build_dataset(cfg.data.test, dict(test_mode=True))
     dataloader_setting = dict(
         videos_per_gpu=1, #cfg.data.get('videos_per_gpu', 1),
-        workers_per_gpu=1,#cfg.data.get('workers_per_gpu', 1),
+        workers_per_gpu=1, #cfg.data.get('workers_per_gpu', 1),
         dist=distributed,
         shuffle=False)
     dataloader_setting = dict(dataloader_setting,
@@ -355,11 +355,11 @@ def main():
     train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
     test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
-    train_outputs = infer(cfg, train_dataset, distributed, args)
+    #train_outputs = infer(cfg, train_dataset, distributed, args)
     test_outputs = infer(cfg, test_dataset, distributed, args)
 
-    print(train_dataset)
-    print(train_outputs)
+    print(test_dataset)
+    print(test_outputs)
 
     rank, _ = get_dist_info()
     if rank == 0:
