@@ -275,8 +275,8 @@ def infer(cfg, dataset, distributed, args):
                               **cfg.data.get('test_dataloader', {}))
     data_loader = build_dataloader(dataset, **dataloader_setting)
 
-    for i, (targets, labels, metas) in enumerate(data_loader):
-        print(metas[0])
+    for i, (targets, labels, metas), (targets1, labels1, metas1) in enumerate(data_loader):
+        print(metas1)
         break
 
     if args.tensorrt:
