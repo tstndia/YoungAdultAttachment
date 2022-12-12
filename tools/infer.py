@@ -352,11 +352,11 @@ def main():
     # The flag is used to register module's hooks
     cfg.setdefault('module_hooks', [])
     
-    #train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
-    test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+    train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
+    #test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
-    #train_outputs = infer(cfg, train_dataset, distributed, args)
-    test_outputs = infer(cfg, test_dataset, distributed, args)
+    train_outputs = infer(cfg, train_dataset, distributed, args)
+    #test_outputs = infer(cfg, test_dataset, distributed, args)
 
     #print(test_dataset)
     #print(test_outputs)
