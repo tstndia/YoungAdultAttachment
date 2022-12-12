@@ -276,7 +276,8 @@ def infer(cfg, dataset, distributed, args):
     data_loader = build_dataloader(dataset, **dataloader_setting)
 
     for i, (targets, labels, metas) in enumerate(data_loader):
-        print(targets, labels, metas)
+        print(metas[0])
+        break
 
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
