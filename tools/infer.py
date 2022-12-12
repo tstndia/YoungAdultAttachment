@@ -274,7 +274,8 @@ def infer(cfg, dataset, distributed, args):
     dataloader_setting = dict(dataloader_setting,
                               **cfg.data.get('test_dataloader', {}))
     data_loader = build_dataloader(dataset, **dataloader_setting)
-
+    print(next(data_loader))
+    
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
                                      dataloader_setting['videos_per_gpu'])
@@ -355,9 +356,9 @@ def main():
     train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
     #test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
-    print(train_dataset[0]['img_metas'])
+    #print(train_dataset[0]['img_metas'])
 
-    #train_outputs = infer(cfg, train_dataset, distributed, args)
+    train_outputs = infer(cfg, train_dataset, distributed, args)
     #test_outputs = infer(cfg, test_dataset, distributed, args)
 
     #print(train_outputs)
