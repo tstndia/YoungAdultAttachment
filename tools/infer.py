@@ -274,8 +274,8 @@ def infer(cfg, dataset, distributed, args):
     dataloader_setting = dict(dataloader_setting,
                               **cfg.data.get('test_dataloader', {}))
     data_loader = build_dataloader(dataset, **dataloader_setting)
-    print(next(data_loader))
-    
+    print(next(iter(data_loader)))
+
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
                                      dataloader_setting['videos_per_gpu'])
