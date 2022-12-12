@@ -274,9 +274,9 @@ def infer(cfg, dataset, distributed, args):
     dataloader_setting = dict(dataloader_setting,
                               **cfg.data.get('test_dataloader', {}))
     data_loader = build_dataloader(dataset, **dataloader_setting)
-    images, labels, metas = iter(data_loader).next()
+    (imgkey1, images), (imgkey2, labels), (imgkey2, metas) = iter(data_loader).next()
 
-    print(images)
+    print(metas)
 
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
