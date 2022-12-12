@@ -351,7 +351,7 @@ def main():
 
     # The flag is used to register module's hooks
     cfg.setdefault('module_hooks', [])
-    cfg.data.videos_per_gpu = 1
+    cfg.data.train.videos_per_gpu = 1
     
     train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
     test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
