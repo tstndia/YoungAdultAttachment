@@ -358,19 +358,8 @@ def main():
     train_outputs = infer(cfg, train_dataset, distributed, args)
     #test_outputs = infer(cfg, test_dataset, distributed, args)
 
-    #print(test_dataset)
-    #print(test_outputs)
-
-    rank, _ = get_dist_info()
-    if rank == 0:   
-        if output_config.get('out', None):
-            out = output_config['out']
-            print(f'\nwriting results to {out}')
-            dataset.dump_results(outputs, **output_config)
-        if eval_config:
-            eval_res = dataset.evaluate(outputs, **eval_config)
-            for name, val in eval_res.items():
-                print(f'{name}: {val:.04f}')
+    print(train_outputs)
+    print(train_outputs)
 
 
 if __name__ == '__main__':
