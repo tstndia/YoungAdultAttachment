@@ -358,8 +358,8 @@ def main():
     #train_outputs = infer(cfg, train_dataset, distributed, args)
     test_outputs = infer(cfg, test_dataset, distributed, args)
 
-    print(test_dataset)
-    print(test_outputs)
+    #print(test_dataset)
+    #print(test_outputs)
 
     rank, _ = get_dist_info()
     if rank == 0:
