@@ -198,7 +198,7 @@ class BaseRecognizer(nn.Module, metaclass=ABCMeta):
         """Defines the computation performed at every call when training."""
 
     @abstractmethod
-    def forward_test(self, imgs):
+    def forward_test(self, imgs, **kwargs):
         """Defines the computation performed at every call when evaluation and
         testing."""
 

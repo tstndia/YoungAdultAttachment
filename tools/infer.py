@@ -265,15 +265,19 @@ def inference_onnx(ckpt_path, distributed, data_loader, batch_size):
 
 def infer(cfg, dataset, distributed, args):
     # build the dataloader
-    dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+    #dataset = build_dataset(cfg.data.test, dict(test_mode=True))
     dataloader_setting = dict(
         videos_per_gpu=1, #cfg.data.get('videos_per_gpu', 1),
-        workers_per_gpu=1,#cfg.data.get('workers_per_gpu', 1),
+        workers_per_gpu=1, #cfg.data.get('workers_per_gpu', 1),
         dist=distributed,
         shuffle=False)
     dataloader_setting = dict(dataloader_setting,
                               **cfg.data.get('test_dataloader', {}))
     data_loader = build_dataloader(dataset, **dataloader_setting)
+
+    for i, (targets, labels, metas), (targets1, labels1, metas1) in enumerate(data_loader):
+        print(metas1)
+        break
 
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
@@ -353,24 +357,14 @@ def main():
     cfg.setdefault('module_hooks', [])
     
     train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
-    test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+    #test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+
+    #print(train_dataset[0]['img_metas'])
 
     train_outputs = infer(cfg, train_dataset, distributed, args)
-    test_outputs = infer(cfg, test_dataset, distributed, args)
+    #test_outputs = infer(cfg, test_dataset, distributed, args)
 
-    print(train_dataset)
-    print(train_outputs)
-
-    rank, _ = get_dist_info()
-    if rank == 0:
-        if output_config.get('out', None):
-            out = output_config['out']
-            print(f'\nwriting results to {out}')
-            dataset.dump_results(outputs, **output_config)
-        if eval_config:
-            eval_res = dataset.evaluate(outputs, **eval_config)
-            for name, val in eval_res.items():
-                print(f'{name}: {val:.04f}')
+    #print(train_outputs)
 
 
 if __name__ == '__main__':
