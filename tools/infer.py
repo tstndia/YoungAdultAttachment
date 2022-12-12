@@ -265,7 +265,7 @@ def inference_onnx(ckpt_path, distributed, data_loader, batch_size):
 
 def infer(cfg, dataset, distributed, args):
     # build the dataloader
-    dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+    #dataset = build_dataset(cfg.data.test, dict(test_mode=True))
     dataloader_setting = dict(
         videos_per_gpu=1, #cfg.data.get('videos_per_gpu', 1),
         workers_per_gpu=1, #cfg.data.get('workers_per_gpu', 1),
@@ -352,7 +352,7 @@ def main():
     # The flag is used to register module's hooks
     cfg.setdefault('module_hooks', [])
     
-    train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
+    #train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
     test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
     #train_outputs = infer(cfg, train_dataset, distributed, args)
@@ -362,7 +362,7 @@ def main():
     #print(test_outputs)
 
     rank, _ = get_dist_info()
-    if rank == 0:
+    if rank == 0:   
         if output_config.get('out', None):
             out = output_config['out']
             print(f'\nwriting results to {out}')
