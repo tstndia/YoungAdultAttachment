@@ -355,7 +355,7 @@ def main():
     train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
     #test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
-    print(train_dataset[0])
+    print(train_dataset[0]['img_metas'])
 
     #train_outputs = infer(cfg, train_dataset, distributed, args)
     #test_outputs = infer(cfg, test_dataset, distributed, args)
