@@ -267,8 +267,8 @@ def infer(cfg, dataset, distributed, args):
     # build the dataloader
     dataset = build_dataset(cfg.data.test, dict(test_mode=True))
     dataloader_setting = dict(
-        videos_per_gpu=cfg.data.get('videos_per_gpu', 1),
-        workers_per_gpu=cfg.data.get('workers_per_gpu', 1),
+        videos_per_gpu=1, #cfg.data.get('videos_per_gpu', 1),
+        workers_per_gpu=1,#cfg.data.get('workers_per_gpu', 1),
         dist=distributed,
         shuffle=False)
     dataloader_setting = dict(dataloader_setting,
@@ -352,7 +352,7 @@ def main():
     # The flag is used to register module's hooks
     cfg.setdefault('module_hooks', [])
     
-    train_dataset = build_dataset(cfg.data.train, dict(test_mode=True, samples_per_gpu=1))
+    train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
     test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
     train_outputs = infer(cfg, train_dataset, distributed, args)
