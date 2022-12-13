@@ -156,10 +156,9 @@ def single_gpu_test(model, data_loader):  # noqa: F811
             result = model(return_loss=False, **data)
         results.extend(result)
 
-        if 'img_metas' in data:
+        if 'filename' in data['img_metas'].data[0][0]:
             filenames.append(data['img_metas'].data[0][0]['filename'])
-        else: 
-            print(data)
+        else:
             filenames.append(data['img_metas'].data[0][0]['audio_path'])
 
         # use the first key as main key to calculate the batch size
@@ -427,7 +426,7 @@ def main():
         test_size=0.2, random_state=42)
     
     configs = [cfg_exposure, cfg_video, cfg_audio]
-    modalities = ['exposure', 'response', 'stimuli']
+    modalities = ['stimuli', 'exposure', 'response']
     resps = dict()
 
     for cfg, modality in zip(configs, modalities):

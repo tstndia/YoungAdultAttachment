@@ -6,7 +6,7 @@ from .base import BaseRecognizer
 class AudioRecognizer(BaseRecognizer):
     """Audio recognizer model framework."""
 
-    def forward(self, audios, label=None, return_loss=True):
+    def forward(self, audios, label=None, return_loss=True, **kwargs):
         """Define the computation performed at every call."""
         if return_loss:
             if label is None:
