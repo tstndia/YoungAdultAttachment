@@ -465,7 +465,7 @@ def main():
             names, labels = item[0], item[1]
 
             for name in names:
-                resp = resps[name[0]]
+                resp = resps[name]
                 stimulis = []
 
                 for stimuli in resp:
@@ -482,7 +482,7 @@ def main():
                 names, labels = item[0], item[1]
                 
                 for name, label in zip(names, labels):
-                    writer.writerow([f"{name[0]}.npy", label[0]])
+                    writer.writerow([f"{name[0]}.npy", label])
         
 if __name__ == '__main__':
     main()
