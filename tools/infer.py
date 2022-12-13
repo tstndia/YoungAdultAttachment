@@ -425,8 +425,8 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
         test_size=0.2, random_state=42)
     
-    configs = [cfg_audio, cfg_exposure, cfg_video]
-    modalities = ['stimuli', 'exposure', 'response']
+    configs = [cfg_exposure, cfg_video, cfg_audio]
+    modalities = ['exposure', 'response', 'stimuli']
     resps = dict()
 
     for cfg, modality in zip(configs, modalities):
