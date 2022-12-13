@@ -38,9 +38,11 @@ def parse_args():
         description='MMAction2 test (and eval) a model')
     parser.add_argument('config_exposure', help='test config file path')
     parser.add_argument('config_video', help='test config file path')
-    parser.add_argument('config_audio', help='test config file path')
+    parser.add_argument('config_stimuli', help='test config file path')
+    parser.add_argument('checkpoint_exposure', help='checkpoint file')
+    parser.add_argument('checkpoint_video', help='checkpoint file')
+    parser.add_argument('checkpoint_stimuli', help='checkpoint file')
     parser.add_argument('csv_path', help='test config file path')
-    parser.add_argument('checkpoint', help='checkpoint file')
     parser.add_argument(
         '--out',
         default=None,
@@ -410,7 +412,7 @@ def main():
     
     cfg_exposure = load_cfg(args.config_exposure, args)
     cfg_video = load_cfg(args.config_video, args)
-    cfg_audio = load_cfg(args.config_audio, args)
+    cfg_audio = load_cfg(args.config_stimuli, args)
 
     df = pd.read_csv(args.csv_path)
     data_df = df[['name']]
@@ -430,6 +432,7 @@ def main():
         datasets = [train_dataset, test_dataset]
 
         for dataset in datasets:
+            args.checkpoint = getattr(args, f"checkpoint_{modality}")
             outputs, filenames = infer(cfg, dataset, False, args)
 
             for output, filename in zip(outputs, filenames):
