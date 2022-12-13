@@ -425,7 +425,7 @@ def main():
     modalities = ['exposure', 'response', 'stimuli']
     resps = dict()
 
-    for cfg in configs:
+    for cfg, modality in zip(configs, modalities):
         train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
         test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
