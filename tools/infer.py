@@ -458,24 +458,25 @@ def main():
     splits = dict({'train': (X_train, y_train), 'test': (X_test, y_test)})
 
     for split in splits:
-        X = splits[split][0]
-        y = splits[split][1]
+        #X = splits[split][0]
+        #y = splits[split][1]
 
-        resp = resps[X]
-        stimulis = []
+        for name, label in splits[split]:
+            resp = resps[name]
+            stimulis = []
 
-        for stimuli in sorted(resp):
-            stimulis.append(stimuli)
+            for stimuli in sorted(resp):
+                stimulis.append(stimuli)
 
-        nps = np.append(stimulis)
-        np.save(os.path.join(attachment_path, split, f"{X}.npy"), nps)
+            nps = np.append(stimulis)
+            np.save(os.path.join(attachment_path, split, f"{name}.npy"), nps)
 
         with open(os.path.join(attachment_path, f"{split}.csv"), 'w') as file:
             writer = csv.writer(file)
             writer.writerow(['filename', 'label'])
 
-            for filename, label in zip(X,y):
-                writer.writerow([filename, label])
+            for name, label in splits[split]:
+                writer.writerow([f"{name}.npy", label])
         
 if __name__ == '__main__':
     main()
