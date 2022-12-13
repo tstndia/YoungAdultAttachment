@@ -392,9 +392,9 @@ def main():
     test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
     #train_outputs = infer(cfg, train_dataset, distributed, args)
-    test_outputs = infer(cfg, test_dataset, distributed, args)
+    outputs, filenames = infer(cfg, test_dataset, distributed, args)
 
-    print(test_outputs)
+    print(filenames)
 
 
 if __name__ == '__main__':
