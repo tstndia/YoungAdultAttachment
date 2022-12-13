@@ -152,6 +152,7 @@ def single_gpu_test(model, data_loader):  # noqa: F811
     dataset = data_loader.dataset
     prog_bar = mmcv.ProgressBar(len(dataset))
     for data in data_loader:
+        print(data)
         with torch.no_grad():
             result = model(return_loss=False, **data)
         results.extend(result)
@@ -430,9 +431,9 @@ def main():
         test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
         datasets = [train_dataset, test_dataset]
+        args.checkpoint = getattr(args, f"checkpoint_{modality}")
 
         for dataset in datasets:
-            args.checkpoint = getattr(args, f"checkpoint_{modality}")
             outputs, filenames = infer(cfg, dataset, False, args)
 
             for output, filename in zip(outputs, filenames):
