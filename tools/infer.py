@@ -425,6 +425,8 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
         test_size=0.2, random_state=42)
     
+    print(X_train, y_train)
+    
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
     resps = dict()
