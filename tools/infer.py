@@ -424,15 +424,6 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
         test_size=0.2, random_state=42)
-
-    splits = dict({'train': (X_train, y_train), 'test': (X_test, y_test)})
-
-    for split in splits:
-        print(f"split: {split}")
-        names, labels = splits[split][0], splits[split][1]
-
-        for name, label in zip(names, labels):
-            print(name[0], label[0])
     
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
@@ -467,32 +458,24 @@ def main():
     splits = dict({'train': (X_train, y_train), 'test': (X_test, y_test)})
 
     for split in splits:
-        #X = splits[split][0]
-        #y = splits[split][1]
+        names, labels = splits[split][0], splits[split][1]
 
-        for item in splits[split]:
-            names, labels = item[0], item[1]
-            print(names, labels)
+        for name, label in zip(names, labels):
+            resp = resps[name[0]]
+            stimulis = []
 
-            for name in names:
-                resp = resps[name]
-                stimulis = []
+            for stimuli in resp:
+                stimulis.append(resp[stimuli])
 
-                for stimuli in resp:
-                    stimulis.append(resp[stimuli])
-
-                nps = np.array(stimulis, dtype=np.float32).flatten()
-                np.save(os.path.join(attachment_path, split, f"{name}.npy"), nps)
+            nps = np.array(stimulis, dtype=np.float32).flatten()
+            np.save(os.path.join(attachment_path, split, f"{name[0]}.npy"), nps)
 
         with open(os.path.join(attachment_path, f"{split}.csv"), 'w') as file:
             writer = csv.writer(file)
             writer.writerow(['filename', 'label'])
 
-            for item in splits[split]:
-                names, labels = item[0], item[1]
-                
-                for name, label in zip(names, labels):
-                    writer.writerow([f"{name[0]}.npy", label])
+            for name, label in zip(names, labels):    
+                writer.writerow([f"{name[0]}.npy", label[0]])
         
 if __name__ == '__main__':
     main()
