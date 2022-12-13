@@ -432,7 +432,7 @@ def main():
         names, labels = splits[split][0], splits[split][1]
 
         for name, label in zip(names, labels):
-            print(name, label)
+            print(name[0], label[0])
     
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
