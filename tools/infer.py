@@ -457,9 +457,9 @@ def main():
 
     splits = dict({'train': (X_train, y_train), 'test': (X_test, y_test)})
 
-    for split, data in splits:
-        X = data[0]
-        y = data[1]
+    for split in splits:
+        X = splits[split][0]
+        y = splits[split][1]
 
         resp = resps[X]
         stimulis = []
