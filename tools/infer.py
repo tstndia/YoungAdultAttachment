@@ -471,7 +471,7 @@ def main():
                 for stimuli in sorted(resp):
                     stimulis.append(stimuli)
 
-                nps = np.array(stimulis).flatten()
+                nps = np.array(stimulis, dtype=np.float32).flatten()
                 np.save(os.path.join(attachment_path, split, f"{name}.npy"), nps)
 
         with open(os.path.join(attachment_path, f"{split}.csv"), 'w') as file:
