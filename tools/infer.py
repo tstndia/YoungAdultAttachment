@@ -5,6 +5,7 @@ import warnings
 
 import mmcv
 import torch
+from pathlib import Path
 from mmcv import Config, DictAction
 from mmcv.cnn import fuse_conv_bn
 from mmcv.fileio.io import file_handlers
@@ -18,7 +19,7 @@ from mmaction.utils import register_module_hooks
 
 # TODO import test functions from mmcv and delete them from mmaction2
 try:
-    from mmcv.engine import multi_gpu_test, single_gpu_test
+    from mmcv.engine import multi_gpu_test#, single_gpu_test
 except (ImportError, ModuleNotFoundError):
     warnings.warn(
         'DeprecationWarning: single_gpu_test, multi_gpu_test, '
@@ -122,7 +123,36 @@ def turn_off_pretrained(cfg):
         if isinstance(sub_cfg, dict):
             turn_off_pretrained(sub_cfg)
 
+def single_gpu_test(model, data_loader):  # noqa: F811
+    """Test model with a single gpu.
 
+    This method tests model with a single gpu and
+    displays test progress bar.
+
+    Args:
+        model (nn.Module): Model to be tested.
+        data_loader (nn.Dataloader): Pytorch data loader.
+
+    Returns:
+        list: The prediction results.
+    """
+    model.eval()
+    results = []
+    filenames = []
+    dataset = data_loader.dataset
+    prog_bar = mmcv.ProgressBar(len(dataset))
+    for data in data_loader:
+        with torch.no_grad():
+            result = model(return_loss=False, **data)
+        results.extend(result)
+        filenames.append(data['img_metas'].data[0][0]['filename'])
+
+        # use the first key as main key to calculate the batch size
+        batch_size = len(next(iter(data.values())))
+        for _ in range(batch_size):
+            prog_bar.update()
+    return results, filenames
+    
 def inference_pytorch(args, cfg, distributed, data_loader):
     """Get predictions by pytorch models."""
     if args.average_clips is not None:
@@ -275,11 +305,11 @@ def infer(cfg, dataset, distributed, args):
                               **cfg.data.get('test_dataloader', {}))
     data_loader = build_dataloader(dataset, **dataloader_setting)
 
-    a = iter(data_loader).next()
+    #a = iter(data_loader).next()
 
-    print(a['imgs'].shape)
-    print(a['label'].shape)
-    print(a['img_metas'].data[0][0]['filename'])
+    #print(a['imgs'].shape)
+    #print(a['label'].shape)
+    #print(a['img_metas'].data[0][0]['filename'])
 
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
@@ -359,14 +389,12 @@ def main():
     cfg.setdefault('module_hooks', [])
     
     train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
-    #test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+    test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
-    #print(train_dataset[0]['img_metas'])
+    #train_outputs = infer(cfg, train_dataset, distributed, args)
+    test_outputs = infer(cfg, test_dataset, distributed, args)
 
-    train_outputs = infer(cfg, train_dataset, distributed, args)
-    #test_outputs = infer(cfg, test_dataset, distributed, args)
-
-    #print(train_outputs)
+    print(test_outputs)
 
 
 if __name__ == '__main__':
