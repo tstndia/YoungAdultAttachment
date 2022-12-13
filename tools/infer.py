@@ -425,8 +425,6 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
         test_size=0.2, random_state=42)
     
-    print(X_train, y_train)
-    
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
     resps = dict()
@@ -466,8 +464,8 @@ def main():
         for item in splits[split]:
             names, labels = item[0], item[1]
 
-            for name, label in zip(names, labels):
-                resp = resps[name]
+            for name in names:
+                resp = resps[name[0]]
                 stimulis = []
 
                 for stimuli in resp:
@@ -484,7 +482,7 @@ def main():
                 names, labels = item[0], item[1]
                 
                 for name, label in zip(names, labels):
-                    writer.writerow([f"{name}.npy", label])
+                    writer.writerow([f"{name[0]}.npy", label[0]])
         
 if __name__ == '__main__':
     main()
