@@ -155,7 +155,12 @@ def single_gpu_test(model, data_loader):  # noqa: F811
         with torch.no_grad():
             result = model(return_loss=False, **data)
         results.extend(result)
-        filenames.append(data['img_metas'].data[0][0]['filename'])
+
+        if 'img_metas' in data:
+            filenames.append(data['img_metas'].data[0][0]['filename'])
+        else: 
+            print(data)
+            filenames.append(data['img_metas'].data[0][0]['audio_path'])
 
         # use the first key as main key to calculate the batch size
         batch_size = len(next(iter(data.values())))
