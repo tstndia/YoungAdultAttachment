@@ -37,10 +37,10 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='MMAction2 test (and eval) a model')
     parser.add_argument('config_exposure', help='test config file path')
-    parser.add_argument('config_video', help='test config file path')
+    parser.add_argument('config_response', help='test config file path')
     parser.add_argument('config_stimuli', help='test config file path')
     parser.add_argument('checkpoint_exposure', help='checkpoint file')
-    parser.add_argument('checkpoint_video', help='checkpoint file')
+    parser.add_argument('checkpoint_response', help='checkpoint file')
     parser.add_argument('checkpoint_stimuli', help='checkpoint file')
     parser.add_argument('csv_path', help='test config file path')
     parser.add_argument(
@@ -411,7 +411,7 @@ def main():
         os.makedirs(attachment_test)
     
     cfg_exposure = load_cfg(args.config_exposure, args)
-    cfg_video = load_cfg(args.config_video, args)
+    cfg_video = load_cfg(args.config_response, args)
     cfg_audio = load_cfg(args.config_stimuli, args)
 
     df = pd.read_csv(args.csv_path)
