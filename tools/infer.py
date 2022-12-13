@@ -462,23 +462,27 @@ def main():
         #y = splits[split][1]
 
         for item in splits[split]:
-            name, label = item[0], item[1]
-            resp = resps[name]
-            stimulis = []
+            names, labels = item[0], item[1]
 
-            for stimuli in sorted(resp):
-                stimulis.append(stimuli)
+            for name, label in zip(names, labels):
+                resp = resps[name]
+                stimulis = []
 
-            nps = np.append(stimulis)
-            np.save(os.path.join(attachment_path, split, f"{name}.npy"), nps)
+                for stimuli in sorted(resp):
+                    stimulis.append(stimuli)
+
+                nps = np.append(stimulis)
+                np.save(os.path.join(attachment_path, split, f"{name}.npy"), nps)
 
         with open(os.path.join(attachment_path, f"{split}.csv"), 'w') as file:
             writer = csv.writer(file)
             writer.writerow(['filename', 'label'])
 
             for item in splits[split]:
-                name, label = item[0], item[1]
-                writer.writerow([f"{name}.npy", label])
+                names, labels = item[0], item[1]
+                
+                for name, label in zip(names, labels):
+                    writer.writerow([f"{name}.npy", label])
         
 if __name__ == '__main__':
     main()
