@@ -152,7 +152,6 @@ def single_gpu_test(model, data_loader):  # noqa: F811
     dataset = data_loader.dataset
     prog_bar = mmcv.ProgressBar(len(dataset))
     for data in data_loader:
-        print(data)
         with torch.no_grad():
             result = model(return_loss=False, **data)
         results.extend(result)

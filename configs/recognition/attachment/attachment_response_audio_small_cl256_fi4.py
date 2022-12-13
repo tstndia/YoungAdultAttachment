@@ -26,7 +26,7 @@ train_pipeline = [
     dict(type='SampleFrames', clip_len=clip_len, frame_interval=frame_interval, num_clips=1),
     dict(type='AudioFeatureSelector'),
     dict(type='FormatAudioShape', input_format='NCTF'),
-    dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['audios', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['audios'])
 ]
 val_pipeline = [
@@ -35,7 +35,7 @@ val_pipeline = [
         test_mode=True),
     dict(type='AudioFeatureSelector'),
     dict(type='FormatAudioShape', input_format='NCTF'),
-    dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['audios', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['audios'])
 ]
 test_pipeline = [
@@ -44,7 +44,7 @@ test_pipeline = [
         test_mode=True),
     dict(type='AudioFeatureSelector'),
     dict(type='FormatAudioShape', input_format='NCTF'),
-    dict(type='Collect', keys=['audios', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['audios', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['audios'])
 ]
 data = dict(
