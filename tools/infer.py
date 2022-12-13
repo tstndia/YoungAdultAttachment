@@ -279,7 +279,7 @@ def infer(cfg, dataset, distributed, args):
 
     print(a['imgs'].shape)
     print(a['label'].shape)
-    print(a['img_metas'].data)
+    print(a['img_metas'].data[0][0]['filename'])
 
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
