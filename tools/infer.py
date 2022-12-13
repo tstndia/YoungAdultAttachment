@@ -468,8 +468,8 @@ def main():
                 resp = resps[name]
                 stimulis = []
 
-                for stimuli in sorted(resp):
-                    stimulis.append(stimuli)
+                for stimuli in resp:
+                    stimulis.append(resp[stimuli])
 
                 nps = np.array(stimulis, dtype=np.float32).flatten()
                 np.save(os.path.join(attachment_path, split, f"{name}.npy"), nps)
