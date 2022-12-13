@@ -429,11 +429,10 @@ def main():
 
     for split in splits:
         print(f"split: {split}")
+        names, labels = splits[split][0], splits[split][1]
 
-        for item in splits[split]:
-            print(f"item: {item}")
-            names, labels = item[0], item[1]
-            print(names, labels)
+        for name, label in zip(names, labels):
+            print(name, label)
     
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
