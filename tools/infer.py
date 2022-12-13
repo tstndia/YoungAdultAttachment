@@ -461,7 +461,8 @@ def main():
         #X = splits[split][0]
         #y = splits[split][1]
 
-        for name, label in splits[split]:
+        for item in splits[split]:
+            name, label = item[0], item[1]
             resp = resps[name]
             stimulis = []
 
@@ -475,7 +476,8 @@ def main():
             writer = csv.writer(file)
             writer.writerow(['filename', 'label'])
 
-            for name, label in splits[split]:
+            for item in splits[split]:
+                name, label = item[0], item[1]
                 writer.writerow([f"{name}.npy", label])
         
 if __name__ == '__main__':
