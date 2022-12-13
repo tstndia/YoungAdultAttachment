@@ -424,6 +424,16 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
         test_size=0.2, random_state=42)
+
+    splits = dict({'train': (X_train, y_train), 'test': (X_test, y_test)})
+
+    for split in splits:
+        print(f"split: {split}")
+
+        for item in splits[split]:
+            print(f"item: {item}")
+            names, labels = item[0], item[1]
+            print(names, labels)
     
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
