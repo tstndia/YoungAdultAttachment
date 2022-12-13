@@ -277,7 +277,7 @@ def infer(cfg, dataset, distributed, args):
 
     a = iter(data_loader).next()
 
-    print(a)
+    print(type(a))
     if args.tensorrt:
         outputs = inference_tensorrt(args.checkpoint, distributed, data_loader,
                                      dataloader_setting['videos_per_gpu'])
