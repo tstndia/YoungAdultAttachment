@@ -29,7 +29,7 @@ class AudioRecognizer(BaseRecognizer):
 
         return loss
 
-    def forward_test(self, audios):
+    def forward_test(self, audios, **kwargs):
         """Defines the computation performed at every call when evaluation and
         testing."""
         num_segs = audios.shape[1]
