@@ -463,6 +463,7 @@ def main():
 
         for item in splits[split]:
             names, labels = item[0], item[1]
+            print(names, labels)
 
             for name in names:
                 resp = resps[name]
