@@ -2,9 +2,13 @@ import argparse
 import os
 import os.path as osp
 import warnings
+import re
 
 import mmcv
 import torch
+import numpy as np
+import pandas as pd
+import csv
 from pathlib import Path
 from mmcv import Config, DictAction
 from mmcv.cnn import fuse_conv_bn
@@ -12,6 +16,7 @@ from mmcv.fileio.io import file_handlers
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
 from mmcv.runner import get_dist_info, init_dist, load_checkpoint
 from mmcv.runner.fp16_utils import wrap_fp16_model
+from sklearn.model_selection import train_test_split
 
 from mmaction.datasets import build_dataloader, build_dataset
 from mmaction.models import build_model
@@ -31,7 +36,10 @@ except (ImportError, ModuleNotFoundError):
 def parse_args():
     parser = argparse.ArgumentParser(
         description='MMAction2 test (and eval) a model')
-    parser.add_argument('config', help='test config file path')
+    parser.add_argument('config_exposure', help='test config file path')
+    parser.add_argument('config_video', help='test config file path')
+    parser.add_argument('config_audio', help='test config file path')
+    parser.add_argument('csv_path', help='test config file path')
     parser.add_argument('checkpoint', help='checkpoint file')
     parser.add_argument(
         '--out',
@@ -322,14 +330,8 @@ def infer(cfg, dataset, distributed, args):
 
     return outputs
 
-def main():
-    args = parse_args()
-
-    if args.tensorrt and args.onnx:
-        raise ValueError(
-            'Cannot set onnx mode and tensorrt mode at the same time.')
-
-    cfg = Config.fromfile(args.config)
+def load_cfg(config, args):
+    cfg = Config.fromfile(config)
 
     cfg.merge_from_dict(args.cfg_options)
 
@@ -387,15 +389,86 @@ def main():
 
     # The flag is used to register module's hooks
     cfg.setdefault('module_hooks', [])
+
+    return cfg
+
+def main():
+    args = parse_args()
+
+    attachment_path = os.path.join('data', 'attachments')
+    attachment_train = os.path.join('data', 'attachments', 'train')
+    attachment_test = os.path.join('data', 'attachments', 'test')
+
+    if not os.path.exists(attachment_path):
+        os.makedirs(attachment_path)
+
+    if not os.path.exists(attachment_train):
+        os.makedirs(attachment_train)
+
+    if not os.path.exists(attachment_test):
+        os.makedirs(attachment_test)
     
-    train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
-    test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
+    cfg_exposure = load_cfg(args.config_exposure, args)
+    cfg_video = load_cfg(args.config_video, args)
+    cfg_audio = load_cfg(args.config_audio, args)
 
-    #train_outputs = infer(cfg, train_dataset, distributed, args)
-    outputs, filenames = infer(cfg, test_dataset, distributed, args)
+    df = pd.read_csv(args.csv_path)
+    data_df = df[['name']]
+    label_df = df[['attachment_type']]
 
-    print(filenames)
+    X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
+        test_size=0.2, random_state=42)
+    
+    configs = [cfg_exposure, cfg_video, cfg_audio]
+    modalities = ['exposure', 'response', 'stimuli']
+    resps = dict()
 
+    for cfg in configs:
+        train_dataset = build_dataset(cfg.data.train, dict(test_mode=True))
+        test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
+        datasets = [train_dataset, test_dataset]
+
+        for dataset in datasets:
+            outputs, filenames = infer(cfg, dataset, False, args)
+
+            for output, filename in zip(outputs, filenames):
+                fn = Path(filename).stem
+                resp, stimuli = re.findall("^([a-zA-Z]+)_([a-zA-Z0-9]+)", fn)[0]
+
+                # initialize data
+                if resp not in resps:
+                    data = dict()
+
+                    for modality in modalities:
+                        for i in range(0, 8):
+                            data[f"{modality}{i+1}"] = list(np.zeros(8))
+
+                    resps[resp] = data
+
+                resps[resp][stimuli] = output
+
+    splits = dict({'train': (X_train, y_train), 'test': (X_test, y_test)})
+
+    for split, data in splits:
+        X = data[0]
+        y = data[1]
+
+        resp = resps[X]
+        stimulis = []
+
+        for stimuli in sorted(resp):
+            stimulis.append(stimuli)
+
+        nps = np.append(stimulis)
+        np.save(os.path.join(attachment_path, split, f"{X}.npy"), nps)
+
+        with open(os.path.join(attachment_path, f"{split}.csv"), 'w') as file:
+            writer = csv.writer(file)
+            writer.writerow(['filename', 'label'])
+
+            for filename, label in zip(X,y):
+                writer.writerow([filename, label])
+        
 if __name__ == '__main__':
     main()
