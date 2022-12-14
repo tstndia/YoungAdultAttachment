@@ -108,7 +108,7 @@ class AttachmentClassifier(pl.LightningModule):
         self.log('FN', cm[1,0], on_epoch=True)
         self.log('TP', cm[1,1], on_epoch=True)
 
-        self.log('precision', self.precision, on_epoch=True)
+        self.log('precision', self.prec, on_epoch=True)
         self.log('recall', self.recall, on_epoch=True)
         self.log('f1_score', self.f1_score, on_epoch=True)
 
