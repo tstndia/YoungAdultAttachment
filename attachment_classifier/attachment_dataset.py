@@ -8,8 +8,7 @@ import cv2  # pytype: disable=attribute-error
 import random
 import pandas as pd
 
-from torch.nn.functional import one_hot
-from torch.nn.functional import normalize
+from torch.nn.functional import one_hot, normalize, pad
 
 class AttachmentDataset(torch.utils.data.Dataset):
     def __init__(self, root, csv_file, num_classes):
@@ -25,7 +24,11 @@ class AttachmentDataset(torch.utils.data.Dataset):
         item = self.df.iloc[index].to_dict()
         filename, label = item['filename'], item['label']
         
-        data = torch.from_numpy(np.load(os.path.join(self.root, filename)))
+        data = np.zeros(336)
+        attachment = np.load(os.path.join(self.root, filename))
+        data[0:len(attachment)] = attachment
+
+        data = torch.from_numpy(data)
         #data = normalize(data)
 
         tlabel = torch.zeros(self.num_classes, dtype=torch.float)
@@ -33,7 +36,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         
         print(f"data: {data.shape}")
         print(f"label: {tlabel.shape}")
-        
+
         return data, tlabel
             
     def __len__(self):
