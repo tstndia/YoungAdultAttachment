@@ -28,7 +28,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         attachment = np.load(os.path.join(self.root, filename))
         data[0:len(attachment)] = attachment
 
-        data = torch.from_numpy(data).astype(torch.float)
+        data = torch.from_numpy(data).type(torch.float)
         #data = normalize(data)
 
         tlabel = torch.zeros(self.num_classes, dtype=torch.float)
