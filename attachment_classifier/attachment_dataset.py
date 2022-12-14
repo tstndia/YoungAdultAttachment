@@ -31,6 +31,9 @@ class AttachmentDataset(torch.utils.data.Dataset):
         tlabel = torch.zeros(self.num_classes, dtype=torch.float)
         tlabel[label] = 1.
         
+        print(f"data: {data.shape}")
+        print(f"label: {tlabel.shape}")
+        
         return data, tlabel
             
     def __len__(self):
