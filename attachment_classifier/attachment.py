@@ -84,11 +84,11 @@ class AttachmentClassifier(pl.LightningModule):
         predictions_sigmoid = predictions.sigmoid()
 
         loss = self.loss_fn(predictions, labels)
-        cm = self.confusion_matrix(predictions, labels.long())
-        self.accuracy(predictions, labels)
-        self.f1_score(predictions, labels)
-        self.prec(predictions, labels)
-        self.recall(predictions, labels)
+        cm = self.confusion_matrix(predictions_sigmoid, labels.long())
+        self.accuracy(predictions_sigmoid, labels)
+        self.f1_score(predictions_sigmoid, labels)
+        self.prec(predictions_sigmoid, labels)
+        self.recall(predictions_sigmoid, labels)
 
         #cm_mean = cm.float().mean(0)
         
