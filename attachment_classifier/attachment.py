@@ -28,7 +28,7 @@ class AttachmentClassifier(pl.LightningModule):
         self.classifier = nn.Sequential(
             #nn.Dropout(p=0.2),
             #nn.BatchNorm1d(8*in_channels),
-            nn.Linear(in_features=8*in_channels, out_features=4*in_channels, bias=True),
+            nn.Linear(in_features=in_channels, out_features=4*in_channels, bias=True),
             nn.ReLU(inplace=True),
 
             #nn.Dropout(p=0.2),
