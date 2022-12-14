@@ -37,7 +37,6 @@ if __name__ == '__main__':
                         num_workers=num_workers)
 
     attachmentClassifier = AttachmentClassifier(
-            batch_size = batch_size, 
             in_channels = 3 * 8 * 14, 
             num_classes = 3)
 

@@ -14,10 +14,9 @@ from torch.nn import functional as F
 from einops import rearrange
 
 class AttachmentClassifier(pl.LightningModule):
-    def __init__(self, batch_size = 16, in_channels = 3 * 8 * 14, num_classes = 3):
+    def __init__(self, in_channels = 3 * 8 * 14, num_classes = 3):
         super().__init__()
         self.save_hyperparameters()
-        self.batch_size = batch_size
 
         self.loss_fn = nn.CrossEntropyLoss()
         self.confusion_matrix = torchmetrics.ConfusionMatrix(num_classes)

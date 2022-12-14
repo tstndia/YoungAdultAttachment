@@ -26,7 +26,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         filename, label = item['filename'], item['label']
         
         data = torch.from_numpy(np.load(os.path.join(self.root, filename)))
-        data = normalize(data)
+        #data = normalize(data)
 
         tlabel = torch.zeros(self.num_classes, dtype=torch.float)
         tlabel[label] = 1.
