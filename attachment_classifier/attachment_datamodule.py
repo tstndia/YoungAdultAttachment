@@ -61,13 +61,13 @@ class AttachmentDataModule(pl.LightningDataModule):
             drop_last=True)
 
     def test_dataloader(self):
-        return DataLoader(self.test_set, 
+        return DataLoader(self.val_set, 
             batch_size=self.batch_size, 
             num_workers=self.num_workers,
             drop_last=True)
 
     def predict_dataloader(self):
-        return DataLoader(self.predict_set, 
+        return DataLoader(self.val_set, 
             batch_size=self.batch_size, 
             num_workers=self.num_workers,
             drop_last=True)
