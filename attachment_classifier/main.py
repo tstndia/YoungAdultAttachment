@@ -9,7 +9,7 @@ from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", type=str, default="train", help="Train or test")
 parser.add_argument("--data_dir", type=str, default="data/attachments", help="Path ke datasets")
-parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
+parser.add_argument("--batch_size", type=int, default=16, help="Batch size")
 parser.add_argument("--ckpt_path", type=str, default=None, help="Checkpoint path")
 parser.add_argument("--max_epochs", type=int, default=100, help="Max epochs")
 parser.add_argument("--num_workers", type=int, default=8, help="num_workers")
