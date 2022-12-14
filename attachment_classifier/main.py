@@ -13,7 +13,7 @@ parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
 parser.add_argument("--ckpt_path", type=str, default=None, help="Checkpoint path")
 parser.add_argument("--max_epochs", type=int, default=100, help="Max epochs")
 parser.add_argument("--num_workers", type=int, default=8, help="num_workers")
-parser.add_argument("--accelerator", type=str, default='cpu', help="Accelerator")
+parser.add_argument("--accelerator", type=str, default='gpu', help="Accelerator")
 parser.add_argument("--logs_dir", type=str, default='lightning_logs', help="Log dir")
 parser.add_argument("--log", action='store_true', help="log")
 
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     logs_dir = params.logs_dir
     log = params.log
 
-    logger = TensorBoardLogger(save_dir=logs_dir, name="attachment_logs")
+    logger = TensorBoardLogger(save_dir=logs_dir, name="attachment")
 
     data_module = AttachmentDataModule(data_dir=data_dir, 
                         batch_size=batch_size, 
