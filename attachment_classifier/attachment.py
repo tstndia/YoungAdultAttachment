@@ -20,10 +20,10 @@ class AttachmentClassifier(pl.LightningModule):
 
         self.loss_fn = nn.CrossEntropyLoss()
         self.confusion_matrix = torchmetrics.ConfusionMatrix(num_classes)
-        self.prec = MulticlassAccuracy(num_classes=num_classes)
-        self.recall = MulticlassPrecision(num_classes=num_classes)
+        self.accuracy = MulticlassAccuracy(num_classes=num_classes)
+        self.precision = MulticlassPrecision(num_classes=num_classes)
         self.f1_score = MulticlassF1Score(num_classes=num_classes)
-        self.accuracy = MulticlassRecall(num_classes=num_classes)
+        self.recall = MulticlassRecall(num_classes=num_classes)
         
         self.classifier = nn.Sequential(
             #nn.Dropout(p=0.2),
