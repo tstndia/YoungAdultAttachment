@@ -53,9 +53,10 @@ class AttachmentClassifier(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         predictions = self(batch[0])
         labels = batch[1]
+        predictions_prob = predictions.softmax()
 
         loss = self.loss_fn(predictions, labels)
-        acc = self.accuracy((predictions.sigmoid() > 0.5).long(), labels)
+        acc = self.accuracy((predictions_prob > 0.5).long(), labels)
 
         self.log("loss", loss, on_epoch=True, on_step=True, prog_bar=True, logger=False)
         self.log("acc", acc, on_epoch=True, on_step=True, prog_bar=True, logger=False)
@@ -68,9 +69,10 @@ class AttachmentClassifier(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         predictions = self(batch[0])
         labels = batch[1]
+        predictions_prob = predictions.softmax()
 
         loss = self.loss_fn(predictions, labels)
-        acc = self.accuracy((predictions.sigmoid() > 0.5).long(), labels)
+        acc = self.accuracy((predictions_prob > 0.5).long(), labels)
 
         self.log("val_loss", loss, on_epoch=True, on_step=True, prog_bar=True, logger=False)
         self.log("val_acc", acc, on_epoch=True, on_step=True, prog_bar=True, logger=False)
@@ -81,14 +83,14 @@ class AttachmentClassifier(pl.LightningModule):
     def test_step(self, batch, batch_idx):
         predictions = self(batch[0])
         labels = batch[1]
-        predictions_sigmoid = predictions.sigmoid()
+        predictions_prob = predictions.softmax()
 
         loss = self.loss_fn(predictions, labels)
-        cm = self.confusion_matrix(predictions_sigmoid, labels.long())
-        self.accuracy(predictions_sigmoid, labels)
-        self.f1_score(predictions_sigmoid, labels)
-        self.prec(predictions_sigmoid, labels)
-        self.recall(predictions_sigmoid, labels)
+        cm = self.confusion_matrix(predictions_prob, labels.long())
+        self.accuracy(predictions_prob, labels)
+        self.f1_score(predictions_prob, labels)
+        self.prec(predictions_prob, labels)
+        self.recall(predictions_prob, labels)
 
         #cm_mean = cm.float().mean(0)
         

@@ -24,10 +24,10 @@ class AttachmentDataset(torch.utils.data.Dataset):
         item = self.df.iloc[index].to_dict()
         filename, label = item['filename'], item['label']
         
-        #data = np.zeros(336)
-        #attachment = np.load(os.path.join(self.root, filename))
-        #data[0:len(attachment)] = attachment
-        data = np.load(os.path.join(self.root, filename))
+        data = np.zeros(336)
+        attachment = np.load(os.path.join(self.root, filename))
+        data[0:len(attachment)] = attachment
+        #data = np.load(os.path.join(self.root, filename))
 
         data = torch.from_numpy(data).type(torch.float)
         #data = normalize(data)
