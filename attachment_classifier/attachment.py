@@ -55,6 +55,8 @@ class AttachmentClassifier(pl.LightningModule):
         labels = batch[1]
         predictions_prob = predictions.softmax(dim=0)
 
+        print(predictions, labels)
+
         loss = self.loss_fn(predictions_prob, labels)
         acc = self.accuracy((predictions_prob > 0.5).long(), labels)
 
