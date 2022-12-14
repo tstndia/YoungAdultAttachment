@@ -90,7 +90,7 @@ class AttachmentClassifier(pl.LightningModule):
         cm = self.confusion_matrix(predictions_prob, labels.long())
         self.accuracy((predictions_prob > 0.5).long(), labels)
         self.f1_score(predictions_prob, labels)
-        self.prec(predictions_prob, labels)
+        self.precision(predictions_prob, labels)
         self.recall(predictions_prob, labels)
 
         #cm_mean = cm.float().mean(0)
@@ -108,7 +108,7 @@ class AttachmentClassifier(pl.LightningModule):
         self.log('FN', cm[1,0], on_epoch=True)
         self.log('TP', cm[1,1], on_epoch=True)
 
-        self.log('precision', self.prec, on_epoch=True)
+        self.log('precision', self.precision, on_epoch=True)
         self.log('recall', self.recall, on_epoch=True)
         self.log('f1_score', self.f1_score, on_epoch=True)
 
