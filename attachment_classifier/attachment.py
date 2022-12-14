@@ -21,7 +21,7 @@ class AttachmentClassifier(pl.LightningModule):
         self.loss_fn = nn.CrossEntropyLoss()
         self.confusion_matrix = torchmetrics.ConfusionMatrix(num_classes)
         self.accuracy = MulticlassAccuracy(num_classes=num_classes)
-        self.precision = MulticlassPrecision(num_classes=num_classes)
+        self.prec = MulticlassPrecision(num_classes=num_classes)
         self.f1_score = MulticlassF1Score(num_classes=num_classes)
         self.recall = MulticlassRecall(num_classes=num_classes)
         
@@ -90,7 +90,7 @@ class AttachmentClassifier(pl.LightningModule):
         cm = self.confusion_matrix(predictions_prob, labels.long())
         self.accuracy((predictions_prob > 0.5).long(), labels)
         self.f1_score(predictions_prob, labels)
-        self.precision(predictions_prob, labels)
+        self.prec(predictions_prob, labels)
         self.recall(predictions_prob, labels)
 
         #cm_mean = cm.float().mean(0)
