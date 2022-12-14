@@ -26,22 +26,22 @@ class AttachmentClassifier(pl.LightningModule):
         self.accuracy = MulticlassRecall(num_classes=num_classes)
         
         self.classifier = nn.Sequential(
-            nn.Dropout(p=0.2),
-            nn.BatchNorm1d(in_channels),
+            #nn.Dropout(p=0.2),
+            #nn.BatchNorm1d(in_channels),
             nn.Linear(in_features=in_channels, out_features=4*in_channels, bias=True),
             nn.ReLU(inplace=True),
 
-            nn.Dropout(p=0.2),
-            nn.BatchNorm1d(4*in_channels),
+            #nn.Dropout(p=0.2),
+            #nn.BatchNorm1d(4*in_channels),
             nn.Linear(in_features=4*in_channels, out_features=4*in_channels, bias=True),
             nn.ReLU(inplace=True),
 
-            nn.Dropout(p=0.2),
-            nn.BatchNorm1d(4*in_channels),
+            #nn.Dropout(p=0.2),
+            #nn.BatchNorm1d(4*in_channels),
             nn.Linear(in_features=4*in_channels, out_features=2*in_channels, bias=True),
             nn.ReLU(inplace=True),
 
-            nn.BatchNorm1d(2*in_channels),
+            #nn.BatchNorm1d(2*in_channels),
             nn.Linear(in_features=2*in_channels, out_features=num_classes)
         )
 
@@ -116,7 +116,7 @@ class AttachmentClassifier(pl.LightningModule):
         return self.shared_step(batch, 'predict')
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=1e-2, weight_decay=1e-3)
+        optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, weight_decay=1e-4)
         #optimizer = torch.optim.AdamW(self.parameters())
         lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1, verbose=True)
 
