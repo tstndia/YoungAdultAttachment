@@ -8,7 +8,7 @@ from attachment_dataset import AttachmentDataset
 
 class AttachmentDataModule(pl.LightningDataModule):
     def __init__(self, data_dir: str = "data/attachments", 
-            batch_size: int = 32, 
+            batch_size: int = 16, 
             num_workers: int = 8,
             num_classes: int = 3):
         super().__init__()
