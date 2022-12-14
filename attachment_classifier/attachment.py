@@ -46,8 +46,8 @@ class AttachmentClassifier(pl.LightningModule):
         return x
 
     def training_step(self, batch, batch_idx):
-        labels = batch['label']
-        predictions = self(batch['data'])
+        predictions = self(batch[0])
+        labels = batch[1]
 
         loss = self.loss_fn(predictions, labels)
         acc = self.accuracy((predictions.sigmoid() > 0.5).long(), labels)
@@ -61,8 +61,8 @@ class AttachmentClassifier(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        labels = batch['label']
-        predictions = self(batch['data'])
+        predictions = self(batch[0])
+        labels = batch[1]
 
         loss = self.loss_fn(predictions, labels)
         acc = self.accuracy((predictions.sigmoid() > 0.5).long(), labels)
@@ -74,8 +74,8 @@ class AttachmentClassifier(pl.LightningModule):
         self.logger.experiment.add_scalars('acc', {'val': acc}, global_step=self.current_epoch) 
         
     def test_step(self, batch, batch_idx):
-        labels = batch['label']
-        predictions = self(batch['data'])
+        predictions = self(batch[0])
+        labels = batch[1]
         predictions_sigmoid = predictions.sigmoid()
 
         loss = self.loss_fn(predictions, labels)

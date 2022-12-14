@@ -23,7 +23,6 @@ class AttachmentDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         item = self.df.iloc[index].to_dict()
         filename, label = item['filename'], item['label']
-        print(filename, label)
         
         data = np.zeros(336)
         attachment = np.load(os.path.join(self.root, filename))
