@@ -53,7 +53,7 @@ class AttachmentClassifier(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         predictions = self(batch[0])
         labels = batch[1]
-        predictions_prob = predictions.softmax(dim=0)
+        predictions_prob = predictions.softmax(dim=1)
 
         print(predictions_prob, labels)
 
