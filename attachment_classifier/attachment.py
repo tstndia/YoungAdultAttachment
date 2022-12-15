@@ -33,13 +33,13 @@ class AttachmentClassifier(pl.LightningModule):
 
             nn.Dropout(p=0.2),
             nn.BatchNorm1d(8*in_channels),
-            nn.Linear(in_features=8*in_channels, out_features=8*in_channels, bias=True),
-            nn.LeakyReLU(inplace=True),
-
-            nn.Dropout(p=0.2),
-            nn.BatchNorm1d(8*in_channels),
             nn.Linear(in_features=8*in_channels, out_features=4*in_channels, bias=True),
             nn.LeakyReLU(inplace=True),
+
+            #nn.Dropout(p=0.2),
+            #nn.BatchNorm1d(8*in_channels),
+            #nn.Linear(in_features=8*in_channels, out_features=4*in_channels, bias=True),
+            #nn.LeakyReLU(inplace=True),
 
             nn.Dropout(p=0.2),
             nn.BatchNorm1d(4*in_channels),
