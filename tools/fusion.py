@@ -42,7 +42,8 @@ def parse_args():
     parser.add_argument('checkpoint_exposure', help='checkpoint file')
     parser.add_argument('checkpoint_response', help='checkpoint file')
     parser.add_argument('checkpoint_stimuli', help='checkpoint file')
-    parser.add_argument('csv_path', help='test config file path')
+    parser.add_argument('csv_att_score', help='test config file path')
+    parser.add_argument('csv_att_label', help='test config file path')
     parser.add_argument(
         '--out',
         default=None,
@@ -418,13 +419,16 @@ def main():
     cfg_video = load_cfg(args.config_response, args)
     cfg_audio = load_cfg(args.config_stimuli, args)
 
-    df = pd.read_csv(args.csv_path)
+    df = pd.read_csv(args.csv_att_label)
     data_df = df[['name']]
     label_df = df[['attachment_type']]
 
     X_train, X_test, y_train, y_test = train_test_split(data_df.values, label_df.values, 
         test_size=0.2, random_state=42)
     
+
+    score_df = pd.read_csv(args.csv_att_score)
+
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
     resps = dict()
@@ -466,6 +470,15 @@ def main():
 
             for stimuli in resp:
                 stimulis.append(resp[stimuli])
+
+            # splitting data
+            scores = score_df[score_df.name==name]['quest_score'].values[0].split(':')
+
+            # cast into int
+            scores = [int(x) for x in scores]
+
+            # append into stimuli
+            stimulis.append(scores)
 
             nps = np.array(stimulis, dtype=np.float32).flatten()
             np.save(os.path.join(attachment_path, split, f"{name[0]}.npy"), nps)
