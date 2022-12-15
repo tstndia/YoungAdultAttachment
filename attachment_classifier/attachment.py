@@ -93,10 +93,11 @@ class AttachmentClassifier(pl.LightningModule):
         labels = batch[1]
         predictions_prob = predictions.softmax(dim=1)
 
-        loss = self.loss_fn(predictions_prob, labels)
+        labels = torch.argmax(labels, dim=1)
 
+        loss = self.loss_fn(predictions_prob, labels)
         cm = self.confusion_matrix(predictions_prob, labels.long())
-        self.accuracy((predictions_prob > 0.5).long(), labels)
+        self.accuracy(predictions_prob, labels)
         self.f1_score(predictions_prob, labels)
         self.prec(predictions_prob, labels)
         self.recall(predictions_prob, labels)
