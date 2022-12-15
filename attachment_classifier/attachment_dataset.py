@@ -34,6 +34,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         video = data[8*14:2*8*14]
         audio = data[2*8*14:3*8*14]
         quiz = data[3*8*14:]
+        
         data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
         data = torch.cat([data, quiz], dim=0)
         #data = normalize(data)
