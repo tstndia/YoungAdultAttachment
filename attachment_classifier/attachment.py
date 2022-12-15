@@ -124,7 +124,7 @@ class AttachmentClassifier(pl.LightningModule):
         return self.shared_step(batch, 'predict')
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=0.05, weight_decay=0.0005)
+        optimizer = torch.optim.Adam(self.parameters(), lr=0.001, weight_decay=0.0005)
         #optimizer = torch.optim.AdamW(self.parameters())
         lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, verbose=True, gamma=0.1)
 
