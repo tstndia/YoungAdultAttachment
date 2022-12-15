@@ -144,6 +144,13 @@ class MultilabelVideoDataset(BaseDataset):
         eval_results['test_loss'] = loss
         eval_results['accuracy'] = accuracy
 
+        for i in range(cm_mean.shape[0]):
+            cmm = cm[i]
+            eval_results[f'TN{i}'] = cmm[0,0]
+            eval_results[f'FP{i}'] = cmm[0,1]
+            eval_results[f'FN{i}'] = cmm[1,0]
+            eval_results[f'TP{i}'] = cmm[1,1]
+
         eval_results['TN'] = cm_mean[0,0]
         eval_results['FP'] = cm_mean[0,1]
         eval_results['FN'] = cm_mean[1,0]
