@@ -60,8 +60,9 @@ class AttachmentClassifier(pl.LightningModule):
         labels = batch[1]
         predictions_prob = predictions.softmax(dim=1)
 
+        labels = torch.argmax(labels, dim=1)
         loss = self.loss_fn(predictions_prob, labels)
-        acc = self.accuracy(predictions_prob, labels.long())
+        acc = self.accuracy(predictions_prob, labels)
 
         self.log("loss", loss, on_epoch=True, on_step=True, prog_bar=True, logger=False)
         self.log("acc", acc, on_epoch=True, on_step=True, prog_bar=True, logger=False)
@@ -76,8 +77,10 @@ class AttachmentClassifier(pl.LightningModule):
         labels = batch[1]
         predictions_prob = predictions.softmax(dim=1)
 
+        labels = torch.argmax(labels, dim=1)
+        
         loss = self.loss_fn(predictions_prob, labels)
-        acc = self.accuracy(predictions_prob, labels.long())
+        acc = self.accuracy(predictions_prob, labels)
 
         self.log("val_loss", loss, on_epoch=True, on_step=True, prog_bar=True, logger=False)
         self.log("val_acc", acc, on_epoch=True, on_step=True, prog_bar=True, logger=False)
