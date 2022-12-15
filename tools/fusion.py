@@ -481,7 +481,7 @@ def main():
             #stimulis.append(scores)
 
             nps = np.array(stimulis, dtype=np.float32).flatten()
-            nps = np.concatenate(nps, np.array(scores))
+            nps = np.concatenate([nps, np.array(scores)])
             np.save(os.path.join(attachment_path, split, f"{name[0]}.npy"), nps)
 
         with open(os.path.join(attachment_path, f"{split}.csv"), 'w') as file:
