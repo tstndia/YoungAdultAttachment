@@ -11,7 +11,7 @@ parser.add_argument("--mode", type=str, default="train", help="Train or test")
 parser.add_argument("--data_dir", type=str, default="data/attachments", help="Path ke datasets")
 parser.add_argument("--batch_size", type=int, default=16, help="Batch size")
 parser.add_argument("--ckpt_path", type=str, default=None, help="Checkpoint path")
-parser.add_argument("--max_epochs", type=int, default=100, help="Max epochs")
+parser.add_argument("--max_epochs", type=int, default=500, help="Max epochs")
 parser.add_argument("--num_workers", type=int, default=8, help="num_workers")
 parser.add_argument("--accelerator", type=str, default='gpu', help="Accelerator")
 parser.add_argument("--logs_dir", type=str, default='lightning_logs', help="Log dir")
@@ -37,7 +37,7 @@ if __name__ == '__main__':
                         num_workers=num_workers)
 
     attachmentClassifier = AttachmentClassifier(
-            in_channels = 3 * 8 * 14, 
+            in_channels = 3 * 8 * 14 + 36, 
             num_classes = 3)
 
     trainer = pl.Trainer(

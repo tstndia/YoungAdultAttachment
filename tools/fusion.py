@@ -475,7 +475,7 @@ def main():
             scores = score_df[score_df.name==name]['quest_score'].values[0].split(':')
 
             # cast into int
-            scores = [int(x) for x in scores]
+            scores = [float(x)/6. for x in scores]
 
             # append into stimuli
             stimulis.append(scores)
