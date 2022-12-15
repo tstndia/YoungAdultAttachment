@@ -472,9 +472,9 @@ def main():
                 stimulis.append(resp[stimuli])
 
             # splitting data
-            scores = score_df[score_df.name==name]['quest_score'].values[0].split(':')
+            scores = score_df[score_df.name==name[0]]['quest_score'].values[0].split(':')
 
-            # cast into int
+            # normalize
             scores = [float(x)/6. for x in scores]
 
             # append into stimuli
