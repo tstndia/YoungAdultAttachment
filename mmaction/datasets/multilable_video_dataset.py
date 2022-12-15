@@ -144,9 +144,7 @@ class MultilabelVideoDataset(BaseDataset):
         eval_results['test_loss'] = loss
         eval_results['accuracy'] = accuracy
 
-        print(f"CM shape: {cm.shape}")
-        
-        for i in range(cm_mean.shape[0]):
+        for i in range(cm.shape[0]):
             cmm = cm[i]
             eval_results[f'TN{i}'] = cmm[0,0]
             eval_results[f'FP{i}'] = cmm[0,1]
