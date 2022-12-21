@@ -125,7 +125,7 @@ total_epochs = 30
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/attachment_exposure_small_cl128_fi2_b8_ep30'
+work_dir = './work_dirs/rerun_attachment_exposure_small_cl128_fi2_b8_ep30'
 find_unused_parameters = False
 
 
@@ -140,4 +140,4 @@ optimizer_config = dict(
     use_fp16=True,
 )
 
-#workflow = [('train', 1),  ('val', 1)]
+workflow = [('train', 1),  ('val', 1)]
