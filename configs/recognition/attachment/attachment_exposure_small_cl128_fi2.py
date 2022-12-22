@@ -1,6 +1,7 @@
 _base_ = [
     '../../_base_/models/swin/swin_small.py', '../../_base_/default_runtime.py'
 ]
+workflow = [('train', 1),  ('val', 1)]
 model=dict(
     backbone=dict(
         patch_size=(2,4,4),
@@ -140,4 +141,3 @@ optimizer_config = dict(
     use_fp16=True,
 )
 
-workflow = [('train', 1),  ('val', 1)]
