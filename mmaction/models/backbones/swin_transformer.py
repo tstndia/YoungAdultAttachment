@@ -12,6 +12,7 @@ from ..builder import BACKBONES
 from functools import reduce, lru_cache
 from operator import mul
 from einops import rearrange
+from mmcv.runner import BaseModule
 
 
 class Mlp(nn.Module):
@@ -456,7 +457,7 @@ class PatchEmbed3D(nn.Module):
         return x
 
 @BACKBONES.register_module()
-class SwinTransformer3D(nn.Module):
+class SwinTransformer3D(BaseModule):
     """ Swin Transformer backbone.
         A PyTorch impl of : `Swin Transformer: Hierarchical Vision Transformer using Shifted Windows`  -
           https://arxiv.org/pdf/2103.14030
