@@ -33,7 +33,7 @@ if __name__ == '__main__':
     logs_dir = params.logs_dir
     log = params.log
 
-    experiment_name = Path(data_dir).name
+    experiment_name = Path(data_dir).name + modality
     logger = TensorBoardLogger(save_dir=logs_dir, name=experiment_name)
 
     data_module = AttachmentDataModule(data_dir=data_dir, 
