@@ -4,7 +4,6 @@ _base_ = [
 
 model=dict(
     backbone=dict(
-        init_cfg = dict(type='Pretrained', checkpoint='./pretrained/sswin_tiny_patch4_window7_224.pth'),
         patch_size=(2,4,4),
         drop_path_rate=0.1
     ),
