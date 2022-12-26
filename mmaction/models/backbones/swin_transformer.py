@@ -499,8 +499,8 @@ class SwinTransformer3D(BaseModule):
                  norm_layer=nn.LayerNorm,
                  patch_norm=False,
                  frozen_stages=-1,
-                 use_checkpoint=False):
-        super().__init__()
+                 use_checkpoint=False, **kwargs):
+        super().__init__(**kwargs)
 
         self.pretrained = pretrained
         self.pretrained2d = pretrained2d
