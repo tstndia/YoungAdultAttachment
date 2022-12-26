@@ -1,5 +1,5 @@
 _base_ = [
-    './configs/_base_/models/swin/swin_tiny.py', './configs/_base_/default_runtime.py'
+    '../../../_base_/models/swin/swin_tiny.py', '../../../_base_/default_runtime.py'
 ]
 
 model=dict(
