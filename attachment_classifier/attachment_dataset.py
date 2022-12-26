@@ -11,9 +11,10 @@ import pandas as pd
 from torch.nn.functional import one_hot, normalize, pad
 
 class AttachmentDataset(torch.utils.data.Dataset):
-    def __init__(self, root, csv_file, num_classes):
+    def __init__(self, root, csv_file, num_classes, modality):
         self.root = root
         self.num_classes = num_classes
+        self.modality = modality
 
         if not os.path.exists(root):
             raise ValueError("Path does not exist: " + root)
@@ -35,7 +36,15 @@ class AttachmentDataset(torch.utils.data.Dataset):
         audio = data[2*8*14:3*8*14]
         quiz = data[3*8*14:]
         
-        data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
+        if self.modality == 'exposure':
+            data = exposure
+        elif self.modality == 'video_response':
+            data = video
+        elif self.modality == 'audio_response':
+            data = audio
+        else:
+            data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
+        
         data = torch.cat([data, quiz], dim=0)
         #data = normalize(data)
 

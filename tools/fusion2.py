@@ -36,12 +36,7 @@ except (ImportError, ModuleNotFoundError):
 def parse_args():
     parser = argparse.ArgumentParser(
         description='MMAction2 test (and eval) a model')
-    parser.add_argument('config_exposure', help='test config file path')
-    parser.add_argument('config_response', help='test config file path')
-    parser.add_argument('config_stimuli', help='test config file path')
-    parser.add_argument('checkpoint_exposure', help='checkpoint file')
-    parser.add_argument('checkpoint_response', help='checkpoint file')
-    parser.add_argument('checkpoint_stimuli', help='checkpoint file')
+    parser.add_argument('fusion_config', help='test config file path')
     parser.add_argument('csv_att_score', help='data/ecrrs_recap.csv')
     parser.add_argument('csv_att_label', help='data/attachmentlabel.csv')
     parser.add_argument(
@@ -402,10 +397,13 @@ def load_cfg(config, args):
 
 def main():
     args = parse_args()
+    #cfg = Config.fromfile(config)
+    #load_cfg(args.config_exposure, args)
+    fusion_name = Path(args.fusion_config).stem
 
-    attachment_path = os.path.join('data', 'attachments')
-    attachment_train = os.path.join('data', 'attachments', 'train')
-    attachment_test = os.path.join('data', 'attachments', 'test')
+    attachment_path = os.path.join('data', fusion_name)
+    attachment_train = os.path.join('data', fusion_name, 'train')
+    attachment_test = os.path.join('data', fusion_name, 'test')
 
     if not os.path.exists(attachment_path):
         os.makedirs(attachment_path)
@@ -416,9 +414,10 @@ def main():
     if not os.path.exists(attachment_test):
         os.makedirs(attachment_test)
     
-    cfg_exposure = load_cfg(args.config_exposure, args)
-    cfg_video = load_cfg(args.config_response, args)
-    cfg_audio = load_cfg(args.config_stimuli, args)
+    cfg_fusion = Config.fromfile(args.fusion_config)
+    cfg_exposure = load_cfg(cfg_fusion['exposure']['config'], args)
+    cfg_video = load_cfg(cfg_fusion['video_response']['config'], args)
+    cfg_audio = load_cfg(cfg_fusion['audio_response']['config'], args)
 
     df = pd.read_csv(args.csv_att_label)
     data_df = df[['name']]
@@ -439,7 +438,14 @@ def main():
         test_dataset = build_dataset(cfg.data.test, dict(test_mode=True))
 
         datasets = [train_dataset, test_dataset]
-        args.checkpoint = getattr(args, f"checkpoint_{modality}")
+        #args.checkpoint = getattr(args, f"checkpoint_{modality}")
+
+        if modality == 'exposure':
+            args.checkpoint = cfg_fusion['exposure']['checkpoint']
+        elif  modality == 'response':
+            args.checkpoint = cfg_fusion['video_response']['checkpoint']
+        elif  modality == 'stimuli':
+            args.checkpoint = cfg_fusion['audio_response']['checkpoint']
 
         for dataset in datasets:
             outputs, filenames = infer(cfg, dataset, False, args)

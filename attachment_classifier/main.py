@@ -5,10 +5,12 @@ from attachment import AttachmentClassifier
 from attachment_datamodule import AttachmentDataModule
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
+from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", type=str, default="train", help="Train or test")
 parser.add_argument("--data_dir", type=str, default="data/attachments", help="Path ke datasets")
+parser.add_argument("--modality", type=str, default="exposure", help="Path ke datasets")
 parser.add_argument("--batch_size", type=int, default=16, help="Batch size")
 parser.add_argument("--ckpt_path", type=str, default=None, help="Checkpoint path")
 parser.add_argument("--max_epochs", type=int, default=200, help="Max epochs")
@@ -22,6 +24,7 @@ params = parser.parse_args()
 if __name__ == '__main__':
     mode = params.mode
     data_dir = params.data_dir
+    modality = params.modality
     batch_size = params.batch_size
     ckpt_path = params.ckpt_path
     max_epochs = params.max_epochs
@@ -30,11 +33,13 @@ if __name__ == '__main__':
     logs_dir = params.logs_dir
     log = params.log
 
-    logger = TensorBoardLogger(save_dir=logs_dir, name="attachment")
+    experiment_name = Path(data_dir).name
+    logger = TensorBoardLogger(save_dir=logs_dir, name=experiment_name)
 
     data_module = AttachmentDataModule(data_dir=data_dir, 
                         batch_size=batch_size, 
-                        num_workers=num_workers)
+                        num_workers=num_workers,
+                        modality=modality)
 
     attachmentClassifier = AttachmentClassifier(
             in_channels = 8 * 14 + 36, 
