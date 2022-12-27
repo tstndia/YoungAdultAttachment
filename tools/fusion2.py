@@ -415,6 +415,7 @@ def main():
         os.makedirs(attachment_test)
     
     cfg_fusion = Config.fromfile(args.fusion_config)
+    print(cfg_fusion)
     cfg_exposure = load_cfg(cfg_fusion['exposure']['config'], args)
     cfg_video = load_cfg(cfg_fusion['video_response']['config'], args)
     cfg_audio = load_cfg(cfg_fusion['audio_response']['config'], args)
