@@ -34,8 +34,8 @@ train_pipeline = [
     dict(type='Flip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
-    dict(type='ToTensor', keys=['imgs', 'label'])
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
+    dict(type='ToTensor', keys=['imgs'])
 ]
 val_pipeline = [
     dict(type='DecordInit'),
@@ -51,7 +51,7 @@ val_pipeline = [
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['imgs'])
 ]
 test_pipeline = [
@@ -68,7 +68,7 @@ test_pipeline = [
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['imgs'])
 ]
 data = dict(
@@ -125,7 +125,7 @@ total_epochs = 30
 
 # runtime settings
 checkpoint_config = dict(interval=5)
-work_dir = './work_dirs/rerun_attachment_exposure_small_cl128_fi4_b8_ep30'
+work_dir = './work_dirs/attachment_exposure_small_cl128_fi4_b8_ep30'
 find_unused_parameters = False
 
 
