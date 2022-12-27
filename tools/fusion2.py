@@ -37,8 +37,8 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='MMAction2 test (and eval) a model')
     parser.add_argument('fusion_config', help='test config file path')
-    parser.add_argument('csv_att_score', help='data/ecrrs_recap.csv')
-    parser.add_argument('csv_att_label', help='data/attachmentlabel.csv')
+    parser.add_argument('csv_att_score', type=str, default='data/ecrrs_recap.csv')
+    parser.add_argument('csv_att_label', type=str, default='data/attachmentlabel.csv')
     parser.add_argument(
         '--out',
         default=None,
