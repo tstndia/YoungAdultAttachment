@@ -36,8 +36,8 @@ train_pipeline = [
     dict(type='Flip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
-    dict(type='ToTensor', keys=['imgs', 'label'])
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
+    dict(type='ToTensor', keys=['imgs'])
 ]
 val_pipeline = [
     dict(type='DecordInit'),
@@ -53,7 +53,7 @@ val_pipeline = [
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['imgs'])
 ]
 test_pipeline = [
@@ -70,7 +70,7 @@ test_pipeline = [
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['imgs'])
 ]
 data = dict(
