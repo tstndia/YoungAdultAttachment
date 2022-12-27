@@ -40,7 +40,7 @@ train_pipeline = [
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
     dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
-    dict(type='ToTensor', keys=['imgs', 'label'])
+    dict(type='ToTensor', keys=['imgs'])
 ]
 val_pipeline = [
     dict(type='DecordInit'),
