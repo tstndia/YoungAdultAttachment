@@ -419,7 +419,7 @@ def main():
     cfg_video = load_cfg(cfg_fusion['video_response']['config'], args)
     cfg_audio = load_cfg(cfg_fusion['audio_response']['config'], args)
 
-    df = pd.read_csv(args.csv_att_label)
+    df = pd.read_csv('data/attachmentlabel.csv')#args.csv_att_label)
     data_df = df[['name']]
     label_df = df[['attachment_type']]
 
@@ -427,7 +427,7 @@ def main():
         test_size=0.2, random_state=42)
     
 
-    score_df = pd.read_csv(args.csv_att_score)
+    score_df = pd.read_csv('data/ecrrs_recap.csv')#args.csv_att_score)
 
     configs = [cfg_exposure, cfg_video, cfg_audio]
     modalities = ['exposure', 'response', 'stimuli']
