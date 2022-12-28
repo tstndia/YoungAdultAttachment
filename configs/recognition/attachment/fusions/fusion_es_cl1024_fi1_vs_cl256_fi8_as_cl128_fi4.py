@@ -1,6 +1,6 @@
 exposure = dict(
     config='configs/recognition/attachment/attachment_exposure_small_cl1024_fi1.py',
-    checkpoint='work_dirs/attachment_exposure_small_cl512_fi2_b8_ep30/latest.pth'
+    checkpoint='work_dirs/attachment_exposure_small_cl1024_fi1_b8_ep30/latest.pth'
 )
 
 video_response = dict(
