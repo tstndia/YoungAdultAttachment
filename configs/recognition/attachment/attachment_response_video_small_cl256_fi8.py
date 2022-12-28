@@ -53,7 +53,7 @@ val_pipeline = [
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCTHW'),
-    ddict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
+    dict(type='Collect', keys=['imgs', 'label'], meta_keys=['filename']),
     dict(type='ToTensor', keys=['imgs'])
 ]
 test_pipeline = [
