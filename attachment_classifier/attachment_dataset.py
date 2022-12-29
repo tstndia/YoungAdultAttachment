@@ -45,7 +45,8 @@ class AttachmentDataset(torch.utils.data.Dataset):
         else:
             data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
         
-        data = torch.cat([data, quiz], dim=0)
+        if self.modality is None:
+            data = torch.cat([data, quiz], dim=0)
         #data = normalize(data)
 
         # one hot
