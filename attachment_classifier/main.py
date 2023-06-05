@@ -10,7 +10,7 @@ from pathlib import Path
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", type=str, default="train", help="Train or test")
 parser.add_argument("--data_dir", type=str, default="data/attachments", help="Path ke datasets")
-parser.add_argument("--modality", type=str, default="exposure", help="Path ke datasets")
+parser.add_argument("--modality", type=str, default=None, help="Path ke datasets")
 parser.add_argument("--batch_size", type=int, default=8, help="Batch size")
 parser.add_argument("--ckpt_path", type=str, default=None, help="Checkpoint path")
 parser.add_argument("--max_epochs", type=int, default=200, help="Max epochs")
@@ -41,8 +41,13 @@ if __name__ == '__main__':
                         num_workers=num_workers,
                         modality=modality)
 
+    in_channels = 8 * 14 + 36
+
+    if modality is not None:
+        in_channels = 8 * 14
+
     attachmentClassifier = AttachmentClassifier(
-            in_channels = 8 * 14 + 36, 
+            in_channels = in_channels, 
             num_classes = 3)
 
     trainer = pl.Trainer(
