@@ -72,9 +72,8 @@ data = dict(
         data_prefix=data_root_val,
         pipeline=test_pipeline))
 evaluation = dict(
-    interval=5, metrics=['confusion_matrix', 'mean_class_accuracy'])
-# evaluation = dict(
-#     interval=5, metrics=['top_k_accuracy', 'mean_class_accuracy'])
+    interval=5, metrics=['top_k_accuracy', 'mean_class_accuracy'])
+
 # optimizer
 optimizer = dict(
     type='SGD', lr=0.001, momentum=0.9,
