@@ -119,7 +119,7 @@ class MultilabelAudioFeatureDataset(BaseDataset):
         print(labels)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
-        gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
+        gt_labels = torch.as_tensor(labels, dtype=torch.long)
         #gt_labels = labels.long()
         #results_sigmoid = results.sigmoid()
 
