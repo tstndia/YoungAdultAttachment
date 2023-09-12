@@ -120,7 +120,7 @@ class MultilabelAudioFeatureDataset(BaseDataset):
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
         gt_labels = torch.as_tensor(labels, dtype=torch.long)
-        print(gt_labels)
+        # print(gt_labels)
         #gt_labels = labels.long()
         #results_sigmoid = results.sigmoid()
 
@@ -130,7 +130,7 @@ class MultilabelAudioFeatureDataset(BaseDataset):
 
         loss = self.loss_fn(results, gt_labels.float())
         cm = self.confusion_matrix(results, gt_labels)
-        print(cm)
+        # print(cm)
         accuracy = self.accuracy(results, gt_labels)
         f1_score = self.f1_score(results, gt_labels)
         precision = self.prec(results, gt_labels)
@@ -142,7 +142,7 @@ class MultilabelAudioFeatureDataset(BaseDataset):
         eval_results['test_loss'] = loss
         eval_results['accuracy'] = accuracy
 
-        for i in range(cm_mean.shape[0]):
+        for i in range(cm.shape[0]):
             cmm = cm[i]
             eval_results[f'TN{i}'] = cmm[0,0]
             eval_results[f'FP{i}'] = cmm[0,1]
