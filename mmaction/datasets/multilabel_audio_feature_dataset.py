@@ -107,16 +107,16 @@ class MultilabelAudioFeatureDataset(BaseDataset):
             dict: Evaluation results dict.
         """
 
-        # labels = [ann['label'].numpy() for ann in self.video_infos]
-        labels = []
-        print(self.video_infos)
-        for ann in self.video_infos:
-           onehot = np.zeros(self.num_classes)
-           onehot[ann['label']] = 1.
-           labels.append(onehot)
+        labels = [ann['label'].numpy() for ann in self.video_infos]
+        # labels = []
+        # print(self.video_infos)
+        # for ann in self.video_infos:
+        #    onehot = np.zeros(self.num_classes)
+        #    onehot[ann['label']] = 1.
+        #    labels.append(onehot)
 
-        #print(results)
-        #print(labels)
+        print(results)
+        print(labels)
 
         results = torch.as_tensor(np.array(results), dtype=torch.float)
         gt_labels = torch.as_tensor(np.array(labels), dtype=torch.long)
