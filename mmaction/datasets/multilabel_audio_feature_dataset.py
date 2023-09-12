@@ -107,13 +107,13 @@ class MultilabelAudioFeatureDataset(BaseDataset):
             dict: Evaluation results dict.
         """
 
-        labels = [ann['label'].numpy() for ann in self.video_infos]
-        #labels = []
+        # labels = [ann['label'].numpy() for ann in self.video_infos]
+        labels = []
 
-        #for ann in self.video_infos:
-        #    onehot = np.zeros(self.num_classes)
-        #    onehot[ann['label']] = 1.
-        #    labels.append(onehot)
+        for ann in self.video_infos:
+           onehot = np.zeros(self.num_classes)
+           onehot[ann['label']] = 1.
+           labels.append(onehot)
 
         #print(results)
         #print(labels)
