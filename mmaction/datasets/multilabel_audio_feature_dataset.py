@@ -109,7 +109,7 @@ class MultilabelAudioFeatureDataset(BaseDataset):
 
         # labels = [ann['label'].numpy() for ann in self.video_infos]
         labels = []
-
+        print(self.video_infos)
         for ann in self.video_infos:
            onehot = np.zeros(self.num_classes)
            onehot[ann['label']] = 1.
