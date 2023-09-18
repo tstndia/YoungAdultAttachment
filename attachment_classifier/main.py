@@ -41,10 +41,21 @@ if __name__ == '__main__':
                         num_workers=num_workers,
                         modality=modality)
 
-    in_channels = 8 * 14 + 36
-
-    if modality is not None:
+    # in_channels = 8 * 14 + 36
+    # single modality ablation (exp:exposure, respv: responsevideo, sra: speechresponseaudio)
+    if modality == 'exp-respv-sra':
+        in_channels = 3 * 8 * 14
+    elif modality == 'exp-respv-quest' or modality == 'exp-sra-quest' or modality == 'respv-sra-quest':
+        in_channels = 2 * 8 * 14 + 36
+    elif modality == 'exp-quest' or modality == 'respv-quest' or modality == 'sra-quest':
+        in_channels = 8 * 14 + 36
+    elif modality == 'exp-respv' or modality == 'exp-sra' or modality == 'respv-sra':
+        in_channels = 2 * 8 * 14
+    elif modality == 'exposure' or modality == 'video_response' or modality == 'audio_response':
         in_channels = 8 * 14
+    else:
+        in_channels = 36
+
 
     attachmentClassifier = AttachmentClassifier(
             in_channels = in_channels, 
