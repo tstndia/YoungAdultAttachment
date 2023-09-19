@@ -42,7 +42,7 @@ if __name__ == '__main__':
                         modality=modality)
 
     # in_channels = 8 * 14 + 36
-    single modality ablation (exp:exposure, respv: responsevideo, sra: speechresponseaudio)
+    # single modality ablation (exp:exposure, respv: responsevideo, sra: speechresponseaudio)
     if modality == 'exp-respv-sra':
         in_channels = 3 * 8 * 14
     elif modality == 'exp-respv-quest' or modality == 'exp-sra-quest' or modality == 'respv-sra-quest':
