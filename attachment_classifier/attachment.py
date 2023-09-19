@@ -14,7 +14,7 @@ from torch.nn import functional as F
 from einops import rearrange
 
 class AttachmentClassifier(pl.LightningModule):
-    def __init__(self, in_channels = 3 * 8 * 14 + 36, num_classes = 3):
+    def __init__(self, in_channels, num_classes = 3):
         super().__init__()
         self.save_hyperparameters()
 
