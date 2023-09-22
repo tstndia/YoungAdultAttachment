@@ -41,9 +41,9 @@ if __name__ == '__main__':
                         num_workers=num_workers,
                         modality=modality)
 
-    in_channels = 8 * 14 + 36
-    if modality is not None:
-        in_channels = 8 * 14
+    # in_channels = 8 * 14 + 36
+    # if modality is not None:
+    #     in_channels = 8 * 14
     # single modality ablation (exp:exposure, respv: responsevideo, sra: speechresponseaudio)
     if modality == 'exp-respv-sra':
         in_channels = 3 * 8 * 14
