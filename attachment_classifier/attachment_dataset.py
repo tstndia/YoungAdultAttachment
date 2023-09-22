@@ -42,37 +42,37 @@ class AttachmentDataset(torch.utils.data.Dataset):
             data = video
         elif self.modality == 'audio_response':
             data = audio
-        # else:
-        #     data = torch.stack([exposure,video,audio],dim=0).sum(dim=0)
-        elif self.modality == 'exp-respv-sra':
-            data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
-        elif self.modality == 'exp-respv-quest':
-            data = torch.stack([exposure,video],dim=0).sum(dim=0)
-            data = torch.cat([data,quiz],dim=0)
-        elif self.modality == 'exp-sra-quest':
-            data = torch.stack([exposure, audio], dim=0).sum(dim=0)
-            data = torch.cat([data, quiz], dim=0)
-        elif self.modality == 'respv-sra-quest':
-            data = torch.stack([video, audio], dim=0).sum(dim=0)
-            data = torch.cat([data, quiz], dim=0)
-        elif self.modality == 'exp-quest':
-            data = torch.cat([exposure,quiz],dim=0)
-        elif self.modality == 'respv-quest':
-            data = torch.cat([video,quiz],dim=0)
-        elif self.modality == 'sra-quest':
-            data = torch.cat([audio,quiz],dim=0)
-        elif self.modality == 'exp-respv':
-            data = torch.stack([exposure,video],dim=0).sum(dim=0)
-        elif self.modality == 'exp-sra':
-            data = torch.stack([exposure,audio],dim=0).sum(dim=0)
-        elif self.modality == 'respv-sra':
-            data = torch.stack([video,audio],dim=0).sum(dim=0)
         else:
-            data = quiz
-        
-        # if self.modality is None:
+            data = torch.stack([exposure,video,audio],dim=0).sum(dim=0)
+        # elif self.modality == 'exp-respv-sra':
+        #     data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
+        # elif self.modality == 'exp-respv-quest':
+        #     data = torch.stack([exposure,video],dim=0).sum(dim=0)
+        #     data = torch.cat([data,quiz],dim=0)
+        # elif self.modality == 'exp-sra-quest':
+        #     data = torch.stack([exposure, audio], dim=0).sum(dim=0)
         #     data = torch.cat([data, quiz], dim=0)
-        #data = normalize(data)
+        # elif self.modality == 'respv-sra-quest':
+        #     data = torch.stack([video, audio], dim=0).sum(dim=0)
+        #     data = torch.cat([data, quiz], dim=0)
+        # elif self.modality == 'exp-quest':
+        #     data = torch.cat([exposure,quiz],dim=0)
+        # elif self.modality == 'respv-quest':
+        #     data = torch.cat([video,quiz],dim=0)
+        # elif self.modality == 'sra-quest':
+        #     data = torch.cat([audio,quiz],dim=0)
+        # elif self.modality == 'exp-respv':
+        #     data = torch.stack([exposure,video],dim=0).sum(dim=0)
+        # elif self.modality == 'exp-sra':
+        #     data = torch.stack([exposure,audio],dim=0).sum(dim=0)
+        # elif self.modality == 'respv-sra':
+        #     data = torch.stack([video,audio],dim=0).sum(dim=0)
+        # else:
+        #     data = quiz
+        
+        if self.modality is None:
+            data = torch.cat([data, quiz], dim=0)
+        # data = normalize(data)
 
         # one hot
         tlabel = torch.zeros(self.num_classes, dtype=torch.float)
