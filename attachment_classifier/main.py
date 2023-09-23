@@ -58,6 +58,8 @@ if __name__ == '__main__':
     else:
         in_channels = 36
 
+    print(in_channels)
+
 
     attachmentClassifier = AttachmentClassifier(
             in_channels = in_channels, 
