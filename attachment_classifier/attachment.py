@@ -92,6 +92,7 @@ class AttachmentClassifier(pl.LightningModule):
         predictions = self(batch[0])
         labels = batch[1]
         predictions_prob = predictions.softmax(dim=1)
+        print(predictions_prob)
 
         labels = torch.argmax(labels, dim=1)
 
