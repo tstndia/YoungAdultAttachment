@@ -75,7 +75,9 @@ if __name__ == '__main__':
                 callbacks=[EarlyStopping(monitor="val_loss")])
 
     if mode == 'train':
+        print("train")
         trainer.fit(model=attachmentClassifier, datamodule=data_module, ckpt_path=ckpt_path)
+
 
     if mode == 'validate':
         if not log:
