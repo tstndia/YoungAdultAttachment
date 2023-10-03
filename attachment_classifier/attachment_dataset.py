@@ -38,7 +38,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         video = data[8*14:2*8*14]
         # print(video.shape)
         audio = data[2*8*14:3*8*14]
-        print(audio.shape)
+        # print(audio.shape)
         quiz = data[3*8*14:]
         # print(quiz.shape)
 
@@ -53,7 +53,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         elif self.modality == 'exp-respv-sra':
             fusion = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
             data = fusion
-            # print(data.shape)
+            print(data.shape)
         elif self.modality == 'exp-respv-quest':
             data = torch.stack([exposure,video],dim=0).sum(dim=0)
             data = torch.cat([data,quiz],dim=0)
