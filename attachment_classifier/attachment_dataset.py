@@ -29,8 +29,10 @@ class AttachmentDataset(torch.utils.data.Dataset):
         #attachment = np.load(os.path.join(self.root, filename))
         #data[0:len(attachment)] = attachment
         data = np.load(os.path.join(self.root, filename))
+        print("data1 shape",data.shape)
 
         data = torch.from_numpy(data).type(torch.float)
+        print("data2 shape",data.shape)
         exposure = data[0:8*14]
         video = data[8*14:2*8*14]
         audio = data[2*8*14:3*8*14]
@@ -46,7 +48,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         #     data = torch.stack([exposure,video,audio],dim=0).sum(dim=0)
         elif self.modality == 'exp-respv-sra':
             data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
-            print(data.shape)
+            # print(data.shape)
         elif self.modality == 'exp-respv-quest':
             data = torch.stack([exposure,video],dim=0).sum(dim=0)
             data = torch.cat([data,quiz],dim=0)
