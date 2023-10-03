@@ -17,7 +17,6 @@ class AttachmentClassifier(pl.LightningModule):
     def __init__(self, in_channels, num_classes = 3):
         super().__init__()
         self.save_hyperparameters()
-        print("inchannels:",in_channels)
         self.loss_fn = nn.CrossEntropyLoss()
         self.confusion_matrix = torchmetrics.ConfusionMatrix(num_classes)
         self.accuracy = MulticlassAccuracy(num_classes=num_classes)

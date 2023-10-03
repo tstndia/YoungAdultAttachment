@@ -35,7 +35,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         video = data[8*14:2*8*14]
         audio = data[2*8*14:3*8*14]
         quiz = data[3*8*14:]
-        
+        print("--attachment dataset--")
         if self.modality == 'exposure':
             data = exposure
         elif self.modality == 'video_response':
