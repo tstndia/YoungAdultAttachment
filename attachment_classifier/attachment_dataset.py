@@ -45,8 +45,8 @@ class AttachmentDataset(torch.utils.data.Dataset):
         # else:
         #     data = torch.stack([exposure,video,audio],dim=0).sum(dim=0)
         elif self.modality == 'exp-respv-sra':
-            print("exposure + response + speech")
             data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
+            print(data.shape)
         elif self.modality == 'exp-respv-quest':
             data = torch.stack([exposure,video],dim=0).sum(dim=0)
             data = torch.cat([data,quiz],dim=0)
