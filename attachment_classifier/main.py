@@ -34,6 +34,7 @@ if __name__ == '__main__':
     log = params.log
 
     print("path:",Path(data_dir).name)
+    print(modality)
     experiment_name = Path(data_dir).name + "_" + modality
     logger = TensorBoardLogger(save_dir=logs_dir, name=experiment_name)
 
