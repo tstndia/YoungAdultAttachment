@@ -29,14 +29,18 @@ class AttachmentDataset(torch.utils.data.Dataset):
         #attachment = np.load(os.path.join(self.root, filename))
         #data[0:len(attachment)] = attachment
         data = np.load(os.path.join(self.root, filename))
-        print("data1 shape",data.shape)
+
 
         data = torch.from_numpy(data).type(torch.float)
-        print("data2 shape",data.shape)
+
         exposure = data[0:8*14]
+        print(exposure.shape)
         video = data[8*14:2*8*14]
+        print(video.shape)
         audio = data[2*8*14:3*8*14]
+        print(audio.shape)
         quiz = data[3*8*14:]
+        print(quiz.shape)
 
         if self.modality == 'exposure':
             data = exposure
