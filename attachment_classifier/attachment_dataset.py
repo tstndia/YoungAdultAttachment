@@ -42,25 +42,36 @@ class AttachmentDataset(torch.utils.data.Dataset):
         quiz = data[3*8*14:]
         # print(quiz.shape)
 
-        if self.modality == 'exposure':
-            data = exposure
-        elif self.modality == 'video_response':
-            data = video
-        elif self.modality == 'audio_response':
-            data = audio
-        else:
-            data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
-            print(data.shape)
+        data2 = np.zeros(3 * 8 * 14 + 36, dtype=torch.float)
 
-        if self.modality is None:
-            data = torch.cat([data, quiz], dim=0)
+        if "e" in self.modality:
+            data2[0:8*14] = exposure
+        if "v" in self.modality:
+            data2[8*14:2*8*14] = video
+        if "a" in self.modality:
+            data2[2*8*14:3*8*14] = audio
+        if "q" in self.modality:
+            data2[3*8*14:] = quiz
+
+        # if self.modality == 'exposure':
+        #     data = exposure
+        # elif self.modality == 'video_response':
+        #     data = video
+        # elif self.modality == 'audio_response':
+        #     data = audio
+        # else:
+        #     data = torch.stack([exposure, video, audio], dim=0).sum(dim=0)
+        #     print(data.shape)
+        #
+        # if self.modality is None:
+        #     data = torch.cat([data, quiz], dim=0)
         # data = normalize(data)
 
         # one hot
         tlabel = torch.zeros(self.num_classes, dtype=torch.float)
         tlabel[label] = 1.
 
-        return data, tlabel
+        return data2, tlabel
             
     def __len__(self):
         return len(self.df)
