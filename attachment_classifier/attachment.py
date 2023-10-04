@@ -3,6 +3,7 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torchmetrics
+import numpy as np
 import torch.nn.functional as F
 
 from torchmetrics.classification import MulticlassAccuracy
@@ -120,6 +121,9 @@ class AttachmentClassifier(pl.LightningModule):
         self.log('precision', self.prec, on_epoch=True)
         self.log('recall', self.recall, on_epoch=True)
         self.log('f1_score', self.f1_score, on_epoch=True)
+
+        total = np.unique(predictions_prob.cpu().numpy(), return_counts=True)
+        print(total)
 
     def predict_step(self, batch, batch_idx):
         return self.shared_step(batch, 'predict')
