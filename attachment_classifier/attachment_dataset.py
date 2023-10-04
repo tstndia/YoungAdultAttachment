@@ -42,7 +42,7 @@ class AttachmentDataset(torch.utils.data.Dataset):
         quiz = data[3*8*14:]
         # print(quiz.shape)
 
-        data2 = np.zeros(3 * 8 * 14 + 36, dtype=torch.float)
+        data2 = torch.zeros(3 * 8 * 14 + 36, dtype=torch.float)
 
         if "e" in self.modality:
             data2[0:8*14] = exposure
