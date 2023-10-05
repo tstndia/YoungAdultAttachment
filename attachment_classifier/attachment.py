@@ -122,7 +122,7 @@ class AttachmentClassifier(pl.LightningModule):
         self.log('recall', self.recall, on_epoch=True)
         self.log('f1_score', self.f1_score, on_epoch=True)
 
-        total = np.unique(np.argmax(predictions_prob.cpu().numpy()axis=1),return_counts=True)
+        total = np.unique(np.argmax(predictions_prob.cpu().numpy(),axis=1),return_counts=True)
         print(total)
 
     def predict_step(self, batch, batch_idx):
