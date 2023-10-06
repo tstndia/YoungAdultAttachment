@@ -124,7 +124,7 @@ class AttachmentClassifier(pl.LightningModule):
 
         total = np.unique(np.argmax(predictions_prob.cpu().numpy(),axis=1),return_counts=True)
         print(total)
-        print(predictions)
+        print(predictions_prob)
 
     def predict_step(self, batch, batch_idx):
         return self.shared_step(batch, 'predict')
