@@ -29,7 +29,7 @@ train_pipeline = [
     dict(type='DecordInit'),
     dict(type='SampleFrames', clip_len=128, frame_interval=12, num_clips=1),
     dict(type='DecordDecode'),
-    dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     #dict(type='RandomResizedCrop'),
     #dict(type='Resize', scale=(64, 64), keep_ratio=False),
     dict(type='Flip', flip_ratio=0.5),
@@ -47,7 +47,7 @@ val_pipeline = [
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
-    dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     dict(type='CenterCrop', crop_size=64),
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
@@ -64,7 +64,7 @@ test_pipeline = [
         num_clips=1,
         test_mode=True),
     dict(type='DecordDecode'),
-    dict(type='Resize', scale=(-1, 64)),
+    # dict(type='Resize', scale=(-1, 64)),
     #dict(type='ThreeCrop', crop_size=64),
     dict(type='Flip', flip_ratio=0),
     dict(type='Normalize', **img_norm_cfg),
@@ -126,7 +126,7 @@ total_epochs = 30
 
 # runtime settings
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/response_video_base_cl128_fi12_b8_ep30'
+work_dir = './work_dirs/response128_video_base_cl128_fi12_b8_ep30'
 find_unused_parameters = False
 
 
