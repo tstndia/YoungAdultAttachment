@@ -5,7 +5,7 @@ exposure = dict(
 
 video_response = dict(
     config='configs/recognition/attachment/response_video_base_cl256_fi3.py',
-    checkpoint='work_dirs/response128_video_base_cl256_fi3_b8_ep30/latest.pth'
+    checkpoint='work_dirs/response_video_base_cl256_fi3_b8_ep30/latest.pth'
 )
 
 audio_response = dict(
