@@ -1,7 +1,8 @@
 import argparse
 from unittest.mock import patch
 import pytorch_lightning as pl
-from attachment import AttachmentClassifier
+# from attachment import AttachmentClassifier
+from attachment_microavg import AttachmentClassifier
 from attachment_datamodule import AttachmentDataModule
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
