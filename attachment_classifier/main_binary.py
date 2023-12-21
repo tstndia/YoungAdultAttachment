@@ -1,9 +1,9 @@
 import argparse
 from unittest.mock import patch
 import pytorch_lightning as pl
-from attachment import AttachmentClassifier
+# from attachment import AttachmentClassifier
 # from attachment_microavg import AttachmentClassifier
-# from attachment_binary import AttachmentClassifier
+from attachment_binary import AttachmentClassifier
 from attachment_datamodule import AttachmentDataModule
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
@@ -40,8 +40,8 @@ if __name__ == '__main__':
     experiment_name = Path(data_dir).name + "_" + modality
     logger = TensorBoardLogger(save_dir=logs_dir, name=experiment_name)
 
-    data_module = AttachmentDataModule(data_dir=data_dir, 
-                        batch_size=batch_size, 
+    data_module = AttachmentDataModule(data_dir=data_dir,
+                        batch_size=batch_size,
                         num_workers=num_workers,
                         modality=modality)
 
@@ -54,14 +54,14 @@ if __name__ == '__main__':
 
 
     attachmentClassifier = AttachmentClassifier(
-            in_channels = in_channels, 
-            num_classes = 3)
+            in_channels = in_channels,
+            num_classes = 2)
 
     trainer = pl.Trainer(
-                accelerator=accelerator, 
-                max_epochs=max_epochs, 
-                num_sanity_val_steps=1, 
-                auto_scale_batch_size=True, 
+                accelerator=accelerator,
+                max_epochs=max_epochs,
+                num_sanity_val_steps=1,
+                auto_scale_batch_size=True,
                 enable_model_summary=True,
                 logger=logger,
                 callbacks=[EarlyStopping(monitor="val_loss")])
