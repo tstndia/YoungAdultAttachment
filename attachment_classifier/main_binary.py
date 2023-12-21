@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 # from attachment import AttachmentClassifier
 # from attachment_microavg import AttachmentClassifier
 from attachment_binary import AttachmentClassifier
-from attachment_datamodule import AttachmentDataModule
+from attachment_datamodule_binary import AttachmentDataModule
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pathlib import Path
